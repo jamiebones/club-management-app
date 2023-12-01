@@ -41,10 +41,6 @@ const staffSchema = new mongoose.Schema({
     enum: ["ACTIVE", "INACTIVE", "SUSPENDED"]
  },
 
-  employer: {
-    type: String
-  },
-
   sex: {
     type: String,
     enum: ["MALE", "FEMALE"]

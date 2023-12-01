@@ -6,10 +6,12 @@
   "private": true,
   "workspaces": [
     "apps/*",
-    "server/*"
+    "packages/*"
   ],
   "scripts": {
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "codegen": "turbo run codegen",
+    "dev": "turbo run dev"
   },
   "keywords": [],
   "author": "",
@@ -17,10 +19,10 @@
   "devDependencies": {
     "dotenv": "^16.0.3",
     "prettier": "latest",
-    "ts-node": "^10.9.1",
     "turbo": "latest"
   },
   "engines": {
     "node": ">=14.0.0"
-  }
+  },
+  "packageManager": "npm@8.15.0"
 }

@@ -13,9 +13,9 @@ const paymentSchema = new mongoose.Schema({
     type: String,
   },
 
-  paymentType: {
+  paymentCategory: {
     type: String,
-    enum: ["SALARY", "PALLIATIVE", "PURCHASES", "WORKMANSHIP PAYMENT"]
+    enum: ["SALARY", "PALLIATIVE", "PURCHASES", "WORKMANSHIP"]
   },
 date: {
     type: Date,

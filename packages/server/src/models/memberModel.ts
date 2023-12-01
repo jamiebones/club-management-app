@@ -29,6 +29,10 @@ const memberSchema = new mongoose.Schema({
   contact: [
     String
   ],
+
+  email: {
+    type: String
+  },
     
   memberShipType: {
      type: String,

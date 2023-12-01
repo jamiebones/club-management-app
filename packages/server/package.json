@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "description": "the backend server of the Club Management Application",
   "main": "server.js",
+  "private": true,
   "scripts": {
-    "dev": "nodemon -e ts --exec \"ts-node server/server.ts\"",
-    "start": "nodemon -e ts --exec \"ts-node server/server.ts\"",
+    "dev": "npx nodemon",
+    "start": "nodemon -e ts --exec \"ts-node packages/server/server.ts\"",
     "build": "tsc",
     "depoly": "yarn build && node dist/server.js",
     "test": "yarn build && node dist/server.js",
     "prettify": "prettier --write \"./**/*.ts\"",
-    "codegen": "graphql-codegen --config server/generated/codegen.yml"
+    "codegen": "graphql-codegen --config packages/server/generated/codegen.yml"
   },
   "keywords": [],
   "author": "",
@@ -30,9 +31,18 @@
     "@graphql-codegen/fragment-matcher": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@types/cors": "^2.8.17",
     "@types/node": "^20.10.0",
     "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
     "tsc-watch": "^6.0.4",
     "typescript": "^5.3.2"
   }
 }
+
+
+
+
+
+
+
