@@ -6,8 +6,8 @@ export default gql.gql`
     # Find one Member
     findMember(request: findMemberInput): Member
 
-      # Find Members list
-      findMembers(
+    # Find Members list
+    findMembers(
       request: findMembersInput
       orderBy: MemberOrderBy
       after: String

@@ -123,11 +123,17 @@ export type MemberOrderBy = {
 export type Mutation = {
   __typename?: 'Mutation';
   addMember?: Maybe<Member>;
+  updateMember?: Maybe<Member>;
 };
 
 
 export type MutationAddMemberArgs = {
   request: AddMemberInput;
+};
+
+
+export type MutationUpdateMemberArgs = {
+  request: UpdateMemberInput;
 };
 
 export type NextOfKin = {
@@ -315,7 +321,7 @@ export enum SexEnum {
 }
 
 export type UpdateMemberInput = {
-  _id?: InputMaybe<Scalars['ID']['input']>;
+  _id: Scalars['ID']['input'];
   birthDay?: InputMaybe<Scalars['String']['input']>;
   contact?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   email?: InputMaybe<Scalars['String']['input']>;

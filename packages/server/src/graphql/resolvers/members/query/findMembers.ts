@@ -1,5 +1,5 @@
 
-import { Members } from "../../../../models/memberModel.js";
+import { Members } from "../../../../models/MemberModel.js";
 import { Member, FindMembersInput, FindMembersCursorOutput, MemberOrderBy} from "../../../../generated/graphqlStaffClub.js";
 import { GraphQLError } from 'graphql';
 import mongoose from "mongoose";

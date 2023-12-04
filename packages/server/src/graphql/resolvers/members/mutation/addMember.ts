@@ -1,4 +1,4 @@
-import { Members } from "../../../../models/memberModel.js";
+import { Members } from "../../../../models/MemberModel.js";
 import { AddMemberInput, Member } from "../../../../generated/graphqlStaffClub.js";
 import { GraphQLError } from 'graphql';
 

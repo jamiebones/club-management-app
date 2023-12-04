@@ -19,10 +19,10 @@ export default gql.gql`
      employer: String
      sex: sexEnum
      birthDay: String
-    #dues: [DuesPayment]
-    #  paymentReceived: [ Payment ]
-    #  drinksBanked: [ DrinksBanked ]
-    #  drinksBought: [ BarSales]
+    dues: [DuesPayment]
+    paymentReceived: [ Payment ]
+    drinksBanked: [ DrinksBank ]
+    drinksBought: [ BarSale ]
   }
 
 

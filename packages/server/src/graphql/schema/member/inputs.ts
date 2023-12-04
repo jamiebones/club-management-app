@@ -18,12 +18,12 @@ export default gql.gql`
   }
 
   input updateMemberInput {
-     _id: ID
+     _id: ID!
      memberID: ID
      title: String
      firstname: String
      surname: String
-	 email: String
+	  email: String
      jobTitle: String
      nextOfKin: String
      contact: [String]
