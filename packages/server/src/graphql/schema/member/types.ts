@@ -1,11 +1,16 @@
 import gql from 'graphql-tag';
-const g = gql.default
+
+
+
+
 export default gql.gql`
   # ---------- Member --------------
   type Member {
+    _id: ID
     memberID: ID!
     title: String
-     name: String!
+     firstname: String!
+     surname: String!
 		 email: String
      jobTitle: String
      nextOfKin: String
@@ -14,9 +19,17 @@ export default gql.gql`
      employer: String
      sex: sexEnum
      birthDay: String
-    # dues: [DuesPayment]
+    #dues: [DuesPayment]
     #  paymentReceived: [ Payment ]
     #  drinksBanked: [ DrinksBanked ]
     #  drinksBought: [ BarSales]
   }
+
+
+  type FindMembersCursorOutput {
+    members: [Member]
+    pageInfo: PageInfo
+  }
+
+  
 `

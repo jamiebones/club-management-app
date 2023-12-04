@@ -1,16 +1,16 @@
 
 import members from "./members/index.js";
-import addMember from "./members/mutation/addMember.js";
-import findMember from "./members/query/findMember.js"
+import memberMutation from "./members/mutation/index.js"
+import memberQuery from "./members/query/index.js"
 
 
 
 const resolvers = {
   Query: {
-    ...findMember
+    ...memberQuery
   },
   Mutation: {
-   ...addMember
+   ...memberMutation
     
   },
   ...members,

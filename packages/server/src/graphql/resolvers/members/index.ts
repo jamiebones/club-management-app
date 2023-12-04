@@ -2,8 +2,6 @@
 
 export default {
   // Object Resolvers
-  Member: {
-    
-  },
+  Member: {},
  
 };

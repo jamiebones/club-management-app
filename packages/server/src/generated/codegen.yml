@@ -1,0 +1,6 @@
+schema: "http://localhost:5000/graphql"
+generates:
+  src/generated/graphqlStaffClub.ts:
+    plugins:
+      - "typescript"
+      - "fragment-matcher"

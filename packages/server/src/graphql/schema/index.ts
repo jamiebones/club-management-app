@@ -8,10 +8,9 @@ import staff from "./staff/index.js";
 import payment from "./payment/index.js";
 import duesPayment from "./duesPayment/index.js";
 import supplier from "./supplier/index.js";
-
+import error from "./error/index.js";
 
 const typeDefs = [
-  
   ...member,
   ...common,
   ...barSale,
@@ -21,7 +20,8 @@ const typeDefs = [
   ...staff,
   ...supplier,
   ...payment,
-  ...duesPayment
+  ...duesPayment,
+  ...error
 ];
 
 export default typeDefs;

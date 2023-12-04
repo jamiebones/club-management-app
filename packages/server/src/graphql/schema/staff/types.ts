@@ -2,9 +2,10 @@ import gql from 'graphql-tag';
 export default gql.gql`
   # ---------- Staff --------------
   type Staff {
-   _id: ID!
-   employeeID: ID
-   name: String
+   _id: ID
+   employeeID: ID!
+   firstname: String!
+   surname: String!
    jobTitle: String
    dateOfEmployment: Date
    nextOfKin: NextOfKin

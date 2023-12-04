@@ -8,9 +8,13 @@ const staffSchema = new mongoose.Schema({
     },
   },
 
-  name: {
+  firstname: {
     type: String,
-    maxlength: 100,
+    maxlength: 50,
+  },
+  surname: {
+    type: String,
+    maxlength: 150,
   },
 
   jobTitle: {

@@ -11,4 +11,13 @@ enum paymentTypeEnum {
    TRANSFER
    CREDIT
 }
+enum OrderField {
+    memberID
+    jobTitle
+  }
+
+  enum OrderDirection {
+    ASC
+    DESC
+  }
 `

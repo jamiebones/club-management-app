@@ -17,4 +17,13 @@ type ItemSupplied {
     quantity: String
     numberOfBottles: String
  }
+
+ type PageInfo {
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
+    start: String
+    end: String
+  }
+
+
 `

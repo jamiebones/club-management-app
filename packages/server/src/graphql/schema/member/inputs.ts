@@ -5,7 +5,8 @@ export default gql.gql`
   input addMemberInput {
      memberID: ID!
      title: String
-     name: String!
+     firstname: String!
+     surname: String!
 	  email: String
      jobTitle: String
      nextOfKin: String
@@ -20,7 +21,8 @@ export default gql.gql`
      _id: ID
      memberID: ID
      title: String
-     name: String
+     firstname: String
+     surname: String
 	 email: String
      jobTitle: String
      nextOfKin: String
@@ -37,7 +39,20 @@ export default gql.gql`
   input findMemberInput{
      _id: String
      memberID: String
-     name: String
+     firstname: String
+     surname: String
+  }
+
+  input findMembersInput{
+     _id: [String]
+     memberID: [String]
+     jobTitle: [String]
+     memberType: String
+  }
+
+  input MemberOrderBy {
+    field: OrderableMemberField
+    direction: OrderDirection
   }
 
 `

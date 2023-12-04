@@ -13,9 +13,13 @@ const memberSchema = new mongoose.Schema({
     maxlength: 50,
   },
 
-  name: {
+  firstname: {
     type: String,
-    maxlength: 100,
+    maxlength: 50,
+  },
+  surname: {
+    type: String,
+    maxlength: 150,
   },
   jobTitle: {
     type: String,
@@ -34,7 +38,7 @@ const memberSchema = new mongoose.Schema({
     type: String
   },
     
-  memberShipType: {
+  membershipType: {
      type: String,
      enum: ["FULL", "ASSOCIATE"]
   },

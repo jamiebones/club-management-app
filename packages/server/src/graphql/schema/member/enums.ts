@@ -6,6 +6,12 @@ export default gql.gql`
      FULL
      ASSOCIATE
   }
+
+  enum OrderableMemberField {
+    _id
+    jobTitle
+    memberID
+  }
 `
 
 
