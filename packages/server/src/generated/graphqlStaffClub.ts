@@ -17,16 +17,16 @@ export type Scalars = {
 
 export type BarSale = {
   __typename?: 'BarSale';
-  _id: Scalars['ID']['output'];
+  _id?: Maybe<Scalars['ID']['output']>;
   amount?: Maybe<Scalars['String']['output']>;
   customer?: Maybe<Member>;
   date?: Maybe<Scalars['Date']['output']>;
   items?: Maybe<Array<Maybe<BeerBrandType>>>;
-  memberID?: Maybe<Scalars['ID']['output']>;
+  memberID: Scalars['ID']['output'];
   paymentType?: Maybe<PaymentTypeEnum>;
   saleType?: Maybe<SaleTypeEnum>;
   seller?: Maybe<Staff>;
-  staffID?: Maybe<Scalars['ID']['output']>;
+  staffID: Scalars['ID']['output'];
 };
 
 export type BarStock = {
@@ -103,6 +103,9 @@ export type Member = {
   _id?: Maybe<Scalars['ID']['output']>;
   birthDay?: Maybe<Scalars['String']['output']>;
   contact?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  drinksBanked?: Maybe<Array<Maybe<DrinksBank>>>;
+  drinksBought?: Maybe<Array<Maybe<BarSale>>>;
+  dues?: Maybe<Array<Maybe<DuesPayment>>>;
   email?: Maybe<Scalars['String']['output']>;
   employer?: Maybe<Scalars['String']['output']>;
   firstname: Scalars['String']['output'];
@@ -110,6 +113,7 @@ export type Member = {
   memberID: Scalars['ID']['output'];
   membershipType?: Maybe<MembershipTypeEnum>;
   nextOfKin?: Maybe<Scalars['String']['output']>;
+  paymentReceived?: Maybe<Array<Maybe<Payment>>>;
   sex?: Maybe<SexEnum>;
   surname: Scalars['String']['output'];
   title?: Maybe<Scalars['String']['output']>;
@@ -123,7 +127,9 @@ export type MemberOrderBy = {
 export type Mutation = {
   __typename?: 'Mutation';
   addMember?: Maybe<Member>;
+  addStaff?: Maybe<Staff>;
   updateMember?: Maybe<Member>;
+  updateStaff?: Maybe<Staff>;
 };
 
 
@@ -132,14 +138,29 @@ export type MutationAddMemberArgs = {
 };
 
 
+export type MutationAddStaffArgs = {
+  request: AddStaffInput;
+};
+
+
 export type MutationUpdateMemberArgs = {
   request: UpdateMemberInput;
+};
+
+
+export type MutationUpdateStaffArgs = {
+  request: UpdateStaffInput;
 };
 
 export type NextOfKin = {
   __typename?: 'NextOfKin';
   contact?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   name?: Maybe<Scalars['String']['output']>;
+};
+
+export type NextOfKinInput = {
+  contact?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type NotAllowedError = BaseError & {
@@ -265,6 +286,19 @@ export type AddMemberInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type AddStaffInput = {
+  contact?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  dateOfEmployment?: InputMaybe<Scalars['Date']['input']>;
+  employeeID: Scalars['ID']['input'];
+  employmentStatus?: InputMaybe<EmploymentStatusEnum>;
+  employmentType?: InputMaybe<EmploymentTypeEnum>;
+  firstname: Scalars['String']['input'];
+  jobTitle?: InputMaybe<Scalars['String']['input']>;
+  nextOfKin?: InputMaybe<NextOfKinInput>;
+  sex?: InputMaybe<SexEnum>;
+  surname: Scalars['String']['input'];
+};
+
 export enum EmploymentStatusEnum {
   Active = 'ACTIVE',
   Inactive = 'INACTIVE',
@@ -334,6 +368,20 @@ export type UpdateMemberInput = {
   sex?: InputMaybe<SexEnum>;
   surname?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateStaffInput = {
+  _id: Scalars['ID']['input'];
+  contact?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  dateOfEmployment?: InputMaybe<Scalars['Date']['input']>;
+  employeeID?: InputMaybe<Scalars['ID']['input']>;
+  employmentStatus?: InputMaybe<EmploymentStatusEnum>;
+  employmentType?: InputMaybe<EmploymentTypeEnum>;
+  firstname?: InputMaybe<Scalars['String']['input']>;
+  jobTitle?: InputMaybe<Scalars['String']['input']>;
+  nextOfKin?: InputMaybe<NextOfKinInput>;
+  sex?: InputMaybe<SexEnum>;
+  surname?: InputMaybe<Scalars['String']['input']>;
 };
 
 

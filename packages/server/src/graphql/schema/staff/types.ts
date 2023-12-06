@@ -16,4 +16,6 @@ export default gql.gql`
    salary: [ Payment ]
  }
 
+ 
+
   `
