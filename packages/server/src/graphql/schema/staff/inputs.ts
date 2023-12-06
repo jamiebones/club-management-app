@@ -46,6 +46,5 @@ input updateStaffInput {
    employeeID: String
    firstname: String
    surname: String
-
   }
 `

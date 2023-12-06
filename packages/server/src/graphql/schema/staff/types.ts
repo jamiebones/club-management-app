@@ -16,7 +16,6 @@ export default gql.gql`
    salary: [ Payment ]
  }
 
- 
 
  union StaffResult = Staff | NotFound
 
