@@ -25,5 +25,9 @@ type ItemSupplied {
     end: String
   }
 
+  type NotFound {
+    message: String
+  }
+
 
 `

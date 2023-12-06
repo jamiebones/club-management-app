@@ -33,4 +33,19 @@ input updateStaffInput {
    sex: sexEnum
    employmentStatus: employmentStatusEnum
   }
+
+
+
+
+
+
+  #######--------- QUERY --------###########
+
+  input findStaffInput {
+   _id: ID
+   employeeID: String
+   firstname: String
+   surname: String
+
+  }
 `

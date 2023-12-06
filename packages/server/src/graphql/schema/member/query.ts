@@ -4,7 +4,7 @@ import  gql from "graphql-tag";
 export default gql.gql`
   type Query {
     # Find one Member
-    findMember(request: findMemberInput): Member
+    findMember(request: findMemberInput): MemberResult
 
     # Find Members list
     findMembers(

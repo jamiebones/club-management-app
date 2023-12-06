@@ -30,6 +30,7 @@ export default gql.gql`
     members: [Member]
     pageInfo: PageInfo
   }
-
+  
+  union MemberResult = Member | NotFound
   
 `

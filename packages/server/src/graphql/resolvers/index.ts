@@ -5,12 +5,14 @@ import memberQuery from "./members/query/index.js"
 
 import staff from "./staff/index.js"
 import staffMutation from "./staff/mutation/index.js"
+import staffQuery from "./staff/query/index.js"
 
 
 
 const resolvers = {
   Query: {
-    ...memberQuery
+    ...memberQuery,
+    ...staffQuery
   },
   Mutation: {
    ...memberMutation,

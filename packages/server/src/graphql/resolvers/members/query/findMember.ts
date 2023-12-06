@@ -1,5 +1,5 @@
 import { Members } from "../../../../models/MemberModel.js";
-import { FindMemberInput, Member } from "../../../../generated/graphqlStaffClub.js";
+import { FindMemberInput, Member, MemberResult } from "../../../../generated/graphqlStaffClub.js";
 import { GraphQLError } from 'graphql';
 
 
@@ -8,7 +8,7 @@ const findMember = async (
   args: { request:FindMemberInput },
   context: any,
   info: any,
-):Promise<Member> => {
+):Promise<MemberResult> => {
   try {
     const { _id, memberID, firstname, surname } = args.request;
     console.log("Mutation > findMember > args.fields = ", args.request);
@@ -32,15 +32,18 @@ const findMember = async (
     if ( _id ) {
       searchTerm["_id"] = _id
     }
-    memberData = await Members.findOne(searchTerm);
+    memberData = await Members.findOne(searchTerm).lean();
     console.log("searchTerm => ", searchTerm)
     if ( !memberData ){
-      throw new GraphQLError("member data not found");
+      return {
+        __typename: 'NotFound',
+        message: "member data not found"
+      }
     }
       console.log("member data ", memberData)
-      return memberData;
+      return {...memberData,  __typename: 'Member'};
   } catch (err: any) {
-    throw new GraphQLError("Member data not found");
+    throw new GraphQLError("Query => findMember =. Error: ", err);
   }
 };
 

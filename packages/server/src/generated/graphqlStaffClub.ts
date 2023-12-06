@@ -124,6 +124,8 @@ export type MemberOrderBy = {
   field?: InputMaybe<OrderableMemberField>;
 };
 
+export type MemberResult = Member | NotFound;
+
 export type Mutation = {
   __typename?: 'Mutation';
   addMember?: Maybe<Member>;
@@ -166,6 +168,11 @@ export type NextOfKinInput = {
 export type NotAllowedError = BaseError & {
   __typename?: 'NotAllowedError';
   message: Scalars['String']['output'];
+};
+
+export type NotFound = {
+  __typename?: 'NotFound';
+  message?: Maybe<Scalars['String']['output']>;
 };
 
 export type NotFoundError = BaseError & {
@@ -214,8 +221,9 @@ export type Payment = {
 
 export type Query = {
   __typename?: 'Query';
-  findMember?: Maybe<Member>;
+  findMember?: Maybe<MemberResult>;
   findMembers?: Maybe<FindMembersCursorOutput>;
+  findStaff?: Maybe<StaffResult>;
 };
 
 
@@ -230,6 +238,11 @@ export type QueryFindMembersArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<MemberOrderBy>;
   request?: InputMaybe<FindMembersInput>;
+};
+
+
+export type QueryFindStaffArgs = {
+  request?: InputMaybe<FindStaffInput>;
 };
 
 export type Staff = {
@@ -247,6 +260,8 @@ export type Staff = {
   sex?: Maybe<SexEnum>;
   surname: Scalars['String']['output'];
 };
+
+export type StaffResult = NotFound | Staff;
 
 export type Supplier = {
   __typename?: 'Supplier';
@@ -325,6 +340,13 @@ export type FindMembersInput = {
   memberType?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type FindStaffInput = {
+  _id?: InputMaybe<Scalars['ID']['input']>;
+  employeeID?: InputMaybe<Scalars['String']['input']>;
+  firstname?: InputMaybe<Scalars['String']['input']>;
+  surname?: InputMaybe<Scalars['String']['input']>;
+};
+
 export enum MembershipTypeEnum {
   Associate = 'ASSOCIATE',
   Full = 'FULL'
@@ -397,6 +419,14 @@ export type UpdateStaffInput = {
       "NotAllowedError",
       "NotFoundError",
       "UnknownError"
+    ],
+    "MemberResult": [
+      "Member",
+      "NotFound"
+    ],
+    "StaffResult": [
+      "NotFound",
+      "Staff"
     ]
   }
 };

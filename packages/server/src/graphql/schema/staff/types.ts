@@ -18,4 +18,8 @@ export default gql.gql`
 
  
 
+ union StaffResult = Staff | NotFound
+
+ 
+
   `
