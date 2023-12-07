@@ -9,6 +9,7 @@ export default gql.gql`
   address: String
   #payment: [ Payment ]
   drinks: [ BarStock ]
+  
 }
 
   `

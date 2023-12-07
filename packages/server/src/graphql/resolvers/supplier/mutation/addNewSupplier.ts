@@ -10,7 +10,7 @@ const addNewSupplier = async (
 ) => {
   try {
       const { address, contact, name } = args.request;
-      console.log("Mutation > addNewSupplier > args.fields = ", args.request);
+      console.log("Mutation > addNewSupplier >> args.fields = ", args.request);
       const fields:SupplierType = {};
 
       if ( !name && !contact ) {

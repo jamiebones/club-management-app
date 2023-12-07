@@ -8,4 +8,11 @@ export default gql.gql`
     contact: [ String ]
     address: String
   }
+
+  input updateSupplierInput {
+    supplierID: ID!
+    name: String
+    contact: [ String ]
+    address: String
+  }
 `

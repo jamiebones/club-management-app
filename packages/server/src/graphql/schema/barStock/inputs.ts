@@ -7,7 +7,6 @@ export default gql.gql`
      amount: String!
      saleType: paymentTypeEnum!
      itemsSupplied: [ ItemSuppliedInput! ]
-     date: Date!
   }
 
   input findBarStockInput {

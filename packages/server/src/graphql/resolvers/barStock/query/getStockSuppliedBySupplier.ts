@@ -20,8 +20,8 @@ const getStockSuppliedBySupplier = async (
     if (!supplier){
         throw new GraphQLError("Suppplied _id is not a valid supplier ID")
     }
-    const suppliedStocks = await BarStock.find({_id: _id}).sort({date: 1}).lean();
-    console.log("member data ", suppliedStocks)
+    const suppliedStocks = await BarStock.find({ supplierID: _id}).sort({date: 1}).lean();
+    console.log("supplied data ", suppliedStocks)
     return suppliedStocks
   } catch (err: any) {
     throw new GraphQLError("Query => getStockSuppliedBySupplier =. Error: ", err);

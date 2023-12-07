@@ -10,13 +10,16 @@ const addBarStock = async (
   info: any,
 )=> {
   try {
-    const { supplierID,amount, saleType, itemsSupplied, date } = args.request;
+    const { supplierID,amount, saleType, itemsSupplied } = args.request;
     console.log("Mutation > addBarStock > args.fields = ", args.request);
-    const fields:BarStockType = {
+    const fields: BarStockType = {
       supplierID,
-      amount, saleType, itemsSupplied, date 
+      amount, 
+      saleType, 
+      itemsSupplied,
+      date : new Date()
     };
-    
+  
     //check if the ID is a valid supplier
     const supplier = await Supplier.findOne({_id: supplierID});
     if (!supplier){

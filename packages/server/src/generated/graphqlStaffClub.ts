@@ -33,7 +33,7 @@ export type BarStock = {
   __typename?: 'BarStock';
   Supplier?: Maybe<Supplier>;
   amount: Scalars['String']['output'];
-  date: Scalars['Date']['output'];
+  date?: Maybe<Scalars['Date']['output']>;
   itemsSupplied?: Maybe<Array<ItemSupplied>>;
   saleType: PaymentTypeEnum;
   supplierID: Scalars['ID']['output'];
@@ -137,6 +137,7 @@ export type Mutation = {
   addStaff?: Maybe<Staff>;
   updateMember?: Maybe<Member>;
   updateStaff?: Maybe<Staff>;
+  updateSupplier?: Maybe<Supplier>;
 };
 
 
@@ -167,6 +168,11 @@ export type MutationUpdateMemberArgs = {
 
 export type MutationUpdateStaffArgs = {
   request: UpdateStaffInput;
+};
+
+
+export type MutationUpdateSupplierArgs = {
+  request: UpdateSupplierInput;
 };
 
 export type NextOfKin = {
@@ -289,8 +295,8 @@ export type Supplier = {
   _id?: Maybe<Scalars['ID']['output']>;
   address?: Maybe<Scalars['String']['output']>;
   contact?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  drinks?: Maybe<Array<Maybe<BarStock>>>;
   name?: Maybe<Scalars['String']['output']>;
-  supplierID?: Maybe<Scalars['ID']['output']>;
 };
 
 export type UnknownError = BaseError & {
@@ -309,7 +315,6 @@ export type User = {
 
 export type AddBarStockInput = {
   amount: Scalars['String']['input'];
-  date: Scalars['Date']['input'];
   itemsSupplied?: InputMaybe<Array<ItemSuppliedInput>>;
   saleType: PaymentTypeEnum;
   supplierID: Scalars['ID']['input'];
@@ -444,6 +449,13 @@ export type UpdateStaffInput = {
   nextOfKin?: InputMaybe<NextOfKinInput>;
   sex?: InputMaybe<SexEnum>;
   surname?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateSupplierInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
+  contact?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  supplierID: Scalars['ID']['input'];
 };
 
 

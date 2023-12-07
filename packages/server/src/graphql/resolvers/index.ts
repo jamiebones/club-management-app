@@ -9,6 +9,7 @@ import staffQuery from "./staff/query/index.js"
 
 import barStock from "./barStock/index.js";
 import barStockMutation from "./barStock/mutation/index.js";
+import barStockQuery from "./barStock/query/index.js"
 
 
 import supplier from "./supplier/index.js";
@@ -20,6 +21,7 @@ const resolvers = {
   Query: {
     ...memberQuery,
     ...staffQuery,
+    ...barStockQuery
 
   },
   Mutation: {
