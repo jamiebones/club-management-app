@@ -7,20 +7,32 @@ import staff from "./staff/index.js"
 import staffMutation from "./staff/mutation/index.js"
 import staffQuery from "./staff/query/index.js"
 
+import barStock from "./barStock/index.js";
+import barStockMutation from "./barStock/mutation/index.js";
+
+
+import supplier from "./supplier/index.js";
+import supplierMutation from "./supplier/mutation/index.js"
+
 
 
 const resolvers = {
   Query: {
     ...memberQuery,
-    ...staffQuery
+    ...staffQuery,
+
   },
   Mutation: {
    ...memberMutation,
-   ...staffMutation
+   ...staffMutation,
+   ...barStockMutation,
+   ...supplierMutation
     
   },
   ...members,
-  ...staff
+  ...staff,
+  ...barStock,
+  ...supplier
  
 };
 

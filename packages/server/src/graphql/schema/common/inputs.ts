@@ -7,5 +7,14 @@ input OrderBy {
     field: OrderField
     direction: OrderDirection
 }
+
+input ItemSuppliedInput {
+    brand: String
+    quantity: String
+    numberOfBottles: String
+ }
+
+
+
 `
 

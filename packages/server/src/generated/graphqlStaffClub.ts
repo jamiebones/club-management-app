@@ -32,14 +32,11 @@ export type BarSale = {
 export type BarStock = {
   __typename?: 'BarStock';
   Supplier?: Maybe<Supplier>;
-  amount?: Maybe<Scalars['String']['output']>;
-  amountOwnedSupplier?: Maybe<Scalars['String']['output']>;
-  amountPaidToSupplier?: Maybe<Scalars['String']['output']>;
-  date?: Maybe<Scalars['Date']['output']>;
-  fullPaymentMade?: Maybe<Scalars['Boolean']['output']>;
-  itemsSupplied?: Maybe<Array<Maybe<ItemSupplied>>>;
-  saleType?: Maybe<PaymentTypeEnum>;
-  supplierID?: Maybe<Scalars['ID']['output']>;
+  amount: Scalars['String']['output'];
+  date: Scalars['Date']['output'];
+  itemsSupplied?: Maybe<Array<ItemSupplied>>;
+  saleType: PaymentTypeEnum;
+  supplierID: Scalars['ID']['output'];
 };
 
 export type BaseError = {
@@ -98,6 +95,12 @@ export type ItemSupplied = {
   quantity?: Maybe<Scalars['String']['output']>;
 };
 
+export type ItemSuppliedInput = {
+  brand?: InputMaybe<Scalars['String']['input']>;
+  numberOfBottles?: InputMaybe<Scalars['String']['input']>;
+  quantity?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Member = {
   __typename?: 'Member';
   _id?: Maybe<Scalars['ID']['output']>;
@@ -128,15 +131,27 @@ export type MemberResult = Member | NotFound;
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addBarStock?: Maybe<BarStock>;
   addMember?: Maybe<Member>;
+  addNewSupplier?: Maybe<Supplier>;
   addStaff?: Maybe<Staff>;
   updateMember?: Maybe<Member>;
   updateStaff?: Maybe<Staff>;
 };
 
 
+export type MutationAddBarStockArgs = {
+  request: AddBarStockInput;
+};
+
+
 export type MutationAddMemberArgs = {
   request: AddMemberInput;
+};
+
+
+export type MutationAddNewSupplierArgs = {
+  request: AddSupplierInput;
 };
 
 
@@ -224,6 +239,7 @@ export type Query = {
   findMember?: Maybe<MemberResult>;
   findMembers?: Maybe<FindMembersCursorOutput>;
   findStaff?: Maybe<StaffResult>;
+  getStockSuppliedBySupplier?: Maybe<Array<Maybe<BarStock>>>;
 };
 
 
@@ -243,6 +259,11 @@ export type QueryFindMembersArgs = {
 
 export type QueryFindStaffArgs = {
   request?: InputMaybe<FindStaffInput>;
+};
+
+
+export type QueryGetStockSuppliedBySupplierArgs = {
+  request: FindBarStockInput;
 };
 
 export type Staff = {
@@ -265,11 +286,11 @@ export type StaffResult = NotFound | Staff;
 
 export type Supplier = {
   __typename?: 'Supplier';
-  _id: Scalars['ID']['output'];
+  _id?: Maybe<Scalars['ID']['output']>;
   address?: Maybe<Scalars['String']['output']>;
   contact?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   name?: Maybe<Scalars['String']['output']>;
-  supplierID: Scalars['ID']['output'];
+  supplierID?: Maybe<Scalars['ID']['output']>;
 };
 
 export type UnknownError = BaseError & {
@@ -284,6 +305,14 @@ export type User = {
   password?: Maybe<Scalars['String']['output']>;
   userType?: Maybe<Scalars['String']['output']>;
   username?: Maybe<Scalars['String']['output']>;
+};
+
+export type AddBarStockInput = {
+  amount: Scalars['String']['input'];
+  date: Scalars['Date']['input'];
+  itemsSupplied?: InputMaybe<Array<ItemSuppliedInput>>;
+  saleType: PaymentTypeEnum;
+  supplierID: Scalars['ID']['input'];
 };
 
 export type AddMemberInput = {
@@ -314,6 +343,13 @@ export type AddStaffInput = {
   surname: Scalars['String']['input'];
 };
 
+export type AddSupplierInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
+  contact?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  supplierID?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export enum EmploymentStatusEnum {
   Active = 'ACTIVE',
   Inactive = 'INACTIVE',
@@ -325,6 +361,10 @@ export enum EmploymentTypeEnum {
   Fulltime = 'FULLTIME',
   Parttime = 'PARTTIME'
 }
+
+export type FindBarStockInput = {
+  _id: Scalars['ID']['input'];
+};
 
 export type FindMemberInput = {
   _id?: InputMaybe<Scalars['String']['input']>;

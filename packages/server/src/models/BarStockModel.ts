@@ -20,24 +20,11 @@ const barStockSchema = new mongoose.Schema({
     numberOfBottles: Number
 }],
 
-amountPaidToSupplier: {
-    type: String
-},
-
-amountOwnedSupplier: {
-    type: String
-},
-
-fullPaymentMade: {
-    type: Boolean
-},
-
-
 date: {
     type: Date,
   },
 
 });
 
-const BarStock = mongoose.model("BarSales", barStockSchema);
+const BarStock = mongoose.model("BarStock", barStockSchema);
 export { BarStock };
