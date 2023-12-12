@@ -15,6 +15,9 @@ import barStockQuery from "./barStock/query/index.js"
 import supplier from "./supplier/index.js";
 import supplierMutation from "./supplier/mutation/index.js"
 
+import barSale from "./barSale/index.js";
+import barSaleMutation from "./barSale/mutation/index.js"
+
 
 
 const resolvers = {
@@ -28,13 +31,15 @@ const resolvers = {
    ...memberMutation,
    ...staffMutation,
    ...barStockMutation,
-   ...supplierMutation
+   ...supplierMutation,
+   ...barSaleMutation
     
   },
   ...members,
   ...staff,
   ...barStock,
-  ...supplier
+  ...supplier,
+  ...barSale
  
 };
 

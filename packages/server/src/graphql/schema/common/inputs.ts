@@ -14,6 +14,10 @@ input ItemSuppliedInput {
     numberOfBottles: String
  }
 
+ input BeerBrandInput {
+   brand: String
+   quantity: String
+}
 
 
 `

@@ -43,6 +43,11 @@ export type BaseError = {
   message: Scalars['String']['output'];
 };
 
+export type BeerBrandInput = {
+  brand?: InputMaybe<Scalars['String']['input']>;
+  quantity?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type BeerBrandType = {
   __typename?: 'BeerBrandType';
   brand?: Maybe<Scalars['String']['output']>;
@@ -135,6 +140,7 @@ export type Mutation = {
   addMember?: Maybe<Member>;
   addNewSupplier?: Maybe<Supplier>;
   addStaff?: Maybe<Staff>;
+  newBarSale?: Maybe<BarSale>;
   updateMember?: Maybe<Member>;
   updateStaff?: Maybe<Staff>;
   updateSupplier?: Maybe<Supplier>;
@@ -158,6 +164,11 @@ export type MutationAddNewSupplierArgs = {
 
 export type MutationAddStaffArgs = {
   request: AddStaffInput;
+};
+
+
+export type MutationNewBarSaleArgs = {
+  request: NewBarSaleInput;
 };
 
 
@@ -396,6 +407,15 @@ export enum MembershipTypeEnum {
   Associate = 'ASSOCIATE',
   Full = 'FULL'
 }
+
+export type NewBarSaleInput = {
+  amount: Scalars['String']['input'];
+  items?: InputMaybe<Array<BeerBrandInput>>;
+  memberID: Scalars['ID']['input'];
+  paymentType: PaymentTypeEnum;
+  saleType: SaleTypeEnum;
+  staffID: Scalars['ID']['input'];
+};
 
 export enum PaymentCategoryEnum {
   Palliative = 'PALLIATIVE',
