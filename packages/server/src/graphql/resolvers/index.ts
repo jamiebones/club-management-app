@@ -16,7 +16,8 @@ import supplier from "./supplier/index.js";
 import supplierMutation from "./supplier/mutation/index.js"
 
 import barSale from "./barSale/index.js";
-import barSaleMutation from "./barSale/mutation/index.js"
+import barSaleMutation from "./barSale/mutation/index.js";
+import barSaleQuery from "./barSale/query/index.js"
 
 
 
@@ -24,7 +25,8 @@ const resolvers = {
   Query: {
     ...memberQuery,
     ...staffQuery,
-    ...barStockQuery
+    ...barStockQuery,
+    ...barSaleQuery
 
   },
   Mutation: {

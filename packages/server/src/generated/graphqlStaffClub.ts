@@ -254,6 +254,7 @@ export type Payment = {
 export type Query = {
   __typename?: 'Query';
   findMember?: Maybe<MemberResult>;
+  findMemberPatronage?: Maybe<Array<Maybe<BarSale>>>;
   findMembers?: Maybe<FindMembersCursorOutput>;
   findStaff?: Maybe<StaffResult>;
   getStockSuppliedBySupplier?: Maybe<Array<Maybe<BarStock>>>;
@@ -262,6 +263,11 @@ export type Query = {
 
 export type QueryFindMemberArgs = {
   request?: InputMaybe<FindMemberInput>;
+};
+
+
+export type QueryFindMemberPatronageArgs = {
+  request: FindMemberPatronageInput;
 };
 
 
@@ -387,6 +393,14 @@ export type FindMemberInput = {
   firstname?: InputMaybe<Scalars['String']['input']>;
   memberID?: InputMaybe<Scalars['String']['input']>;
   surname?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type FindMemberPatronageInput = {
+  endDate?: InputMaybe<Scalars['Date']['input']>;
+  memberID: Scalars['ID']['input'];
+  paymentType?: InputMaybe<PaymentTypeEnum>;
+  saleType?: InputMaybe<SaleTypeEnum>;
+  startDate?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export type FindMembersInput = {

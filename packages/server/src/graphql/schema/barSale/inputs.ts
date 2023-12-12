@@ -11,6 +11,14 @@ export default gql.gql`
      saleType: saleTypeEnum!
   }
 
+  input findMemberPatronageInput {
+    memberID: ID!
+    saleType: saleTypeEnum
+    startDate: Date
+    endDate: Date
+    paymentType: paymentTypeEnum
+  }
+
  
   `
 
