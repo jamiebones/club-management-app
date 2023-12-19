@@ -25,7 +25,8 @@ import payment from "./payment/index.js";
 import paymentMutation from "./payment/mutation/index.js";
 
 import duesPayment from "./duesPayment/index.js";
-import duesPaymentMutation from "./duesPayment/mutation/index.js"
+import duesPaymentMutation from "./duesPayment/mutation/index.js";
+import duesPaymentQuery from "./duesPayment/query/index.js"
 
 
 const resolvers = {
@@ -33,7 +34,8 @@ const resolvers = {
     ...memberQuery,
     ...staffQuery,
     ...barStockQuery,
-    ...barSaleQuery
+    ...barSaleQuery,
+    ...duesPaymentQuery
 
   },
   Mutation: {

@@ -81,7 +81,7 @@ export type DuesPayment = {
   date?: Maybe<Scalars['Date']['output']>;
   member?: Maybe<Member>;
   memberID?: Maybe<Scalars['ID']['output']>;
-  paymentFor?: Maybe<Scalars['String']['output']>;
+  paymentFor?: Maybe<Array<Maybe<PaymentFor>>>;
   paymentType?: Maybe<PaymentTypeEnum>;
 };
 
@@ -279,9 +279,21 @@ export type Payment = {
   receiverID?: Maybe<Scalars['ID']['output']>;
 };
 
+export type PaymentFor = {
+  __typename?: 'PaymentFor';
+  month?: Maybe<Scalars['String']['output']>;
+  year?: Maybe<Scalars['String']['output']>;
+};
+
+export type PaymentForInput = {
+  month?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   findMember?: Maybe<MemberResult>;
+  findMemberDuesPaid?: Maybe<Array<Maybe<DuesPayment>>>;
   findMemberPatronage?: Maybe<Array<Maybe<BarSale>>>;
   findMembers?: Maybe<FindMembersCursorOutput>;
   findStaff?: Maybe<StaffResult>;
@@ -291,6 +303,11 @@ export type Query = {
 
 export type QueryFindMemberArgs = {
   request?: InputMaybe<FindMemberInput>;
+};
+
+
+export type QueryFindMemberDuesPaidArgs = {
+  request: FindMemberDuesPaidInput;
 };
 
 
@@ -379,7 +396,7 @@ export type AddDuesPaymentInput = {
   amountPaid?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['Date']['input']>;
   memberID?: InputMaybe<Scalars['ID']['input']>;
-  paymentFor?: InputMaybe<Scalars['String']['input']>;
+  paymentFor?: InputMaybe<Array<InputMaybe<PaymentForInput>>>;
   paymentType?: InputMaybe<PaymentTypeEnum>;
 };
 
@@ -447,6 +464,10 @@ export enum EmploymentTypeEnum {
 
 export type FindBarStockInput = {
   _id: Scalars['ID']['input'];
+};
+
+export type FindMemberDuesPaidInput = {
+  memberID: Scalars['ID']['input'];
 };
 
 export type FindMemberInput = {

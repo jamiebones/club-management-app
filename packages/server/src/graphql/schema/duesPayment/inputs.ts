@@ -13,4 +13,10 @@ input PaymentForInput {
    month: String,
    year: String
 }
+
+input findMemberDuesPaidInput{
+   memberID: ID!
+}
+
+
 `
