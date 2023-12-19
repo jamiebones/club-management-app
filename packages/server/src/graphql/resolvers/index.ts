@@ -11,7 +11,6 @@ import barStock from "./barStock/index.js";
 import barStockMutation from "./barStock/mutation/index.js";
 import barStockQuery from "./barStock/query/index.js"
 
-
 import supplier from "./supplier/index.js";
 import supplierMutation from "./supplier/mutation/index.js"
 
@@ -22,7 +21,8 @@ import barSaleQuery from "./barSale/query/index.js"
 import drinksBank from "./drinksBank/index.js";
 import drinksBankMutation from "./drinksBank/mutation/index.js";
 
-
+import payment from "./payment/index.js";
+import paymentMutation from "./payment/mutation/index.js"
 
 
 const resolvers = {
@@ -39,7 +39,8 @@ const resolvers = {
    ...barStockMutation,
    ...supplierMutation,
    ...barSaleMutation,
-   ...drinksBankMutation
+   ...drinksBankMutation,
+   ...paymentMutation
     
   },
   ...members,
@@ -47,8 +48,9 @@ const resolvers = {
   ...barStock,
   ...supplier,
   ...barSale,
-  ...drinksBank
- 
+  ...drinksBank,
+  ...payment
+
 };
 
 export default resolvers;

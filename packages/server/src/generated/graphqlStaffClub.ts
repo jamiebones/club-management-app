@@ -143,6 +143,7 @@ export type Mutation = {
   addBarStock?: Maybe<BarStock>;
   addMember?: Maybe<Member>;
   addNewSupplier?: Maybe<Supplier>;
+  addPayment?: Maybe<Payment>;
   addStaff?: Maybe<Staff>;
   collectBankedDrinks?: Maybe<DrinksBank>;
   newBarSale?: Maybe<BarSale>;
@@ -169,6 +170,11 @@ export type MutationAddMemberArgs = {
 
 export type MutationAddNewSupplierArgs = {
   request: AddSupplierInput;
+};
+
+
+export type MutationAddPaymentArgs = {
+  request: AddPaymentInput;
 };
 
 
@@ -258,7 +264,7 @@ export type PageInfo = {
 
 export type Payment = {
   __typename?: 'Payment';
-  _id: Scalars['ID']['output'];
+  _id?: Maybe<Scalars['ID']['output']>;
   amountPaid?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['Date']['output']>;
   paymentCategory?: Maybe<PaymentCategoryEnum>;
@@ -373,6 +379,15 @@ export type AddMemberInput = {
   sex?: InputMaybe<SexEnum>;
   surname: Scalars['String']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type AddPaymentInput = {
+  _id?: InputMaybe<Scalars['ID']['input']>;
+  amountPaid?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['Date']['input']>;
+  paymentCategory?: InputMaybe<PaymentCategoryEnum>;
+  paymentFor?: InputMaybe<Scalars['String']['input']>;
+  receiverID?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type AddStaffInput = {
