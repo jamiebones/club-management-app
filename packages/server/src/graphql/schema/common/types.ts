@@ -9,13 +9,13 @@ type NextOfKin {
 
 type BeerBrandType {
    brand: String
-   quantity: String
+   quantity: Int
 }
 
 type ItemSupplied {
     brand: String
-    quantity: String
-    numberOfBottles: String
+    quantity: Int
+    numberOfBottles: Int
  }
 
  type PageInfo {

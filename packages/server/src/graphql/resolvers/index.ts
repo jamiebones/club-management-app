@@ -19,6 +19,10 @@ import barSale from "./barSale/index.js";
 import barSaleMutation from "./barSale/mutation/index.js";
 import barSaleQuery from "./barSale/query/index.js"
 
+import drinksBank from "./drinksBank/index.js";
+import drinksBankMutation from "./drinksBank/mutation/index.js";
+
+
 
 
 const resolvers = {
@@ -34,14 +38,16 @@ const resolvers = {
    ...staffMutation,
    ...barStockMutation,
    ...supplierMutation,
-   ...barSaleMutation
+   ...barSaleMutation,
+   ...drinksBankMutation
     
   },
   ...members,
   ...staff,
   ...barStock,
   ...supplier,
-  ...barSale
+  ...barSale,
+  ...drinksBank
  
 };
 

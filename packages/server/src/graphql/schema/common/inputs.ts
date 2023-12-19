@@ -10,13 +10,13 @@ input OrderBy {
 
 input ItemSuppliedInput {
     brand: String
-    quantity: String
-    numberOfBottles: String
+    quantity: Int
+    numberOfBottles: Int
  }
 
  input BeerBrandInput {
    brand: String
-   quantity: String
+   quantity: Int
 }
 
 

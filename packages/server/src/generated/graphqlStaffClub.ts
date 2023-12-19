@@ -45,17 +45,19 @@ export type BaseError = {
 
 export type BeerBrandInput = {
   brand?: InputMaybe<Scalars['String']['input']>;
-  quantity?: InputMaybe<Scalars['String']['input']>;
+  quantity?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type BeerBrandType = {
   __typename?: 'BeerBrandType';
   brand?: Maybe<Scalars['String']['output']>;
-  quantity?: Maybe<Scalars['String']['output']>;
+  quantity?: Maybe<Scalars['Int']['output']>;
 };
 
 export type DrinksBank = {
   __typename?: 'DrinksBank';
+  _id?: Maybe<Scalars['ID']['output']>;
+  allDrinksCollected?: Maybe<Scalars['Boolean']['output']>;
   collectedDates?: Maybe<Array<Maybe<DrinksCollector>>>;
   dateBanked?: Maybe<Scalars['Date']['output']>;
   drinksLeft?: Maybe<Array<Maybe<BeerBrandType>>>;
@@ -69,6 +71,7 @@ export type DrinksCollector = {
   __typename?: 'DrinksCollector';
   date?: Maybe<Scalars['Date']['output']>;
   staff?: Maybe<Staff>;
+  staffId?: Maybe<Scalars['ID']['output']>;
 };
 
 export type DuesPayment = {
@@ -96,14 +99,14 @@ export type InvalidInputError = BaseError & {
 export type ItemSupplied = {
   __typename?: 'ItemSupplied';
   brand?: Maybe<Scalars['String']['output']>;
-  numberOfBottles?: Maybe<Scalars['String']['output']>;
-  quantity?: Maybe<Scalars['String']['output']>;
+  numberOfBottles?: Maybe<Scalars['Int']['output']>;
+  quantity?: Maybe<Scalars['Int']['output']>;
 };
 
 export type ItemSuppliedInput = {
   brand?: InputMaybe<Scalars['String']['input']>;
-  numberOfBottles?: InputMaybe<Scalars['String']['input']>;
-  quantity?: InputMaybe<Scalars['String']['input']>;
+  numberOfBottles?: InputMaybe<Scalars['Int']['input']>;
+  quantity?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type Member = {
@@ -136,14 +139,21 @@ export type MemberResult = Member | NotFound;
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addBankedDrinks?: Maybe<DrinksBank>;
   addBarStock?: Maybe<BarStock>;
   addMember?: Maybe<Member>;
   addNewSupplier?: Maybe<Supplier>;
   addStaff?: Maybe<Staff>;
+  collectBankedDrinks?: Maybe<DrinksBank>;
   newBarSale?: Maybe<BarSale>;
   updateMember?: Maybe<Member>;
   updateStaff?: Maybe<Staff>;
   updateSupplier?: Maybe<Supplier>;
+};
+
+
+export type MutationAddBankedDrinksArgs = {
+  request: AddBankedDrinksInput;
 };
 
 
@@ -164,6 +174,11 @@ export type MutationAddNewSupplierArgs = {
 
 export type MutationAddStaffArgs = {
   request: AddStaffInput;
+};
+
+
+export type MutationCollectBankedDrinksArgs = {
+  request: CollectBankedDrinksInput;
 };
 
 
@@ -330,6 +345,14 @@ export type User = {
   username?: Maybe<Scalars['String']['output']>;
 };
 
+export type AddBankedDrinksInput = {
+  dateBanked?: InputMaybe<Scalars['Date']['input']>;
+  drinksLeft?: InputMaybe<Array<InputMaybe<BeerBrandInput>>>;
+  items?: InputMaybe<Array<InputMaybe<BeerBrandInput>>>;
+  memberID?: InputMaybe<Scalars['ID']['input']>;
+  staffID?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type AddBarStockInput = {
   amount: Scalars['String']['input'];
   itemsSupplied?: InputMaybe<Array<ItemSuppliedInput>>;
@@ -370,6 +393,12 @@ export type AddSupplierInput = {
   contact?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   name?: InputMaybe<Scalars['String']['input']>;
   supplierID?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type CollectBankedDrinksInput = {
+  drinksToCollect?: InputMaybe<Array<BeerBrandInput>>;
+  memberID: Scalars['ID']['input'];
+  staffID: Scalars['ID']['input'];
 };
 
 export enum EmploymentStatusEnum {

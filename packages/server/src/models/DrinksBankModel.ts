@@ -23,6 +23,11 @@ const drinksBankSchema = new mongoose.Schema({
   
   dateBanked: {
     type: Date
+  },
+
+  allDrinksCollected: {
+    type: Boolean,
+    default: false
   }
 
 });
