@@ -1,18 +1,15 @@
 import gql from 'graphql-tag';
 
 export default gql.gql`
-  # ---------- DuesPayment --------------
-  type DuesPayment {
-	 _id: ID
+ input addDuesPaymentInput {
    memberID: ID
-   member: Member
    amountPaid: String
-   paymentFor: [ PaymentFor ]
+   paymentFor: [ PaymentForInput ]
    paymentType: paymentTypeEnum
    date: Date
 }
 
-type PaymentFor {
+input PaymentForInput {
    month: String,
    year: String
 }

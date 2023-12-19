@@ -22,7 +22,10 @@ import drinksBank from "./drinksBank/index.js";
 import drinksBankMutation from "./drinksBank/mutation/index.js";
 
 import payment from "./payment/index.js";
-import paymentMutation from "./payment/mutation/index.js"
+import paymentMutation from "./payment/mutation/index.js";
+
+import duesPayment from "./duesPayment/index.js";
+import duesPaymentMutation from "./duesPayment/mutation/index.js"
 
 
 const resolvers = {
@@ -40,7 +43,8 @@ const resolvers = {
    ...supplierMutation,
    ...barSaleMutation,
    ...drinksBankMutation,
-   ...paymentMutation
+   ...paymentMutation,
+   ...duesPaymentMutation
     
   },
   ...members,
@@ -49,7 +53,8 @@ const resolvers = {
   ...supplier,
   ...barSale,
   ...drinksBank,
-  ...payment
+  ...payment,
+  ...duesPayment
 
 };
 

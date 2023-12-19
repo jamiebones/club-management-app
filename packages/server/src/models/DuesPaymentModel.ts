@@ -18,10 +18,9 @@ const duesPaymentSchema = new mongoose.Schema({
 
   paymentType: {
     type: String,
-    enum: ["BANK", "CASH"]
+    enum: ["BANK", "CASH", "TRANSFER"]
   },
   
-
   date: {
     type: Date
   },

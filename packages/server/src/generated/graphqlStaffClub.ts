@@ -76,13 +76,13 @@ export type DrinksCollector = {
 
 export type DuesPayment = {
   __typename?: 'DuesPayment';
-  _id: Scalars['ID']['output'];
+  _id?: Maybe<Scalars['ID']['output']>;
   amountPaid?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['Date']['output']>;
   member?: Maybe<Member>;
-  memberID?: Maybe<Scalars['String']['output']>;
+  memberID?: Maybe<Scalars['ID']['output']>;
   paymentFor?: Maybe<Scalars['String']['output']>;
-  paymentPurpose?: Maybe<PaymentCategoryEnum>;
+  paymentType?: Maybe<PaymentTypeEnum>;
 };
 
 export type FindMembersCursorOutput = {
@@ -141,6 +141,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   addBankedDrinks?: Maybe<DrinksBank>;
   addBarStock?: Maybe<BarStock>;
+  addDuesPayment?: Maybe<DuesPayment>;
   addMember?: Maybe<Member>;
   addNewSupplier?: Maybe<Supplier>;
   addPayment?: Maybe<Payment>;
@@ -160,6 +161,11 @@ export type MutationAddBankedDrinksArgs = {
 
 export type MutationAddBarStockArgs = {
   request: AddBarStockInput;
+};
+
+
+export type MutationAddDuesPaymentArgs = {
+  request: AddDuesPaymentInput;
 };
 
 
@@ -269,6 +275,7 @@ export type Payment = {
   date?: Maybe<Scalars['Date']['output']>;
   paymentCategory?: Maybe<PaymentCategoryEnum>;
   paymentFor?: Maybe<Scalars['String']['output']>;
+  receiver?: Maybe<ReceiverResult>;
   receiverID?: Maybe<Scalars['ID']['output']>;
 };
 
@@ -309,6 +316,8 @@ export type QueryFindStaffArgs = {
 export type QueryGetStockSuppliedBySupplierArgs = {
   request: FindBarStockInput;
 };
+
+export type ReceiverResult = Member | Staff | Supplier;
 
 export type Staff = {
   __typename?: 'Staff';
@@ -364,6 +373,14 @@ export type AddBarStockInput = {
   itemsSupplied?: InputMaybe<Array<ItemSuppliedInput>>;
   saleType: PaymentTypeEnum;
   supplierID: Scalars['ID']['input'];
+};
+
+export type AddDuesPaymentInput = {
+  amountPaid?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['Date']['input']>;
+  memberID?: InputMaybe<Scalars['ID']['input']>;
+  paymentFor?: InputMaybe<Scalars['String']['input']>;
+  paymentType?: InputMaybe<PaymentTypeEnum>;
 };
 
 export type AddMemberInput = {
@@ -484,6 +501,7 @@ export enum PaymentCategoryEnum {
 }
 
 export enum PaymentTypeEnum {
+  Bank = 'BANK',
   Cash = 'CASH',
   Credit = 'CREDIT',
   Transfer = 'TRANSFER'
@@ -553,6 +571,11 @@ export type UpdateSupplierInput = {
     "MemberResult": [
       "Member",
       "NotFound"
+    ],
+    "ReceiverResult": [
+      "Member",
+      "Staff",
+      "Supplier"
     ],
     "StaffResult": [
       "NotFound",
