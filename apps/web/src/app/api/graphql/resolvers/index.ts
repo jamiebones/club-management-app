@@ -1,0 +1,63 @@
+
+import members from "./members";
+import memberMutation from "./members/mutation"
+import memberQuery from "./members/query"
+
+import staff from "./staff/index"
+import staffMutation from "./staff/mutation"
+import staffQuery from "./staff/query"
+
+import barStock from "./barStock";
+import barStockMutation from "./barStock/mutation";
+import barStockQuery from "./barStock/query"
+
+import supplier from "./supplier";
+import supplierMutation from "./supplier/mutation"
+
+import barSale from "./barSale";
+import barSaleMutation from "./barSale/mutation";
+import barSaleQuery from "./barSale/query"
+
+import drinksBank from "./drinksBank";
+import drinksBankMutation from "./drinksBank/mutation";
+
+import payment from "./payment";
+import paymentMutation from "./payment/mutation";
+
+import duesPayment from "./duesPayment";
+import duesPaymentMutation from "./duesPayment/mutation";
+import duesPaymentQuery from "./duesPayment/query"
+
+
+const resolvers = {
+  Query: {
+    ...memberQuery,
+    ...staffQuery,
+    ...barStockQuery,
+    ...barSaleQuery,
+    ...duesPaymentQuery
+
+  },
+  Mutation: {
+   ...memberMutation,
+   ...staffMutation,
+   ...barStockMutation,
+   ...supplierMutation,
+   ...barSaleMutation,
+   ...drinksBankMutation,
+   ...paymentMutation,
+   ...duesPaymentMutation
+    
+  },
+  ...members,
+  ...staff,
+  ...barStock,
+  ...supplier,
+  ...barSale,
+  ...drinksBank,
+  ...payment,
+  ...duesPayment
+
+};
+
+export default resolvers;

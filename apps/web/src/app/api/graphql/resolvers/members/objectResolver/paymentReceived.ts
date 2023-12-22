@@ -1,0 +1,17 @@
+import { Payment } from "../../../../models/PaymentModel";
+import { Member } from "../../../../generated/graphqlStaffClub";
+import { GraphQLError } from 'graphql';
+
+
+const dues = async (parent: Member, args: any, context: any, info: any) => {
+    try {
+      let receiverID = parent.memberID;
+      const paymentData = await Payment.find({receiverID: receiverID })
+      return paymentData
+    } catch (err: any) {
+      throw new GraphQLError(err.message);
+    }
+  };
+  
+  export default dues;
+  
