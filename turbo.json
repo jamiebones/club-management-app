@@ -1,6 +1,6 @@
 {
     "$schema": "https://turbo.build/schema.json",
-    "globalEnv": [],
+    "globalEnv": [ "MONGODB_URI", "NEXTAUTH_SECRET", "NEXTAUTH_URL"],
     "globalDependencies": ["**/.env.*local"],
     "pipeline": {
       "build": {

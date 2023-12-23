@@ -54,6 +54,8 @@ export type BeerBrandType = {
   quantity?: Maybe<Scalars['Int']['output']>;
 };
 
+export type Bio = Member | Staff;
+
 export type DrinksBank = {
   __typename?: 'DrinksBank';
   _id?: Maybe<Scalars['ID']['output']>;
@@ -370,10 +372,11 @@ export type UnknownError = BaseError & {
 
 export type User = {
   __typename?: 'User';
-  _id: Scalars['ID']['output'];
+  _id?: Maybe<Scalars['ID']['output']>;
+  bio?: Maybe<Bio>;
   bioDataID?: Maybe<Scalars['String']['output']>;
   password?: Maybe<Scalars['String']['output']>;
-  userType?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<RoleEnum>;
   username?: Maybe<Scalars['String']['output']>;
 };
 
@@ -528,6 +531,15 @@ export enum PaymentTypeEnum {
   Transfer = 'TRANSFER'
 }
 
+export enum RoleEnum {
+  Admin = 'ADMIN',
+  Barsecretary = 'BARSECRETARY',
+  President = 'PRESIDENT',
+  Sales = 'SALES',
+  Secretary = 'SECRETARY',
+  Treasurer = 'TREASURER'
+}
+
 export enum SaleTypeEnum {
   Normal = 'NORMAL',
   Presidential = 'PRESIDENTIAL'
@@ -588,6 +600,10 @@ export type UpdateSupplierInput = {
       "NotAllowedError",
       "NotFoundError",
       "UnknownError"
+    ],
+    "Bio": [
+      "Member",
+      "Staff"
     ],
     "MemberResult": [
       "Member",

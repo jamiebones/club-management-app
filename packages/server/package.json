@@ -11,7 +11,7 @@
     "depoly": "yarn build && node dist/server.js",
     "test": "yarn build && node dist/server.js",
     "prettify": "prettier --write \"./**/*.ts\"",
-    "codegen": "graphql-codegen --config src/generated/codegen.yml"
+    "codegens": "graphql-codegen --config src/generated/codegen.yml"
   },
   "keywords": [],
   "author": "",

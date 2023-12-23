@@ -16,8 +16,9 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId
   },
 
-  userType: {
-    type: String
+  role: {
+    type: String,
+    enum: ["SALES", "PRESIDENT", "BAR-SECRETARY", "TREASURER", "SECRETARY", "ADMIN"]
   },
 });
 
