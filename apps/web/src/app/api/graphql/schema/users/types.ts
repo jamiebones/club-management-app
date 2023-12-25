@@ -6,7 +6,7 @@ export default gql.gql`
     _id: ID
     username: String
     password: String
-    bioDataID: String
+    bioDataId: String
     role: roleEnum
     bio: Bio
  }

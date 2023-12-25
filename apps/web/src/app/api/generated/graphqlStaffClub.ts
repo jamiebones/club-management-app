@@ -149,6 +149,7 @@ export type Mutation = {
   addPayment?: Maybe<Payment>;
   addStaff?: Maybe<Staff>;
   collectBankedDrinks?: Maybe<DrinksBank>;
+  createUserAccount?: Maybe<User>;
   newBarSale?: Maybe<BarSale>;
   updateMember?: Maybe<Member>;
   updateStaff?: Maybe<Staff>;
@@ -193,6 +194,11 @@ export type MutationAddStaffArgs = {
 
 export type MutationCollectBankedDrinksArgs = {
   request: CollectBankedDrinksInput;
+};
+
+
+export type MutationCreateUserAccountArgs = {
+  request: AddCreateUserInput;
 };
 
 
@@ -374,7 +380,7 @@ export type User = {
   __typename?: 'User';
   _id?: Maybe<Scalars['ID']['output']>;
   bio?: Maybe<Bio>;
-  bioDataID?: Maybe<Scalars['String']['output']>;
+  bioDataId?: Maybe<Scalars['String']['output']>;
   password?: Maybe<Scalars['String']['output']>;
   role?: Maybe<RoleEnum>;
   username?: Maybe<Scalars['String']['output']>;
@@ -393,6 +399,13 @@ export type AddBarStockInput = {
   itemsSupplied?: InputMaybe<Array<ItemSuppliedInput>>;
   saleType: PaymentTypeEnum;
   supplierID: Scalars['ID']['input'];
+};
+
+export type AddCreateUserInput = {
+  bioDataId?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<RoleEnum>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type AddDuesPaymentInput = {

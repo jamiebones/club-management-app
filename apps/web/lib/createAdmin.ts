@@ -38,7 +38,7 @@ const createAdmin = async function() {
     console.log("hashing password", process.env.Admin_Password);
     const hashedPassword = await bcrypt.hash(process.env.Admin_Password!, 10);
     const newUser: UserType = {
-      bioDataID: newMeberDetails._id,
+      bioDataId: newMeberDetails._id,
       username: "jamiebones147@gmail.com",
       password: hashedPassword,
       role: "ADMIN" as RoleEnum

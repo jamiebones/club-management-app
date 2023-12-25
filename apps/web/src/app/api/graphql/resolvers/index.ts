@@ -28,6 +28,9 @@ import duesPayment from "./duesPayment";
 import duesPaymentMutation from "./duesPayment/mutation";
 import duesPaymentQuery from "./duesPayment/query"
 
+import users from "./users";
+import usersMutation from "./users/mutation"
+
 
 const resolvers = {
   Query: {
@@ -46,7 +49,8 @@ const resolvers = {
    ...barSaleMutation,
    ...drinksBankMutation,
    ...paymentMutation,
-   ...duesPaymentMutation
+   ...duesPaymentMutation,
+   ...usersMutation
     
   },
   ...members,
@@ -56,7 +60,8 @@ const resolvers = {
   ...barSale,
   ...drinksBank,
   ...payment,
-  ...duesPayment
+  ...duesPayment,
+  ...users
 
 };
 

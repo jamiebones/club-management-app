@@ -1,7 +1,7 @@
-//import inputs from "./inputs";
-//import mutation from "./mutation";
+import inputs from "./inputs";
+import mutation from "./mutation";
 import types from "./types";
 import enums from "./enums";
 
 
-export default [ types, enums ]
+export default [ types, enums, inputs, mutation ]
