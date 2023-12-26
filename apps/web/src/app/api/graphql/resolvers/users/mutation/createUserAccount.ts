@@ -4,7 +4,7 @@ import { User as UserType, AddCreateUserInput} from "../../../../generated/graph
 import { getServerSession } from "next-auth/next";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { GraphQLError } from 'graphql';
-import { redirect } from 'next/navigation'
+import dbConnect from "../../../../../../../lib/dbConnect";
 import bcrypt from "bcrypt";
 
 const createUserAccount = async (
@@ -15,6 +15,7 @@ const createUserAccount = async (
 ) => {
   try {
       const { username, password, role, bioDataId } = args.request;
+      await dbConnect();
       const session = await getServerSession(options) as any
       if (!session) {
         //redirect the user the login route;
@@ -27,6 +28,11 @@ const createUserAccount = async (
 
       if (!isAdmin){
         throw new GraphQLError("Only admin can create account");
+      }
+      //check if the fellow has an account alraedy
+      const accountExists = await User.findOne({bioDataId: bioDataId});
+      if (accountExists){
+        throw new GraphQLError("You already have an account");
       }
       const hashedPassword = await bcrypt.hash(password!, 10);
       const newUser: UserType = {

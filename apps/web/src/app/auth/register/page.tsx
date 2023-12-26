@@ -2,7 +2,9 @@
 import { useState } from "react";
 import { request } from "graphql-request";
 import { FindMember, FindStaff } from "@/app/graphqlRequest/queries";
-import { FaSearch, FaSpinner } from "react-icons/fa";
+import { CreateUserAccount } from "@/app/graphqlRequest/mutation";
+import { FaSearch, FaSpinner, FaTools } from "react-icons/fa";
+import ErrorDiv from "@/app/components/ErrorDiv";
 
 interface FetchOptions {
   query: string;
@@ -29,14 +31,25 @@ const RegisterForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [bio, setBio] = useState<Bio>({ surname: "", firstname: "", _id: "" });
   const [message, setMessage] = useState("");
+  const [isSelected, setIsSelected] = useState(false);
+  const [bioID, setBioID] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
+  const [processing, setProcessing ] = useState(false)
+  const [error, setError ] = useState("")
   const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 
-  const onSearchTermChange: React.ChangeEventHandler<HTMLInputElement> = e => {
+  const onTextChange: React.ChangeEventHandler<HTMLInputElement> = e => {
     const { name, value } = e.target;
     if (name == "firstname") {
       setFirstname(value);
     } else if (name == "surname") {
       setSurname(value);
+    } else if (name == "password") {
+      setPassword(value);
+    } else if (name == "username") {
+      setUsername(value);
     }
   };
 
@@ -95,17 +108,72 @@ const RegisterForm = () => {
       } finally {
         setLoading(false);
         setFirstname("");
-        setSurname("")
+        setSurname("");
       }
     }
   };
 
-  const changeData = (e: any) => {
-    setUserType(e.target.value);
+  const selectionChange = (e: any) => {
+    const { value, name } = e.target;
+    if (name == "userType") {
+      setUserType(e.target.value);
+    } else if (name == "role") {
+      setRole(value);
+    }
   };
+
+  const createUserAccount = async () => {
+     //check if everthing is selected
+     if (bioID == ""){
+        alert("Click on the Member/Staff name to select it");
+        return;
+     }
+     if ( role == ""){
+        alert("Select the account role");
+        return;
+     }
+     if ( username == ""){
+        alert("The username is required");
+        return;
+     }
+     if ( password == ""){
+        alert("Input your password");
+        return;
+     }
+     try {
+        const input = {
+            request: {
+                username,
+                password,
+                bioDataId: bioID,
+                role
+            }
+        }
+        const response = await request({
+            url: graphqlURL,
+            document: CreateUserAccount,
+            variables: input,
+          });
+      console.log("response=>", response);
+      alert("Account created successfully");
+     } catch (error: any) {
+        console.log("There was an error creating the account : ", error);
+        setError(`There was an error creating the account : ${error?.message as string}`)
+     }finally{
+        setProcessing(false);
+        setPassword("");
+        setUserType("")
+        setBio({ surname: "", firstname: "", _id: "" });
+        setRole("");
+        setBioID("");
+     }
+  }
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-md shadow-md">
+      
       <h2 className="text-2xl font-bold mb-6">Create User Account</h2>
+
+      <ErrorDiv errorMessage={error}/>
 
       {/* Role dropdown box */}
       <div className="mb-4">
@@ -116,7 +184,8 @@ const RegisterForm = () => {
           id="role"
           className="w-full p-2 border border-gray-300 rounded-md"
           defaultValue=""
-          onChange={changeData}>
+          name="userType"
+          onChange={selectionChange}>
           <option value="" disabled>
             Select User Type
           </option>
@@ -136,7 +205,7 @@ const RegisterForm = () => {
           className="w-full p-2 border border-gray-300 rounded-md"
           placeholder="enter firstname"
           name="firstname"
-          onChange={onSearchTermChange}
+          onChange={onTextChange}
         />
 
         <input
@@ -145,7 +214,7 @@ const RegisterForm = () => {
           className="mt-2 w-full p-2 border border-gray-300 rounded-md"
           placeholder="Enter surname"
           name="surname"
-          onChange={onSearchTermChange}
+          onChange={onTextChange}
         />
         <div className="text-center">
           <button
@@ -170,7 +239,15 @@ const RegisterForm = () => {
 
       {bio && (
         <div className="mb-4">
-          <p>
+          <p
+            className={`border p-2 ${
+              isSelected ? "border-green-500 focus:outline-none" : "border-gray-300"
+            } cursor-pointer`}
+            onClick={() => {
+              setIsSelected(!isSelected);
+              setBioID(bio._id);
+            }}
+            tabIndex={0}>
             {bio.firstname} {bio.surname}
           </p>
         </div>
@@ -181,7 +258,12 @@ const RegisterForm = () => {
         <label htmlFor="role" className="block text-gray-700 text-sm font-bold mb-2">
           Role
         </label>
-        <select id="role" className="w-full p-2 border border-gray-300 rounded-md" defaultValue="">
+        <select
+          id="role"
+          className="w-full p-2 border border-gray-300 rounded-md"
+          defaultValue=""
+          name="role"
+          onChange={selectionChange}>
           <option value="" disabled>
             Select Role
           </option>
@@ -200,7 +282,9 @@ const RegisterForm = () => {
           Username
         </label>
         <input
-          type="text"
+          type="email"
+          name="username"
+          onChange={onTextChange}
           id="username"
           className="w-full p-2 border border-gray-300 rounded-md"
           placeholder="Enter username"
@@ -214,7 +298,9 @@ const RegisterForm = () => {
         </label>
         <input
           type="password"
+          onChange={onTextChange}
           id="password"
+          name="password"
           className="w-full p-2 border border-gray-300 rounded-md"
           placeholder="Enter password"
         />
@@ -222,9 +308,18 @@ const RegisterForm = () => {
 
       {/* Create Account button */}
       <button
+        onClick={createUserAccount}
         type="button"
         className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue">
-        Create Account
+             {processing ? (
+              <>
+                <FaSpinner className="animate-spin mr-2" /> Loading
+              </>
+            ) : (
+              <>
+                <FaTools className="mr-2" /> Create Account
+              </>
+            )}
       </button>
     </div>
   );
