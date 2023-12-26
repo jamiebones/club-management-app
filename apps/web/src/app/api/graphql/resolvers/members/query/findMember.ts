@@ -1,6 +1,7 @@
 import { Members } from "../../../../models/MemberModel";
 import { FindMemberInput, Member, MemberResult } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
+import dbConnect from "../../../../../../../lib/dbConnect";
 
 
 const findMember = async (
@@ -11,7 +12,8 @@ const findMember = async (
 ):Promise<MemberResult> => {
   try {
     const { _id, memberID, firstname, surname } = args.request;
-    console.log("Mutation > findMember > args.fields = ", args.request);
+    console.log("Query > findMember > args.fields = ", args.request);
+    await dbConnect();
     if (!memberID && !_id && !firstname && !surname) {
       throw new GraphQLError("You need to supply either an _id, firstname, surname or memberID");
    }

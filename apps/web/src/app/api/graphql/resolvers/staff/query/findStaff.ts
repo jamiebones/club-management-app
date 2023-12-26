@@ -1,7 +1,7 @@
 import { Staff as StaffModel } from "../../../../models/StaffModel";
 import { FindStaffInput, StaffResult } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
-
+import dbConnect from "../../../../../../../lib/dbConnect";
 
 const findStaff = async (
   parent: any,
@@ -10,8 +10,9 @@ const findStaff = async (
   info: any,
 ):Promise<StaffResult> => {
   try {
+    await dbConnect();
     const { _id, employeeID, firstname, surname } = args.request;
-    console.log("Mutation > findMember > args.fields = ", args.request);
+    console.log("Query > findStaff > args.fields = ", args.request);
     if (!employeeID && !_id && !firstname && !surname) {
       throw new GraphQLError("You need to supply either an _id, firstname, surname or employeeID");
    }
