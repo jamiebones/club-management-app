@@ -1,6 +1,6 @@
-"use client"
-import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
+"use client";
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
 import {
   FaUser,
   FaEnvelope,
@@ -8,38 +8,41 @@ import {
   FaBuilding,
   FaVenusMars,
   FaCalendarAlt,
-} from 'react-icons/fa';
-import 'react-datepicker/dist/react-datepicker.css';
+} from "react-icons/fa";
+import "react-datepicker/dist/react-datepicker.css";
+import { CreateNewMemberAccount } from "@/app/graphqlRequest/mutation";
+import ErrorDiv from "@/app/components/ErrorDiv";
+import { FaSpinner, FaTools } from "react-icons/fa";
+import { request } from "graphql-request";
+
+const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 
 const MemberForm: React.FC = () => {
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState({
-    memberID: '',
-    title: '',
-    firstname: '',
-    surname: '',
-    jobTitle: '',
-    nextOfKin: '',
-    contact: [''],
-    email: '',
-    membershipType: 'FULL',
-    employer: '',
-    sex: 'MALE',
+    memberID: "",
+    title: "",
+    firstname: "",
+    surname: "",
+    jobTitle: "",
+    nextOfKin: "",
+    contact: [""],
+    email: "",
+    membershipType: "FULL",
+    employer: "",
+    sex: "MALE",
     birthDay: new Date(),
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleContactChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
+  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newContact = [...formData.contact];
     newContact[index] = e.target.value;
     setFormData({
@@ -62,8 +65,77 @@ const MemberForm: React.FC = () => {
     });
   };
 
+  const saveNewMember = async () => {
+    const {
+      memberID,
+      title,
+      firstname,
+      surname,
+      jobTitle,
+      nextOfKin,
+      contact,
+      email,
+      membershipType,
+      employer,
+      sex,
+      birthDay,
+    } = formData;
+    //check the required fields;
+    const fielsToConfirm = `
+       Member ID : ${memberID} 
+       Title : ${title} 
+       First name : ${firstname} 
+       Surname : ${surname} 
+       Job Title : ${jobTitle} 
+       Next of Kin : ${nextOfKin} 
+       Contact : ${contact} 
+       Email : ${email} 
+       Membership Type: ${membershipType} 
+       Employer : ${employer} 
+       Sex : ${sex}
+       BirthDay : ${birthDay}
+     `;
+
+    console.log("contact : ", contact);
+    const confirmMe = confirm(fielsToConfirm);
+    if (!confirmMe) return;
+    if (!memberID || !firstname || !surname || !membershipType) {
+      alert("The memberID, membership type, firstname and surname are all required fields");
+    }
+    const variables = { request: { ...formData } };
+    try {
+      setLoading(true);
+      const response = await request({
+        url: graphqlURL,
+        document: CreateNewMemberAccount,
+        variables: variables,
+      });
+      console.log("response => ", response);
+      alert("New user account created successfully");
+      setFormData({
+        memberID: "",
+        title: "",
+        firstname: "",
+        surname: "",
+        jobTitle: "",
+        nextOfKin: "",
+        contact: [""],
+        email: "",
+        membershipType: "FULL",
+        employer: "",
+        sex: "MALE",
+        birthDay: new Date(),
+      });
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto mt-16 p-6 bg-white rounded shadow-md">
+      <ErrorDiv errorMessage={error} />
       <h1 className="text-2xl font-bold mb-4">Member Form</h1>
       <form className="grid grid-cols-2 gap-4">
         {/* First Column */}
@@ -86,19 +158,26 @@ const MemberForm: React.FC = () => {
             <FaUser className="mr-2" />
             Title
           </label>
-          <input
-            type="text"
+
+          <select
             name="title"
             value={formData.title}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded"
-          />
+            className="w-full px-3 py-2 border rounded">
+            <option value="MR">MR</option>
+            <option value="MISS">MISS</option>
+            <option value="MRS">MRS</option>
+            <option value="DR">DR</option>
+            <option value="PROF">PROF</option>
+            <option value="ENGR">ENGR</option>
+            <option value="ARCHITECT">ARCHITECT</option>
+          </select>
         </div>
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             <FaUser className="mr-2" />
-            Firstname
+            First name
           </label>
           <input
             type="text"
@@ -176,15 +255,14 @@ const MemberForm: React.FC = () => {
               key={index}
               type="text"
               value={contact}
-              onChange={(e) => handleContactChange(e, index)}
+              onChange={e => handleContactChange(e, index)}
               className="w-full px-3 py-2 border rounded mb-2"
             />
           ))}
           <button
             type="button"
             onClick={handleAddContact}
-            className="bg-blue-500 text-white px-3 py-2 rounded"
-          >
+            className="bg-blue-500 text-white px-3 py-2 rounded">
             Add Contact
           </button>
         </div>
@@ -212,8 +290,7 @@ const MemberForm: React.FC = () => {
             name="sex"
             value={formData.sex}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded"
-          >
+            className="w-full px-3 py-2 border rounded">
             <option value="MALE">MALE</option>
             <option value="FEMALE">FEMALE</option>
           </select>
@@ -242,8 +319,7 @@ const MemberForm: React.FC = () => {
             name="membershipType"
             value={formData.membershipType}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded"
-          >
+            className="w-full px-3 py-2 border rounded">
             <option value="FULL">FULL</option>
             <option value="ASSOCIATE">ASSOCIATE</option>
           </select>
@@ -255,10 +331,20 @@ const MemberForm: React.FC = () => {
       {/* Submit Button */}
       <div className="col-span-2 text-center mt-6">
         <button
+          onClick={saveNewMember}
           type="submit"
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-        >
-          Save Member
+          className="bg-green-500 text-white px-4 py-2 rounded flex items-center space-x-2 hover:bg-green-600">
+          {loading ? (
+            <>
+              <FaSpinner className="animate-spin" />
+              <label>Loading</label>
+            </>
+          ) : (
+            <>
+              <FaTools className="mr-2" />
+              <label>Save Member</label>
+            </>
+          )}
         </button>
       </div>
     </div>

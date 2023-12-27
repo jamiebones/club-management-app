@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { request } from "graphql-request";
-import { FindMember, FindStaff } from "@/app/graphqlRequest/queries";
+import { FindMember, FindStaff } from "@/app/graphqlRequest/queries";;
 import { CreateUserAccount } from "@/app/graphqlRequest/mutation";
 import { FaSearch, FaSpinner, FaTools } from "react-icons/fa";
 import ErrorDiv from "@/app/components/ErrorDiv";
@@ -156,16 +156,16 @@ const RegisterForm = () => {
           });
       console.log("response=>", response);
       alert("Account created successfully");
+      setPassword("");
+      setUserType("")
+      setBio({ surname: "", firstname: "", _id: "" });
+      setRole("");
+      setBioID("");
      } catch (error: any) {
         console.log("There was an error creating the account : ", error);
         setError(`There was an error creating the account : ${error?.message as string}`)
      }finally{
         setProcessing(false);
-        setPassword("");
-        setUserType("")
-        setBio({ surname: "", firstname: "", _id: "" });
-        setRole("");
-        setBioID("");
      }
   }
   return (

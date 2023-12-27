@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { User } from '../../models/UserModel';
 import { Members } from '../../models/MemberModel';
+import dbConnect from '../../../../../lib/dbConnect';
 
 export const options: NextAuthOptions = {
     session: {
@@ -22,6 +23,7 @@ export const options: NextAuthOptions = {
     async authorize(credentials, req) {
       // Add your own logic here to find the user in database 
       // And validate the credentials  
+      await dbConnect();
       let user = await User.findOne({username: credentials?.email });
       if (!user){
         throw new Error( JSON.stringify("The user does not exist"))
@@ -34,7 +36,13 @@ export const options: NextAuthOptions = {
       if (user) {
         //saving the biodataID in the name variable to be used in the session callback
         const member = await Members.findOne({_id: user.bioDataId});
-        return Promise.resolve({...user, name: member?.firstname, email: user.username, image: `${user?.bioDataId}:${user?._id}`});
+        let userObject: any = {}
+        userObject.role = user.role;
+        userObject.email = user.username;
+        userObject.name = member?.firstname;
+        userObject.id = user._id;
+        userObject.bioDataId = user.bioDataId
+        return Promise.resolve(userObject);
       } else {
         return Promise.resolve(null);
       }
@@ -42,30 +50,25 @@ export const options: NextAuthOptions = {
   })
 ],
 callbacks: {
-    session: async ({ session, token }) => {
-      console.log("Session Callback token 2=>", token);
-      const data = session.user?.image?.split(":");
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          image: null
-        },
-        bioDataId: data && data[0]!,
-        id: data && data[1]
-      };
-    },
-    // jwt: ({ token, user }) => {
-    //   console.log("JWT Callback 1", { token, user });
-    //   if (user) {
-    //     const u = user as unknown as any;
-    //     return {
-    //       ...token,
-    //       id: u._id,
-    //     };
-    //   }
-    //   return token;
-    // },
+  async jwt({ token, user }) {
+    /* Step 1: update the token based on the user object */
+    if (user) {
+      token.role = user.role;
+      token.bioDataId = user.bioDataId;
+      token.id = user.id;
+    }
+    return token;
+  },
+  session({ session, token }) {
+    /* Step 2: update the session.user based on the token object */
+    if (token && session.user) {
+      session.user.role = token.role;
+      session.user.bioDataId = token.bioDataId;
+      session.user.id = token.id
+    }
+    console.log("session =>", session)
+    return session;
+  },
   },
 };
 

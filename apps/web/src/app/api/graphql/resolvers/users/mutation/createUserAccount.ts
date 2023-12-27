@@ -22,7 +22,7 @@ const createUserAccount = async (
         throw new GraphQLError("You be logged-in to be able to perform this action")
       }
       console.log("Mutation > createUserAccount >> args.fields = ", args.request);
-      const { id } = session;
+      const { user: { id } } = session;
       //check if the loggin user is an ADMIN;
       const isAdmin = await User.findOne({_id: id, role: "ADMIN"});
 

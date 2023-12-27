@@ -12,6 +12,16 @@ const CreateUserAccount = gql`
   }
 `;
 
+const CreateNewMemberAccount = gql`
+  mutation addMember($request: addMemberInput!) {
+    addMember(request: $request) {
+      _id
+      memberID
+    }
+  }
+`;
+
 export {
-    CreateUserAccount
+    CreateUserAccount,
+    CreateNewMemberAccount
 }
