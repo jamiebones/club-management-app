@@ -42,7 +42,7 @@ input addMemberInput {
      title: String
      firstname: String!
      surname: String!
-	 email: String
+	   email: String
      jobTitle: String
      nextOfKin: String
      contact: [String]
@@ -52,10 +52,31 @@ input addMemberInput {
      birthDay: String
   }
 `
+const AddStaffInput = gql`
+  input addStaffInput {
+    employeeID: ID!
+    firstname: String!
+    surname: String!
+    jobTitle: String
+    dateOfEmployment: Date
+    nextOfKin: NextOfKinInput
+    contact: [String]
+    employmentType: employmentTypeEnum
+    sex: sexEnum
+    employmentStatus: employmentStatusEnum
+    }
+`
 
+const NextOfKinInput = gql`
+  input NextOfKinInput {
+      name: String
+      contact: [ String ]
+    }
+`
 
-
+ 
 export {
     AddCreateUserInput,
-    AddMemberInput
+    AddMemberInput,
+    AddStaffInput
 }

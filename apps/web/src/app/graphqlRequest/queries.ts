@@ -32,11 +32,43 @@ const FindStaff = gql`
         }
    }
 }
+`
 
-
+const GetMembers = gql`
+    query FindMembers($request: findMembersInput) {
+    findMembers(request: $request) {
+       members{
+        _id
+       firstname
+       surname
+    memberID,
+    title,
+    firstname,
+    surname,
+    jobTitle,
+    nextOfKin,
+    contact,
+    email,
+    membershipType,
+    employer,
+    sex,
+    birthDay,
+       }
+   }
+}
 `
 
 export {
     FindMember,
-    FindStaff
+    FindStaff,
+    GetMembers
 }
+
+
+// indMembers(
+//   request: findMembersInput
+//   orderBy: MemberOrderBy
+//   after: String
+//   before: String
+//   limit: Int
+// ): FindMembersCursorOutput

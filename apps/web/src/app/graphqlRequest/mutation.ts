@@ -21,7 +21,17 @@ const CreateNewMemberAccount = gql`
   }
 `;
 
+const CreateNewStaff = gql`
+  mutation addStaff($request: addStaffInput!) {
+    addStaff(request: $request) {
+      _id
+      employeeID
+    }
+  }
+`;
+
 export {
     CreateUserAccount,
-    CreateNewMemberAccount
+    CreateNewMemberAccount,
+    CreateNewStaff
 }

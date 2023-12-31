@@ -95,12 +95,11 @@ const MemberForm: React.FC = () => {
        Sex : ${sex}
        BirthDay : ${birthDay}
      `;
-
-    console.log("contact : ", contact);
     const confirmMe = confirm(fielsToConfirm);
     if (!confirmMe) return;
     if (!memberID || !firstname || !surname || !membershipType) {
       alert("The memberID, membership type, firstname and surname are all required fields");
+      return
     }
     const variables = { request: { ...formData } };
     try {

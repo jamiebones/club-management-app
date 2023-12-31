@@ -1,6 +1,7 @@
 import { Staff } from "../../../../models/StaffModel";
 import { Staff as StaffData, AddStaffInput } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
+import dbConnect from "../../../../../../../lib/dbConnect";
 
 const addStaff = async (
   parent: any,
@@ -9,6 +10,7 @@ const addStaff = async (
   info: any,
 )=> {
   try {
+    await dbConnect();
     const { contact, firstname, surname, employeeID,
     nextOfKin, jobTitle, employmentStatus, employmentType, dateOfEmployment, sex,  } = args.request;
     console.log("Mutation > addStaff > args.fields = ", args.request);

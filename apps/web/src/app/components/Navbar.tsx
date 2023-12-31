@@ -30,6 +30,14 @@ function Navbar() {
               <Link href="/dashboard/member" className="hover:text-cyan-500">
                 Add Member
               </Link>
+
+              <Link href="/dashboard/register" className="hover:text-cyan-500">
+                Create User Account
+              </Link>
+
+              <Link href="/dashboard/staff/register" className="hover:text-cyan-500">
+                 Add Staff
+              </Link>
             </>
           )}
 

@@ -1,18 +1,11 @@
 "use client";
 import { useState } from "react";
 import { request } from "graphql-request";
-import { FindMember, FindStaff } from "@/app/graphqlRequest/queries";;
+import { FindMember, FindStaff } from "@/app/graphqlRequest/queries";
 import { CreateUserAccount } from "@/app/graphqlRequest/mutation";
 import { FaSearch, FaSpinner, FaTools } from "react-icons/fa";
 import ErrorDiv from "@/app/components/ErrorDiv";
 
-interface FetchOptions {
-  query: string;
-  variables: any;
-  next: {
-    revalidate: number;
-  };
-}
 
 interface Bio {
   surname: string;
@@ -36,8 +29,8 @@ const RegisterForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
-  const [processing, setProcessing ] = useState(false)
-  const [error, setError ] = useState("")
+  const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState("");
   const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 
   const onTextChange: React.ChangeEventHandler<HTMLInputElement> = e => {
@@ -123,57 +116,56 @@ const RegisterForm = () => {
   };
 
   const createUserAccount = async () => {
-     //check if everthing is selected
-     if (bioID == ""){
-        alert("Click on the Member/Staff name to select it");
-        return;
-     }
-     if ( role == ""){
-        alert("Select the account role");
-        return;
-     }
-     if ( username == ""){
-        alert("The username is required");
-        return;
-     }
-     if ( password == ""){
-        alert("Input your password");
-        return;
-     }
-     try {
-        const input = {
-            request: {
-                username,
-                password,
-                bioDataId: bioID,
-                role
-            }
-        }
-        const response = await request({
-            url: graphqlURL,
-            document: CreateUserAccount,
-            variables: input,
-          });
+    //check if everthing is selected
+    if (bioID == "") {
+      alert("Click on the Member/Staff name to select it");
+      return;
+    }
+    if (role == "") {
+      alert("Select the account role");
+      return;
+    }
+    if (username == "") {
+      alert("The username is required");
+      return;
+    }
+    if (password == "") {
+      alert("Input your password");
+      return;
+    }
+    try {
+      const input = {
+        request: {
+          username,
+          password,
+          bioDataId: bioID,
+          role,
+        },
+      };
+      const response = await request({
+        url: graphqlURL,
+        document: CreateUserAccount,
+        variables: input,
+      });
       console.log("response=>", response);
       alert("Account created successfully");
       setPassword("");
-      setUserType("")
+      setUserType("");
       setBio({ surname: "", firstname: "", _id: "" });
       setRole("");
       setBioID("");
-     } catch (error: any) {
-        console.log("There was an error creating the account : ", error);
-        setError(`There was an error creating the account : ${error?.message as string}`)
-     }finally{
-        setProcessing(false);
-     }
-  }
+    } catch (error: any) {
+      console.log("There was an error creating the account : ", error);
+      setError(`There was an error creating the account : ${error?.message as string}`);
+    } finally {
+      setProcessing(false);
+    }
+  };
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-md shadow-md">
-      
       <h2 className="text-2xl font-bold mb-6">Create User Account</h2>
 
-      <ErrorDiv errorMessage={error}/>
+      <ErrorDiv errorMessage={error} />
 
       {/* Role dropdown box */}
       <div className="mb-4">
@@ -234,6 +226,7 @@ const RegisterForm = () => {
           </button>
         </div>
       </div>
+      <hr className="border-t-2 border-gray-500 w-full my-6" />
 
       <div className="mb-4">{message && <p>{message}</p>}</div>
 
@@ -252,6 +245,8 @@ const RegisterForm = () => {
           </p>
         </div>
       )}
+
+      <hr className="border-t-2 border-gray-500 w-full my-6" />
 
       {/* Role dropdown box */}
       <div className="mb-4">
@@ -311,15 +306,15 @@ const RegisterForm = () => {
         onClick={createUserAccount}
         type="button"
         className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue">
-             {processing ? (
-              <>
-                <FaSpinner className="animate-spin mr-2" /> Loading
-              </>
-            ) : (
-              <>
-                <FaTools className="mr-2" /> Create Account
-              </>
-            )}
+        {processing ? (
+          <div className="flex justify-center items-center">
+            <FaSpinner className="animate-spin mr-2" /> Loading
+          </div>
+        ) : (
+          <div className="flex justify-center items-center">
+            <FaTools className="mr-2" /> Create Account
+          </div>
+        )}
       </button>
     </div>
   );

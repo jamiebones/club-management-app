@@ -45,7 +45,6 @@ export default gql.gql`
 
   input findMembersInput{
      _id: [String]
-     memberID: [String]
      jobTitle: [String]
      memberType: String
   }
