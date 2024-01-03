@@ -1,6 +1,7 @@
 import { Members } from "../../../../models/MemberModel";
 import { AddMemberInput, Member } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
+import dbConnect from "../../../../../../../lib/dbConnect";
 
 const addMember = async (
   parent: any,
@@ -9,6 +10,7 @@ const addMember = async (
   info: any,
 )=> {
   try {
+    await dbConnect();
     const { contact, email, firstname, title, birthDay, surname,
     memberID, membershipType, sex, employer, nextOfKin, jobTitle  } = args.request;
     console.log("Mutation > addMember > args.fields = ", args.request);

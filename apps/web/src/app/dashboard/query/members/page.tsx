@@ -70,9 +70,9 @@ const GetMembersDetails = () => {
     }
   };
 
-//   useEffect(() => {
-//     getInitialData();
-//   }, []);
+  useEffect(() => {
+    getInitialData();
+  }, []);
 
   const handleSearch = async (
     input: MemberSearchInput,

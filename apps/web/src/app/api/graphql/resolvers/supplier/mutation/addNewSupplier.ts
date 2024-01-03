@@ -1,6 +1,7 @@
 import { Supplier } from "../../../../models/SupplierModel";
 import { Supplier as SupplierType, AddSupplierInput } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
+import dbConnect from "../../../../../../../lib/dbConnect";
 
 const addNewSupplier = async (
   parent: any,
@@ -9,6 +10,7 @@ const addNewSupplier = async (
   info: any,
 ) => {
   try {
+      await dbConnect();
       const { address, contact, name } = args.request;
       console.log("Mutation > addNewSupplier >> args.fields = ", args.request);
       const fields:SupplierType = {};

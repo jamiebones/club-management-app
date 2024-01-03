@@ -24,6 +24,7 @@
     "react-datepicker": "^4.25.0",
     "react-dom": "^18",
     "react-icons": "^4.12.0",
+    "react-tabs": "^6.0.2",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {

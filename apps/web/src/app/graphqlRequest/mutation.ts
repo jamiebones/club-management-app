@@ -30,8 +30,19 @@ const CreateNewStaff = gql`
   }
 `;
 
+const AddNewSupplier = gql`
+  mutation addNewSupplier($request: addSupplierInput) {
+    addNewSupplier(request: $request) {
+      supplierID
+      _id
+    }
+  }
+`;
+
+
 export {
     CreateUserAccount,
     CreateNewMemberAccount,
-    CreateNewStaff
+    CreateNewStaff,
+    AddNewSupplier
 }
