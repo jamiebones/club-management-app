@@ -12,7 +12,8 @@ import barStockMutation from "./barStock/mutation";
 import barStockQuery from "./barStock/query"
 
 import supplier from "./supplier";
-import supplierMutation from "./supplier/mutation"
+import supplierMutation from "./supplier/mutation";
+import supplierQuery from "./supplier/query";
 
 import barSale from "./barSale";
 import barSaleMutation from "./barSale/mutation";
@@ -38,7 +39,8 @@ const resolvers = {
     ...staffQuery,
     ...barStockQuery,
     ...barSaleQuery,
-    ...duesPaymentQuery
+    ...duesPaymentQuery,
+    ...supplierQuery
 
   },
   Mutation: {

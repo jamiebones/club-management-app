@@ -1,8 +1,10 @@
+"use client";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { AddNewSupplier } from "@/app/graphqlRequest/mutation";
 import { FaSpinner, FaTools } from "react-icons/fa";
 import { request } from "graphql-request";
 import LoadingSpinner from "@/app/components/Loading";
+
 
 const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 
@@ -101,7 +103,7 @@ const SupplierForm = () => {
       setLoading(false);
     }
   };
-
+ 
   return (
     <div className="max-w-md mx-auto mt-4">
       {loading ? (

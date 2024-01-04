@@ -306,6 +306,7 @@ export type Query = {
   findMembers?: Maybe<FindMembersCursorOutput>;
   findStaff?: Maybe<StaffResult>;
   getStockSuppliedBySupplier?: Maybe<Array<Maybe<BarStock>>>;
+  getSuppliers?: Maybe<Array<Maybe<Supplier>>>;
 };
 
 
@@ -504,7 +505,6 @@ export type FindMemberPatronageInput = {
 export type FindMembersInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   jobTitle?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  memberID?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   memberType?: InputMaybe<Scalars['String']['input']>;
 };
 

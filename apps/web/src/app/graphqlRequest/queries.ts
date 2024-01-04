@@ -58,17 +58,18 @@ const GetMembers = gql`
 }
 `
 
+const GetSuppliers = gql`
+  query getSuppliers {
+    getSuppliers{
+      _id
+      name
+    }
+  }
+`;
+
 export {
     FindMember,
     FindStaff,
-    GetMembers
+    GetMembers,
+    GetSuppliers
 }
-
-
-// indMembers(
-//   request: findMembersInput
-//   orderBy: MemberOrderBy
-//   after: String
-//   before: String
-//   limit: Int
-// ): FindMembersCursorOutput
