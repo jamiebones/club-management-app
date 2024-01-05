@@ -22,7 +22,7 @@ const findMembers = async (
   context: any,
   info: any,
 ):Promise<FindMembersCursorOutput> => {
-    const { request: { memberID, jobTitle, memberType }, after, before, limit, orderBy } = args;
+    const { request: { jobTitle, memberType }, after, before, limit, orderBy } = args;
     console.log("Mutation > findMembers > args.fields = ", args.request);
     await dbConnect();
     let options: SearchOptions = {
@@ -66,9 +66,7 @@ const findMembers = async (
   }
    let queryMemberID: any = [];
    let searchQuery = {};
-     memberID?.forEach(ID => {
-    queryMemberID.push(ID);
-  });
+  
 
     if (jobTitle && memberType ) {
         if (queryMemberID.length > 0) {

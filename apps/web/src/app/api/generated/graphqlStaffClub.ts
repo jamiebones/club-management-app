@@ -98,6 +98,15 @@ export type InvalidInputError = BaseError & {
   message: Scalars['String']['output'];
 };
 
+export type Item = {
+  __typename?: 'Item';
+  _id?: Maybe<Scalars['ID']['output']>;
+  name: Scalars['String']['output'];
+  numberInCrate: Scalars['Int']['output'];
+  sellingPrice: Scalars['String']['output'];
+  totalStock: Scalars['Int']['output'];
+};
+
 export type ItemSupplied = {
   __typename?: 'ItemSupplied';
   brand?: Maybe<Scalars['String']['output']>;
@@ -144,6 +153,7 @@ export type Mutation = {
   addBankedDrinks?: Maybe<DrinksBank>;
   addBarStock?: Maybe<BarStock>;
   addDuesPayment?: Maybe<DuesPayment>;
+  addItemToDB?: Maybe<Item>;
   addMember?: Maybe<Member>;
   addNewSupplier?: Maybe<Supplier>;
   addPayment?: Maybe<Payment>;
@@ -169,6 +179,11 @@ export type MutationAddBarStockArgs = {
 
 export type MutationAddDuesPaymentArgs = {
   request: AddDuesPaymentInput;
+};
+
+
+export type MutationAddItemToDbArgs = {
+  request: AddItemInput;
 };
 
 
@@ -415,6 +430,13 @@ export type AddDuesPaymentInput = {
   memberID?: InputMaybe<Scalars['ID']['input']>;
   paymentFor?: InputMaybe<Array<InputMaybe<PaymentForInput>>>;
   paymentType?: InputMaybe<PaymentTypeEnum>;
+};
+
+export type AddItemInput = {
+  name: Scalars['String']['input'];
+  numberInCrate: Scalars['Int']['input'];
+  sellingPrice: Scalars['String']['input'];
+  totalStock: Scalars['Int']['input'];
 };
 
 export type AddMemberInput = {

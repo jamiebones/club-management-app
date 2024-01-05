@@ -9,6 +9,7 @@ import payment from "./payment";
 import duesPayment from "./duesPayment";
 import supplier from "./supplier";
 import error from "./error";
+import item from "./item";
 
 const typeDefs = [
   ...member,
@@ -21,7 +22,8 @@ const typeDefs = [
   ...supplier,
   ...payment,
   ...duesPayment,
-  ...error
+  ...error,
+  ...item
 ];
 
 export default typeDefs;
