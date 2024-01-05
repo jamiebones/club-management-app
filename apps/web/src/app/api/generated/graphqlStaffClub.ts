@@ -320,6 +320,8 @@ export type Query = {
   findMemberPatronage?: Maybe<Array<Maybe<BarSale>>>;
   findMembers?: Maybe<FindMembersCursorOutput>;
   findStaff?: Maybe<StaffResult>;
+  getItemByName?: Maybe<Item>;
+  getItems?: Maybe<Array<Item>>;
   getStockSuppliedBySupplier?: Maybe<Array<Maybe<BarStock>>>;
   getSuppliers?: Maybe<Array<Maybe<Supplier>>>;
 };
@@ -351,6 +353,11 @@ export type QueryFindMembersArgs = {
 
 export type QueryFindStaffArgs = {
   request?: InputMaybe<FindStaffInput>;
+};
+
+
+export type QueryGetItemByNameArgs = {
+  request?: InputMaybe<GetItemInput>;
 };
 
 
@@ -535,6 +542,10 @@ export type FindStaffInput = {
   employeeID?: InputMaybe<Scalars['String']['input']>;
   firstname?: InputMaybe<Scalars['String']['input']>;
   surname?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type GetItemInput = {
+  name: Scalars['String']['input'];
 };
 
 export enum MembershipTypeEnum {

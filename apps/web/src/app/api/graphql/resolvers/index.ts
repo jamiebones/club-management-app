@@ -33,7 +33,8 @@ import users from "./users";
 import usersMutation from "./users/mutation"
 
 import item from "./item";
-import itemMutation from "./item/mutation"
+import itemMutation from "./item/mutation";
+import itemQuery from "./item/query";
 
 
 const resolvers = {
@@ -43,7 +44,8 @@ const resolvers = {
     ...barStockQuery,
     ...barSaleQuery,
     ...duesPaymentQuery,
-    ...supplierQuery
+    ...supplierQuery,
+    ...itemQuery
 
   },
   Mutation: {

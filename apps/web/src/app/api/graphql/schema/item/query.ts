@@ -1,11 +1,11 @@
 
-// import  gql from "graphql-tag";
+import  gql from "graphql-tag";
 
-// export default gql.gql`
-//   type Query {
-//     # ------- ITEM ------
-//     # getStockSuppliedBySupplier(request: findBarStockInput!): [BarStock]
-   
-//   }
-// `;
+export default gql.gql`
+  type Query {
+    # ------- ITEM ------
+     getItems: [Item!]
+     getItemByName(request:getItemInput):Item
+  }
+`;
 

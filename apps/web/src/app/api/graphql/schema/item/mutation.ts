@@ -2,7 +2,7 @@ import  gql from "graphql-tag";
 
 export default gql.gql`
   type Mutation {
-    # ------- BarStock ------
+    # ------- Item ------
     addItemToDB(request: addItemInput!): Item
    
   }

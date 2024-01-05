@@ -8,5 +8,9 @@ export default gql.gql`
      totalStock: Int!
      numberInCrate: Int!
   }
+
+  input getItemInput {
+    name: String!
+  }
 `
   

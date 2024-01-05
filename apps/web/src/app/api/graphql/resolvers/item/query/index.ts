@@ -1,6 +1,8 @@
-// import getStockSuppliedBySupplier from "./getStockSuppliedBySupplier";
+import getItems from "./getItems";
+import getItemByName from "./getItemByName"
 
 
-// export default {
-//     getStockSuppliedBySupplier
-// }
+export default {
+    getItems,
+    getItemByName
+}

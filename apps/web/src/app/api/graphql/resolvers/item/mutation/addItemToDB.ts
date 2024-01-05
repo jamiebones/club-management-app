@@ -1,6 +1,7 @@
 import { Items } from "../../../../models/ItemModel";
 import { AddItemInput, Item} from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
+import dbConnect from "../../../../../../../lib/dbConnect";
 
 const addItemToDB = async (
   parent: any,
@@ -9,6 +10,7 @@ const addItemToDB = async (
   info: any,
 )=> {
   try {
+    await dbConnect();
    const { name, numberInCrate, sellingPrice, totalStock  } = args.request;
     console.log("Mutation > addItemToDB > args.fields = ", args.request);
     const fields: Item = {
