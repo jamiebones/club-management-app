@@ -1,5 +1,4 @@
 import { gql } from 'graphql-request';
-import "./mutationInput"
 
 
 
@@ -39,10 +38,30 @@ const AddNewSupplier = gql`
   }
 `;
 
+const AddNewItemToDB = gql`
+  mutation addItemToDB($request: addItemInput!) {
+    addItemToDB(request: $request) {
+      _id
+      name
+    }
+  }
+`;
+
+const UpdateItem = gql`
+  mutation updateItem($request: updateItemInput!) {
+    updateItem(request: $request) {
+      _id
+    }
+  }
+`;
+
+
 
 export {
     CreateUserAccount,
     CreateNewMemberAccount,
     CreateNewStaff,
-    AddNewSupplier
+    AddNewSupplier,
+    AddNewItemToDB,
+    UpdateItem
 }

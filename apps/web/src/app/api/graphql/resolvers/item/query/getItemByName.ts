@@ -13,7 +13,7 @@ const getItemByName = async (
   try {
     await dbConnect();
     const { name } = args.request;
-    console.log("Query > getItemsByName > args.fields = ", args.request);
+    console.log("Query > getItemByName > args.fields = ", args.request);
     const itemNamePattern = new RegExp(name, "i");
     const item = await Items.findOne({name : { $regex: itemNamePattern } }).lean();
     console.log("item ", item);

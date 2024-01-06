@@ -5,7 +5,7 @@ export default gql.gql`
   type Item {
      _id: ID
      name: String!
-     sellingPrice: String!
+     sellingPrice: Int!
      totalStock: Int!
      numberInCrate: Int!
  }

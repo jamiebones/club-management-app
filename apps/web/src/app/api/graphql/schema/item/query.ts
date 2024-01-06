@@ -5,7 +5,7 @@ export default gql.gql`
   type Query {
     # ------- ITEM ------
      getItems: [Item!]
-     getItemByName(request:getItemInput):Item
+     getItemByName(request:getItemInput!):Item
   }
 `;
 

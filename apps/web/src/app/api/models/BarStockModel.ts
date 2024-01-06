@@ -6,7 +6,7 @@ const barStockSchema = new mongoose.Schema({
   },
 
   amount: {
-    type: String,
+    type: Number,
   },
 
   saleType: {

@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import "./queriesInput"
+
 
 
 
@@ -67,9 +67,25 @@ const GetSuppliers = gql`
   }
 `;
 
+const GetItemByName = gql`
+  query getItemByName($request: getItemInput!){
+    getItemByName(request: $request){
+      _id
+      name
+      sellingPrice
+      numberInCrate
+      totalStock
+    }
+  }
+`;
+
+
+
+
 export {
     FindMember,
     FindStaff,
     GetMembers,
-    GetSuppliers
+    GetSuppliers,
+    GetItemByName
 }

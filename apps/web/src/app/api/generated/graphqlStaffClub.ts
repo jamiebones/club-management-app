@@ -32,7 +32,8 @@ export type BarSale = {
 export type BarStock = {
   __typename?: 'BarStock';
   Supplier?: Maybe<Supplier>;
-  amount: Scalars['String']['output'];
+  _id?: Maybe<Scalars['ID']['output']>;
+  amount?: Maybe<Scalars['Int']['output']>;
   date?: Maybe<Scalars['Date']['output']>;
   itemsSupplied?: Maybe<Array<ItemSupplied>>;
   saleType: PaymentTypeEnum;
@@ -103,7 +104,7 @@ export type Item = {
   _id?: Maybe<Scalars['ID']['output']>;
   name: Scalars['String']['output'];
   numberInCrate: Scalars['Int']['output'];
-  sellingPrice: Scalars['String']['output'];
+  sellingPrice: Scalars['Int']['output'];
   totalStock: Scalars['Int']['output'];
 };
 
@@ -161,6 +162,7 @@ export type Mutation = {
   collectBankedDrinks?: Maybe<DrinksBank>;
   createUserAccount?: Maybe<User>;
   newBarSale?: Maybe<BarSale>;
+  updateItem?: Maybe<Item>;
   updateMember?: Maybe<Member>;
   updateStaff?: Maybe<Staff>;
   updateSupplier?: Maybe<Supplier>;
@@ -219,6 +221,11 @@ export type MutationCreateUserAccountArgs = {
 
 export type MutationNewBarSaleArgs = {
   request: NewBarSaleInput;
+};
+
+
+export type MutationUpdateItemArgs = {
+  request: UpdateItemInput;
 };
 
 
@@ -357,7 +364,7 @@ export type QueryFindStaffArgs = {
 
 
 export type QueryGetItemByNameArgs = {
-  request?: InputMaybe<GetItemInput>;
+  request: GetItemInput;
 };
 
 
@@ -442,7 +449,7 @@ export type AddDuesPaymentInput = {
 export type AddItemInput = {
   name: Scalars['String']['input'];
   numberInCrate: Scalars['Int']['input'];
-  sellingPrice: Scalars['String']['input'];
+  sellingPrice: Scalars['Int']['input'];
   totalStock: Scalars['Int']['input'];
 };
 
@@ -595,6 +602,13 @@ export enum SexEnum {
   Female = 'FEMALE',
   Male = 'MALE'
 }
+
+export type UpdateItemInput = {
+  _id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  numberInCrate: Scalars['Int']['input'];
+  sellingPrice: Scalars['Int']['input'];
+};
 
 export type UpdateMemberInput = {
   _id: Scalars['ID']['input'];
