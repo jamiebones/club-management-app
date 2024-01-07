@@ -79,6 +79,16 @@ const GetItemByName = gql`
   }
 `;
 
+const GetItems = gql`
+  query getItems{
+    getItems{
+      _id
+      name
+      numberInCrate
+    }
+  }
+`;
+
 
 
 
@@ -87,5 +97,6 @@ export {
     FindStaff,
     GetMembers,
     GetSuppliers,
-    GetItemByName
+    GetItemByName,
+    GetItems
 }

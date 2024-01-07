@@ -5,8 +5,8 @@ export default gql.gql`
   input addPaymentInput {
     _id: ID
     receiverID: ID
-    amountPaid: String
-	paymentFor: String
+    amountPaid: Int
+	  paymentFor: String
     paymentCategory: paymentCategoryEnum
     date: Date
   }

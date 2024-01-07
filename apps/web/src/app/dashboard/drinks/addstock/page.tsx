@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { beerData } from "@/data";
-import { GetSuppliers } from "@/app/graphqlRequest/queries";
+import { GetSuppliers, GetItems } from "@/app/graphqlRequest/queries";
+import { AddBarStock } from "@/app/graphqlRequest/mutation";
 import LoadingSpinner from "@/app/components/Loading";
 import ErrorDiv from "@/app/components/ErrorDiv";
 import { request } from "graphql-request";
@@ -15,6 +15,7 @@ interface ItemsSupplied {
   brand: string;
   quantity: number;
   numberOfBottles: number;
+  _id?: string;
 }
 
 interface Supplier {
@@ -28,6 +29,12 @@ interface Items {
   saleType: string;
   itemsSupplied: any[];
   date: Date;
+}
+
+interface Beer {
+  _id?: string;
+  name?: string;
+  numberInCrate: number;
 }
 
 const AddStock = () => {
@@ -45,21 +52,31 @@ const AddStock = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [supplierName, setSupplierName] = useState("");
+  const [beer, setBeer] = useState<Beer[]>([]);
 
-  const loadSupplierFromDB = async () => {
+  const loadSupplierAndBeerDataFromDB = async () => {
     try {
       setProcessing(true);
-      const input = {
-        request: null,
-      };
-      const response: any = await request({
-        url: graphqlURL,
-        document: GetSuppliers,
-        variables: input,
-      });
+      const [supplier, beer] = (await Promise.all([
+        request({
+          url: graphqlURL,
+          document: GetSuppliers,
+          variables: { request: null },
+        }),
 
-      console.log("response ", response.getSuppliers);
-      setSuppliers(response?.getSuppliers);
+        await request({
+          url: graphqlURL,
+          document: GetItems,
+          variables: { request: null },
+        }),
+      ])) as [any, any];
+      if (supplier) {
+        setSuppliers(supplier?.getSuppliers);
+      }
+
+      if (beer) {
+        setBeer(beer?.getItems);
+      }
     } catch (error) {
       console.log("Error => ", error);
     } finally {
@@ -84,7 +101,8 @@ const AddStock = () => {
       //add the value to the array
       const items: ItemsSupplied = {
         brand: splitValue[1]!,
-        quantity: quantity!,
+        quantity: +quantity!,
+        _id: splitValue[2],
         numberOfBottles: quantity * +splitValue[0], //the bottles in a crate
       };
       let newArray = [...formData.itemsSupplied];
@@ -111,7 +129,7 @@ const AddStock = () => {
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     if (name == "quantity") {
-      setQuantity(value);
+      setQuantity(+value);
     }
     if (name == "amount") {
       setFormData({
@@ -157,10 +175,50 @@ const AddStock = () => {
       date: date,
     });
   };
+
+  const handleItemSubmission = async () => {
+    const dataToInsert = `
+        Supplier: ${supplierName}
+        Amount: ${formData.amount}
+        Sale Type: ${formData.saleType}
+        Items : ${formData.itemsSupplied.map(({ brand, quantity, numberOfBottles }) => {
+          return `${brand}: ${quantity} => ${numberOfBottles}`;
+        })}
+        Transaction Date: ${formData.date.toDateString()}
+    `;
+    const confirmData = confirm(dataToInsert);
+    if (!confirmData) return;
+    try {
+      setLoading(true);
+      const response: any = await request({
+        url: graphqlURL,
+        document: AddBarStock,
+        variables: { request: { ...formData, amount: +formData.amount } },
+      });
+      if (response?.addBarStock) {
+        alert("Item added");
+        setSelectedValue("");
+        setSupplierName("");
+        setFormData({
+          supplierID: "",
+          amount: 0,
+          saleType: "",
+          itemsSupplied: [],
+          date: new Date(),
+        });
+      }
+    } catch (error: any) {
+      console.log("Error => ", error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   //Effects:
 
   useEffect(() => {
-    loadSupplierFromDB();
+    loadSupplierAndBeerDataFromDB();
   }, []);
 
   return (
@@ -203,55 +261,23 @@ const AddStock = () => {
                 name="items"
                 onChange={handleSelectedItemChange}
                 className="w-full px-3 py-2 border rounded">
-                <>
-                  <option value="">select item</option>
-                  {beerData?.map(({ name, number }, index) => {
-                    return (
-                      <option key={index} value={`${number}:${name}`}>
-                        {name?.toUpperCase()}
-                      </option>
-                    );
-                  })}
-                </>
+                {processing ? (
+                  <option value="" disabled>
+                    Loading
+                  </option>
+                ) : (
+                  <>
+                    <option value="">select item</option>
+                    {beer?.map(({ name, _id, numberInCrate }) => {
+                      return (
+                        <option key={_id} value={`${numberInCrate}:${name}:${_id}`}>
+                          {name?.toUpperCase()}
+                        </option>
+                      );
+                    })}
+                  </>
+                )}
               </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Amount</label>
-              <input
-                type="number"
-                name="amount"
-                className="mt-2 w-full p-2 border border-gray-300 rounded-md"
-                value={formData.amount}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="sale" className="block text-gray-700 text-sm font-bold mb-2">
-                Sale Type
-              </label>
-              <select
-                id="sale"
-                className="w-full p-2 border border-gray-300 rounded-md"
-                defaultValue=""
-                name="saleType"
-                onChange={handleChange}>
-                <option value="" disabled>
-                  Select sale type
-                </option>
-                <option value="CASH">Cash</option>
-                <option value="CREDIT">Credit</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Date of Supply</label>
-              <DatePicker
-                selected={formData.date}
-                onChange={handleDateChange}
-                className="w-full px-3 py-2 border rounded"
-              />
             </div>
 
             {selectedValue && (
@@ -275,19 +301,50 @@ const AddStock = () => {
                 </div>
               </div>
             )}
+
+            <div className="mb-4">
+              <label htmlFor="sale" className="block text-gray-700 text-sm font-bold mb-2">
+                Sale Type
+              </label>
+              <select
+                id="sale"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                defaultValue=""
+                name="saleType"
+                onChange={handleChange}>
+                <option value="" disabled>
+                  Select sale type
+                </option>
+                <option value="CASH">Cash</option>
+                <option value="CREDIT">Credit</option>
+              </select>
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2">Amount</label>
+              <input
+                type="number"
+                name="amount"
+                className="mt-2 w-full p-2 border border-gray-300 rounded-md"
+                value={formData.amount}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2">Date of Supply</label>
+              <DatePicker
+                selected={formData.date}
+                onChange={handleDateChange}
+                className="w-full px-3 py-2 border rounded"
+              />
+            </div>
           </div>
           <div className="w-2/4 p-4">
             {supplierName && (
               <p className="text-lg">
                 <b>Supplier :</b>
                 <span className="ml-4">{supplierName}</span>
-              </p>
-            )}
-
-            {formData.amount > 0 && (
-              <p className="text-lg">
-                <b>Amount :</b>
-                <span className="ml-4">&#x20A6; {formData.amount}.00</span>
               </p>
             )}
 
@@ -315,6 +372,13 @@ const AddStock = () => {
               </p>
             )}
 
+            {formData.amount > 0 && (
+              <p className="text-lg">
+                <b>Amount :</b>
+                <span className="ml-4">&#x20A6; {formData.amount}.00</span>
+              </p>
+            )}
+
             {formData.date && (
               <p className="text-lg">
                 <b>Supply date :</b>
@@ -328,7 +392,9 @@ const AddStock = () => {
               formData.saleType &&
               formData.supplierID && (
                 <div className="mb-4 text-center">
-                  <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-purple-600 hover:to-blue-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">
+                  <button
+                    onClick={handleItemSubmission}
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-purple-600 hover:to-blue-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">
                     Save supply details
                   </button>
                 </div>

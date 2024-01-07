@@ -116,6 +116,7 @@ export type ItemSupplied = {
 };
 
 export type ItemSuppliedInput = {
+  _id: Scalars['ID']['input'];
   brand?: InputMaybe<Scalars['String']['input']>;
   numberOfBottles?: InputMaybe<Scalars['Int']['input']>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
@@ -301,7 +302,7 @@ export type PageInfo = {
 export type Payment = {
   __typename?: 'Payment';
   _id?: Maybe<Scalars['ID']['output']>;
-  amountPaid?: Maybe<Scalars['String']['output']>;
+  amountPaid?: Maybe<Scalars['Int']['output']>;
   date?: Maybe<Scalars['Date']['output']>;
   paymentCategory?: Maybe<PaymentCategoryEnum>;
   paymentFor?: Maybe<Scalars['String']['output']>;
@@ -425,7 +426,8 @@ export type AddBankedDrinksInput = {
 };
 
 export type AddBarStockInput = {
-  amount: Scalars['String']['input'];
+  amount: Scalars['Int']['input'];
+  date?: InputMaybe<Scalars['Date']['input']>;
   itemsSupplied?: InputMaybe<Array<ItemSuppliedInput>>;
   saleType: PaymentTypeEnum;
   supplierID: Scalars['ID']['input'];
@@ -470,7 +472,7 @@ export type AddMemberInput = {
 
 export type AddPaymentInput = {
   _id?: InputMaybe<Scalars['ID']['input']>;
-  amountPaid?: InputMaybe<Scalars['String']['input']>;
+  amountPaid?: InputMaybe<Scalars['Int']['input']>;
   date?: InputMaybe<Scalars['Date']['input']>;
   paymentCategory?: InputMaybe<PaymentCategoryEnum>;
   paymentFor?: InputMaybe<Scalars['String']['input']>;

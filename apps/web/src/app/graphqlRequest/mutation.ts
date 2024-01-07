@@ -55,6 +55,17 @@ const UpdateItem = gql`
   }
 `;
 
+const AddBarStock = gql`
+  mutation addBarStock($request: addBarStockInput!) {
+    addBarStock(request: $request) {
+      _id
+    }
+  }
+`;
+
+
+
+
 
 
 export {
@@ -63,5 +74,6 @@ export {
     CreateNewStaff,
     AddNewSupplier,
     AddNewItemToDB,
-    UpdateItem
+    UpdateItem,
+    AddBarStock
 }

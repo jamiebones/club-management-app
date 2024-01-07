@@ -4,9 +4,10 @@ export default gql.gql`
   # ---------- MUTATION - Functions --------------
   input addBarStockInput {
      supplierID: ID!
-     amount: String!
+     amount: Int!
      saleType: paymentTypeEnum!
      itemsSupplied: [ ItemSuppliedInput! ]
+     date: Date
   }
 
   input findBarStockInput {

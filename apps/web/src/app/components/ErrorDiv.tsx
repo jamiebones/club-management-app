@@ -23,7 +23,7 @@ const ErrorDiv: React.FC<ErrorDivProps> = ({ errorMessage, onClose, className })
   }
 
   return (
-    <div className={`max-w-md mx-auto mt-8 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative ${className}`} role="alert">
+    <div className={`max-w-lg p-5 mx-auto mt-20 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative ${className}`} role="alert">
       <strong className="font-bold">Error!</strong>
       <span className="block sm:inline">{errorMessage}</span>
       <span className="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onClick={handleClose}>

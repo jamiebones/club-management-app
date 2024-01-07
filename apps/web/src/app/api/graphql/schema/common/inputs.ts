@@ -12,6 +12,7 @@ input ItemSuppliedInput {
     brand: String
     quantity: Int
     numberOfBottles: Int
+    _id: ID!
  }
 
  input BeerBrandInput {

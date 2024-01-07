@@ -6,7 +6,7 @@ export default gql.gql`
   type Payment {
 	 _id: ID
   receiverID: ID
-  amountPaid: String
+  amountPaid: Int
 	paymentFor: String
   paymentCategory: paymentCategoryEnum
   date: Date
