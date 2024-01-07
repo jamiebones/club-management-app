@@ -222,13 +222,14 @@ const AddStock = () => {
   }, []);
 
   return (
-    <div className="max-w-full mx-auto mt-10">
+    <div className="max-w-full mt-10">
+       <h2 className="text-center mt-20 text-lg">Add Bar Stock</h2>
       {error && <ErrorDiv errorMessage={error} />}
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div className="flex justify-around mt-20">
-          <div className="w-2/4 p-4">
+        <div className="flex justify-around mx-auto">
+          <div className="w-1/4 p-4 mx-auto">
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">Supplier</label>
               <select
@@ -281,7 +282,7 @@ const AddStock = () => {
             </div>
 
             {selectedValue && (
-              <div className="border p-4 bg-gray-200 flex items-center w-2/3 m-auto mb-10">
+              <div className="border p-4 bg-gray-200 flex items-center mb-10">
                 <p className="mr-4">{selectedValue && selectedValue.split(":")[1]}</p>
 
                 <div className="flex">
@@ -340,7 +341,7 @@ const AddStock = () => {
               />
             </div>
           </div>
-          <div className="w-2/4 p-4">
+          <div className="w-2/4 mx-auto p-4">
             {supplierName && (
               <p className="text-lg">
                 <b>Supplier :</b>
