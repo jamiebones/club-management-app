@@ -75,11 +75,14 @@ const SellItem = () => {
         //we have a member
         setNotFound(false);
         setBuyer(response.findMember);
+        setSelectedDrinks([])
+        
       }
       //case two no member:
       if (response.findMember && response.findMember?.message) {
         //no member
         setNotFound(true);
+        setSelectedDrinks([])
         setBuyer({
           memberID: "",
           firstname: "",

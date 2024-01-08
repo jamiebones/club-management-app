@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { FaTrash } from "react-icons/fa";
 
 interface Item {
   name: string;
@@ -13,8 +14,17 @@ const ItemToSellComponent: React.FC<{
   drinks: Item[];
   addItem(index: number): void;
   removeItem(item: number): void;
-  deleteItem(item:number): void
+  deleteItem(item: number): void;
 }> = ({ drinks, addItem, removeItem, deleteItem }) => {
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    let totalAmount = 0;
+    drinks.map(drink => {
+      totalAmount += +drink.price * +drink.quantity;
+    });
+    setTotal(totalAmount);
+  }, [drinks]);
 
   const onItemIncreased = (index: number) => {
     addItem(index);
@@ -55,21 +65,19 @@ const ItemToSellComponent: React.FC<{
           {drinks.map((item: Item, index) => (
             <tr key={item.name} className="border-b border-gray-200">
               <td className="py-4 px-4">{item.name}</td>
-              <td className="flex items-center justify-between py-4 px-4">
+              <td className="flex items-center justify-center py-2 px-2">
                 <button
-                  className="bg-gray-200 hover:bg-gray-300 text-gray-600 font-medium py-2 px-4 rounded-l-lg"
-                  onClick={() => onItemDecrease(index)}
-                >
+                  className="bg-blue-200 hover:bg-green-300 text-gray-600 font-medium py-2 px-4 rounded-l-lg"
+                  onClick={() => onItemDecrease(index)}>
                   -
                 </button>
                 <input
                   type="number"
                   value={item.quantity}
-                  className="w-24 text-center focus:outline-none border border-gray-300 bg-gray-200 rounded-md py-2 px-4"
-                  
+                  className="w-20 text-center focus:outline-none border border-gray-300 bg-gray-200 rounded-md py-2 px-4"
                 />
                 <button
-                  className="bg-gray-200 hover:bg-gray-300 text-gray-600 font-medium py-2 px-4 rounded-r-lg"
+                  className="bg-green-200 hover:bg-green-300 text-gray-600 font-medium py-2 px-4 rounded-r-lg"
                   onClick={() => onItemIncreased(index)}>
                   +
                 </button>
@@ -77,16 +85,22 @@ const ItemToSellComponent: React.FC<{
               <td className="py-4 px-4 text-center"> &#x20A6;{+item.price}</td>
               <td className="py-4 px-4 text-center"> &#x20A6;{+item.quantity * +item.price}</td>
               <td className="py-4 px-4 text-center">
-                <button
-                  className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded"
-                  onClick={() => onItemDelete(index)}
-                >
-                  Remove
-                </button>
+                <FaTrash
+                  className="text-center"
+                  onClick={() => onItemDelete(index)}>
+                
+                </FaTrash>
               </td>
             </tr>
           ))}
         </tbody>
+        <tr className="bg-red-200">
+           <td></td>
+           <td></td>
+           <td className="py-4 px-4 text-right">Total : </td>
+           <td className="py-4 px-4 text-center">&#x20A6;<b>{total}</b></td>
+           <td></td>
+        </tr>
       </table>
     )
   );
