@@ -89,6 +89,36 @@ const GetItems = gql`
   }
 `;
 
+const GetMemberDetails = gql`
+  query FindMember($request: findMemberInput) {
+    findMember(request: $request) {
+      ... on Member {
+        surname
+        firstname
+        _id
+        memberID
+        title
+        membershipType
+      }
+      ... on NotFound {
+        message
+      }
+      
+    }
+  }
+`;
+
+const GetItemsForSale = gql`
+  query getItems{
+    getItems{
+      _id
+      name
+      numberInCrate
+      totalStock
+      sellingPrice
+    }
+  }
+`;
 
 
 
@@ -98,5 +128,7 @@ export {
     GetMembers,
     GetSuppliers,
     GetItemByName,
-    GetItems
+    GetItems,
+    GetMemberDetails,
+    GetItemsForSale
 }
