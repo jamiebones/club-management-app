@@ -55,6 +55,7 @@ const memberSchema = new mongoose.Schema({
   birthDay: {
     type: String //format => day=>month eg 10-05 10 of May
   },
+  sports: [String]
 });
 
 const Members = mongoose.models.Members || mongoose.model("Members", memberSchema);

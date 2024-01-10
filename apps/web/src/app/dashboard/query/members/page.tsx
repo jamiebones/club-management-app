@@ -14,6 +14,9 @@ const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 interface MemberSearchInput {
   jobTitle?: string;
   memberType?: string;
+  sports?: string;
+  startBirthDate?: Date | null | undefined;
+  endBirthDate?: Date | null | undefined;
   orderField?: string;
 }
 
@@ -33,6 +36,7 @@ const GetMembersDetails = () => {
     { field: "employer" },
     { field: "sex" },
     { field: "birthDay" },
+    { field: "sports" },
   ]);
 
   const [loading, setLoading] = useState(false);
@@ -81,20 +85,36 @@ const GetMembersDetails = () => {
   ) => {
     try {
       setLoading(true);
-      let jobTitleArray:string[] = []
-    if (input.jobTitle){
+      let jobTitleArray: string[] = [];
+      if (input.jobTitle) {
         const splitArray = input?.jobTitle?.split(",");
-        splitArray.map((val:string)=> {
-           jobTitleArray.push(val.trim());
-        })
-       
+        splitArray.map((val: string) => {
+          jobTitleArray.push(val.trim());
+        });
       }
-      console.log("jobTitle Array ", jobTitleArray)
+
+      let sportsArray: string[] = [];
+      if (input.sports) {
+        const splitSports = input.sports.split(",");
+        splitSports.map((val: string) => {
+          sportsArray.push(val.trim());
+        });
+      }
+      let startDate = null;
+      let endDate = null;
+      if (input.startBirthDate && input.endBirthDate) {
+        const options = { month: "numeric", day: "numeric" };
+        startDate = new Date(input.startBirthDate).toLocaleString("en-US", options as any);
+        endDate = new Date(input.endBirthDate).toLocaleString("en-US", options as any);
+      }
 
       const dataInput = {
         request: {
           jobTitle: jobTitleArray.length > 0 ? jobTitleArray : null,
           memberType: input.memberType,
+          sports: sportsArray.length > 0 ? sportsArray : null,
+          startBirthDate: startDate,
+          endBirthDate: endDate,
         },
         orderBy: {
           direction: input.orderField,

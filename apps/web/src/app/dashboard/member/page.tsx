@@ -8,6 +8,7 @@ import {
   FaBuilding,
   FaVenusMars,
   FaCalendarAlt,
+  FaTableTennis
 } from "react-icons/fa";
 import "react-datepicker/dist/react-datepicker.css";
 import { CreateNewMemberAccount } from "@/app/graphqlRequest/mutation";
@@ -28,6 +29,7 @@ const MemberForm: React.FC = () => {
     jobTitle: "",
     nextOfKin: "",
     contact: [""],
+    sports: [""],
     email: "",
     membershipType: "FULL",
     employer: "",
@@ -51,12 +53,32 @@ const MemberForm: React.FC = () => {
     });
   };
 
+  const handleSportsChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const sports = [...formData.sports];
+    sports[index] = e.target.value;
+    setFormData({
+      ...formData,
+      sports: sports,
+    });
+  };
+
+
+
   const handleAddContact = () => {
     setFormData({
       ...formData,
       contact: [...formData.contact, ''],
     });
   };
+
+  const handleAddSport = () => {
+    setFormData({
+      ...formData,
+      sports: [...formData.sports, ''],
+    });
+  };
+
+
 
   const handleDateChange = (date: Date) => {
     setFormData({
@@ -79,6 +101,7 @@ const MemberForm: React.FC = () => {
       employer,
       sex,
       birthDay,
+      sports
     } = formData;
     //check the required fields;
     const fielsToConfirm = `
@@ -89,6 +112,7 @@ const MemberForm: React.FC = () => {
        Job Title : ${jobTitle} 
        Next of Kin : ${nextOfKin} 
        Contact : ${contact} 
+       Sports : ${sports}
        Email : ${email} 
        Membership Type: ${membershipType} 
        Employer : ${employer} 
@@ -101,7 +125,9 @@ const MemberForm: React.FC = () => {
       alert("The memberID, membership type, firstname and surname are all required fields");
       return
     }
-    const variables = { request: { ...formData } };
+    const options = { month: "numeric", day: "numeric" };
+    const formattedDate = new Date(formData.birthDay).toLocaleString("en-US", options as any);
+    const variables = { request: { ...formData, birthDay: formattedDate } };
     try {
       setLoading(true);
       const response = await request({
@@ -110,7 +136,7 @@ const MemberForm: React.FC = () => {
         variables: variables,
       });
       console.log("response => ", response);
-      alert("New user account created successfully");
+      alert("New member details added successfully");
       setFormData({
         memberID: "",
         title: "",
@@ -119,6 +145,7 @@ const MemberForm: React.FC = () => {
         jobTitle: "",
         nextOfKin: "",
         contact: [""],
+        sports: [""],
         email: "",
         membershipType: "FULL",
         employer: "",
@@ -243,6 +270,7 @@ const MemberForm: React.FC = () => {
             className="w-full px-3 py-2 border rounded"
           />
         </div>
+        
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -252,7 +280,7 @@ const MemberForm: React.FC = () => {
           {formData.contact.map((contact, index) => (
             <input
               key={index}
-              type="text"
+              type="number"
               value={contact}
               onChange={e => handleContactChange(e, index)}
               className="w-full px-3 py-2 border rounded mb-2"
@@ -296,7 +324,7 @@ const MemberForm: React.FC = () => {
         </div>
 
         {/* BirthDay */}
-        <div className="col-span-2 mb-4">
+        <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             <FaCalendarAlt className="mr-2" />
             BirthDay
@@ -308,6 +336,32 @@ const MemberForm: React.FC = () => {
             className="w-full px-3 py-2 border rounded"
           />
         </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            <FaTableTennis className="mr-2" />
+            Sports
+          </label>
+          {formData.sports.map((sport, index) => (
+            <input
+              key={index}
+              type="text"
+              value={sport}
+              onChange={e => handleSportsChange(e, index)}
+              className="w-full px-3 py-2 border rounded mb-2"
+            />
+          ))}
+          <button
+            type="button"
+            onClick={handleAddSport}
+            className="bg-blue-500 text-white px-3 py-2 rounded">
+            Add Sports
+          </button>
+        </div>
+
+        
+
+        
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -323,6 +377,8 @@ const MemberForm: React.FC = () => {
             <option value="ASSOCIATE">ASSOCIATE</option>
           </select>
         </div>
+
+        
 
         {/* Additional Fields Go Here */}
       </form>

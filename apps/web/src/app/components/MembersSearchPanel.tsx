@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface MemberSearchInput {
   jobTitle?: string;
   memberType?: string;
+  sports?: string;
+  startBirthDate?: Date | null | undefined;
+  endBirthDate?: Date | null | undefined;
   orderField?: string;
 }
 
@@ -14,6 +19,8 @@ const MemberSearchPanel: React.FC<MemberSearchPanelProps> = ({ onSearch }) => {
   const [searchInput, setSearchInput] = useState<MemberSearchInput>({});
   const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("ASC");
   const [limit, setLimit] = useState<number | 10>();
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const handleInputChange = (field: keyof MemberSearchInput, value: string) => {
     setSearchInput(prevInput => ({ ...prevInput, [field]: value }));
@@ -24,12 +31,33 @@ const MemberSearchPanel: React.FC<MemberSearchPanelProps> = ({ onSearch }) => {
     setLimit(isNaN(newLimit) ? 10 : newLimit);
   };
 
+  const handleSportsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput({
+      ...searchInput,
+      sports: event.target.value,
+    });
+  };
+
   const handleSearch = () => {
     onSearch(searchInput, sortOrder, limit!);
   };
 
   const handleSortChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setSortOrder(event.target.value as "ASC" | "DESC");
+  };
+
+  const handleStartDate = (date: any) => {
+    setSearchInput({
+      ...searchInput,
+      startBirthDate: date,
+    });
+  };
+
+  const handleEndDate = (date: any) => {
+    setSearchInput({
+      ...searchInput,
+      endBirthDate: date,
+    });
   };
 
   return (
@@ -69,6 +97,36 @@ const MemberSearchPanel: React.FC<MemberSearchPanelProps> = ({ onSearch }) => {
               className="mt-1 p-2 border rounded w-full"
               onChange={handleLimitChange}
             />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">Sports:</label>
+            <input
+              type="text"
+              className="mt-1 p-2 border rounded w-full"
+              onChange={handleSportsChange}
+            />
+          </div>
+          <div className="mt-8 p-8 border rounded-lg bg-white">
+            <h2 className="text-xl font-semibold mb-4">Select Birthday Range</h2>
+
+            <div className="flex gap-4">
+              <DatePicker
+                selected={searchInput?.startBirthDate}
+                onChange={handleStartDate}
+                dateFormat="dd/MM"
+                placeholderText="Start Date"
+                className="border p-2 rounded focus:outline-none focus:ring focus:border-blue-500"
+              />
+
+              <DatePicker
+                selected={searchInput?.endBirthDate}
+                onChange={handleEndDate}
+                dateFormat="dd/MM"
+                placeholderText="End Date"
+                className="border p-2 rounded focus:outline-none focus:ring focus:border-blue-500"
+              />
+            </div>
           </div>
         </div>
         <div>

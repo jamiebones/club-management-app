@@ -139,6 +139,7 @@ export type Member = {
   nextOfKin?: Maybe<Scalars['String']['output']>;
   paymentReceived?: Maybe<Array<Maybe<Payment>>>;
   sex?: Maybe<SexEnum>;
+  sports?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   surname: Scalars['String']['output'];
   title?: Maybe<Scalars['String']['output']>;
 };
@@ -466,6 +467,7 @@ export type AddMemberInput = {
   membershipType?: InputMaybe<MembershipTypeEnum>;
   nextOfKin?: InputMaybe<Scalars['String']['input']>;
   sex?: InputMaybe<SexEnum>;
+  sports?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   surname: Scalars['String']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -542,8 +544,11 @@ export type FindMemberPatronageInput = {
 
 export type FindMembersInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  endBirthDate?: InputMaybe<Scalars['String']['input']>;
   jobTitle?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   memberType?: InputMaybe<Scalars['String']['input']>;
+  sports?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  startBirthDate?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type FindStaffInput = {
@@ -624,6 +629,7 @@ export type UpdateMemberInput = {
   membershipType?: InputMaybe<MembershipTypeEnum>;
   nextOfKin?: InputMaybe<Scalars['String']['input']>;
   sex?: InputMaybe<SexEnum>;
+  sports?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   surname?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };

@@ -53,6 +53,7 @@ const GetMembers = gql`
     employer,
     sex,
     birthDay,
+    sports
        }
    }
 }

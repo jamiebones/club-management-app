@@ -12,7 +12,7 @@ const addMember = async (
   try {
     await dbConnect();
     const { contact, email, firstname, title, birthDay, surname,
-    memberID, membershipType, sex, employer, nextOfKin, jobTitle  } = args.request;
+    memberID, membershipType, sex, employer, nextOfKin, jobTitle, sports } = args.request;
     console.log("Mutation > addMember > args.fields = ", args.request);
     const fields:Member = {
       memberID,
@@ -48,6 +48,10 @@ const addMember = async (
     if ( jobTitle){
       fields.jobTitle = jobTitle;
     }
+    if ( sports ){
+      fields.sports = sports;
+    }
+
    const newMember = await new Members(fields).save();
 
    console.log("newmember data => ", newMember)

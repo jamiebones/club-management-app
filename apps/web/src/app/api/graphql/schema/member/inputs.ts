@@ -15,6 +15,7 @@ export default gql.gql`
      employer: String
      sex: sexEnum
      birthDay: String
+     sports: [String]
   }
 
   input updateMemberInput {
@@ -31,6 +32,7 @@ export default gql.gql`
      employer: String
      sex: sexEnum
      birthDay: String
+     sports: [String]
   }
 
 
@@ -47,6 +49,9 @@ export default gql.gql`
      _id: [String]
      jobTitle: [String]
      memberType: String
+     sports: [String]
+     startBirthDate: String
+     endBirthDate: String
   }
 
   input MemberOrderBy {

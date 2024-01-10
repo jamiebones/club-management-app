@@ -10,6 +10,11 @@ interface SearchOptions {
 }
 const DEFAULT_PAGE_LIMIT = 20;
 
+const convertToDate = (dateString: string): Date => {
+  const [month, day] = dateString.split('/').map(Number);
+  return new Date(new Date().getFullYear(), month - 1, day);
+};
+
 const findMembers = async (
   parent: any,
   args: {
@@ -22,8 +27,8 @@ const findMembers = async (
   context: any,
   info: any,
 ):Promise<FindMembersCursorOutput> => {
-    const { request: { jobTitle, memberType }, after, before, limit, orderBy } = args;
-    console.log("Mutation > findMembers > args.fields = ", args.request);
+    const { request: { jobTitle, memberType, sports, startBirthDate, endBirthDate }, after, before, limit, orderBy } = args;
+    console.log("Query > findMembers > args.fields = ", args.request);
     await dbConnect();
     let options: SearchOptions = {
     limit: limit || DEFAULT_PAGE_LIMIT,
@@ -64,14 +69,22 @@ const findMembers = async (
     };
     options.sort[options.field] = -1 * options.sort[options.field];
   }
-   let queryMemberID: any = [];
+   
+
    let searchQuery = {};
   
 
     if (jobTitle && memberType ) {
-        if (queryMemberID.length > 0) {
+        if (sports && sports.length > 0) {
         searchQuery = {
-            $and: [{ jobTitle: jobTitle, membershipType: memberType }, { $or: queryMemberID }],
+            $and: [{ jobTitle: jobTitle, membershipType: memberType }, 
+              {sports: {
+                $elemMatch: {
+                  $in: sports.map(sport => new RegExp(sport!, 'i'))
+                }
+              }
+            }
+            ],
         };
         } else {
         searchQuery = {
@@ -83,9 +96,14 @@ const findMembers = async (
     //we don't have both memberType and jobTitle
     if ( jobTitle || memberType ){
         if ( jobTitle ){
-            if (queryMemberID.length > 0) {
+            if (sports && sports.length > 0) {
                 searchQuery = {
-                    $and: [{ jobTitle: jobTitle }, { $or: queryMemberID }],
+                    $and: [{ jobTitle: jobTitle }, {sports: {
+                      $elemMatch: {
+                        $in: sports.map(sport => new RegExp(sport!, 'i'))
+                      }
+                    }
+                  }],
                 };
                 } else {
                 searchQuery = {
@@ -93,9 +111,14 @@ const findMembers = async (
                 };
             }
         } else if ( memberType ){
-            if (queryMemberID.length > 0) {
+            if (sports && sports.length > 0) {
                 searchQuery = {
-                    $and: [{ membershipType: memberType }, { $or: queryMemberID }],
+                    $and: [{ membershipType: memberType }, {sports: {
+                      $elemMatch: {
+                        $in: sports.map(sport => new RegExp(sport!, 'i'))
+                      }
+                    }
+                  }],
                 };
                 } else {
                 searchQuery = {
@@ -104,11 +127,37 @@ const findMembers = async (
             }
         }
     } else {
-        if  (queryMemberID.length > 0) {
-            searchQuery = {
-                $or: queryMemberID,
-              };
+        if  (sports && sports.length > 0) {
+         searchQuery = {sports: {
+            $elemMatch: {
+              $in: sports.map(sport => new RegExp(sport!, 'i'))
+            }
+          }
         }
+        }
+    }
+  }
+
+  if ( startBirthDate && endBirthDate ){
+    const startDate = convertToDate(startBirthDate);
+    const endDate = convertToDate(endBirthDate);
+    searchQuery = {
+        $and: [
+          { startBirthDate: { $gte: startDate } },
+          { endBirthDate: { $lte: endDate } }
+       ]
+    }
+  } else if ( startBirthDate && endBirthDate && memberType ){
+    const startDate = convertToDate(startBirthDate);
+    const endDate = convertToDate(endBirthDate);
+    searchQuery = {
+      
+      
+        $and: [
+          { startBirthDate: { $gte: startDate } },
+          { endBirthDate: { $lte: endDate } },
+    { membershipType: memberType }
+    ]
     }
   }
 
