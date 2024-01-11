@@ -19,8 +19,6 @@ const MemberSearchPanel: React.FC<MemberSearchPanelProps> = ({ onSearch }) => {
   const [searchInput, setSearchInput] = useState<MemberSearchInput>({});
   const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("ASC");
   const [limit, setLimit] = useState<number | 10>();
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
 
   const handleInputChange = (field: keyof MemberSearchInput, value: string) => {
     setSearchInput(prevInput => ({ ...prevInput, [field]: value }));
@@ -61,9 +59,9 @@ const MemberSearchPanel: React.FC<MemberSearchPanelProps> = ({ onSearch }) => {
   };
 
   return (
-    <div>
+    <div className="w-full max-w-screen-xl mx-auto">
       <div className="text-center">
-        <h1>Members Search Panel</h1>
+        <h1 className="text-lg bg-gray-700 p-2 text-white">Members Search Panel</h1>
       </div>
       <div className="grid grid-cols-2 gap-4 p-4 border rounded mb-4">
         <div>
@@ -89,14 +87,6 @@ const MemberSearchPanel: React.FC<MemberSearchPanelProps> = ({ onSearch }) => {
               <option value="FULL">FULL MEMBER</option>
               <option value="ASSOCIATE">ASSOCIATE MEMBER</option>
             </select>
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Limit:</label>
-            <input
-              type="number"
-              className="mt-1 p-2 border rounded w-full"
-              onChange={handleLimitChange}
-            />
           </div>
 
           <div className="mb-4">
@@ -130,6 +120,8 @@ const MemberSearchPanel: React.FC<MemberSearchPanelProps> = ({ onSearch }) => {
           </div>
         </div>
         <div>
+          {" "}
+          {/* {second column starts} */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Sort Field:</label>
             <select
@@ -155,13 +147,22 @@ const MemberSearchPanel: React.FC<MemberSearchPanelProps> = ({ onSearch }) => {
               <option value="DESC">DESC</option>
             </select>
           </div>
-
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">Limit:</label>
+            <input
+              type="number"
+              className="mt-1 p-2 border rounded w-full"
+              onChange={handleLimitChange}
+            />
+          </div>
+        </div>
+      
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             onClick={handleSearch}>
             Search
           </button>
-        </div>
+
       </div>
     </div>
   );

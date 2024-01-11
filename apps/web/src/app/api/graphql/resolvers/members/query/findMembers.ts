@@ -10,10 +10,6 @@ interface SearchOptions {
 }
 const DEFAULT_PAGE_LIMIT = 20;
 
-const convertToDate = (dateString: string): Date => {
-  const [month, day] = dateString.split('/').map(Number);
-  return new Date(new Date().getFullYear(), month - 1, day);
-};
 
 const findMembers = async (
   parent: any,
@@ -28,11 +24,13 @@ const findMembers = async (
   info: any,
 ):Promise<FindMembersCursorOutput> => {
     const { request: { jobTitle, memberType, sports, startBirthDate, endBirthDate }, after, before, limit, orderBy } = args;
-    console.log("Query > findMembers > args.fields = ", args.request);
+    console.log("Query > findMembers > args.fields = ", args);
     await dbConnect();
     let options: SearchOptions = {
     limit: limit || DEFAULT_PAGE_LIMIT,
   };
+
+  console.log("limit server ", limit)
 
     if (orderBy) {
     const sortField: any = orderBy.field;
@@ -138,28 +136,24 @@ const findMembers = async (
     }
   }
 
-  if ( startBirthDate && endBirthDate ){
-    const startDate = convertToDate(startBirthDate);
-    const endDate = convertToDate(endBirthDate);
+  if ( startBirthDate && endBirthDate && memberType ){
     searchQuery = {
-        $and: [
-          { startBirthDate: { $gte: startDate } },
-          { endBirthDate: { $lte: endDate } }
-       ]
-    }
-  } else if ( startBirthDate && endBirthDate && memberType ){
-    const startDate = convertToDate(startBirthDate);
-    const endDate = convertToDate(endBirthDate);
-    searchQuery = {
-      
-      
-        $and: [
-          { startBirthDate: { $gte: startDate } },
-          { endBirthDate: { $lte: endDate } },
+        $and: [ {
+          birthDay:{ $gte: startBirthDate, 
+            $lte: endBirthDate 
+        } 
+        },
     { membershipType: memberType }
     ]
     }
-  }
+  }else if ( startBirthDate && endBirthDate ){
+    searchQuery = {
+           birthDay:{ $gte: startBirthDate, 
+                      $lte: endBirthDate 
+            } 
+          }
+        }
+  
 
   console.log("query options ", options);
     try {

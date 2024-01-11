@@ -47,7 +47,6 @@ const GetMembersDetails = () => {
       const input = {
         request: {
           _id: null,
-          memberID: null,
           jobTitle: null,
           memberType: null,
         },
@@ -93,6 +92,7 @@ const GetMembersDetails = () => {
         });
       }
 
+
       let sportsArray: string[] = [];
       if (input.sports) {
         const splitSports = input.sports.split(",");
@@ -117,13 +117,16 @@ const GetMembersDetails = () => {
           endBirthDate: endDate,
         },
         orderBy: {
-          direction: input.orderField,
-          field: sortOrder,
+          direction: sortOrder,
+          field: input.orderField
         },
         after: "",
         before: "",
         limit: limit,
       };
+
+      console.log("data request ", dataInput)
+
       const response: any = await request({
         url: graphqlURL,
         document: GetMembers,
@@ -147,7 +150,7 @@ const GetMembersDetails = () => {
       <MemberSearchPanel onSearch={handleSearch} />
       <div className="ag-theme-quartz" style={{ height: 500 }}>
         {/* The AG Grid component */}
-        <AgGridReact rowData={rowData} columnDefs={colDefs} />
+        <AgGridReact rowData={rowData} columnDefs={colDefs as any} />
       </div>
     </div>
   );

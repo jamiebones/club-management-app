@@ -35,25 +35,26 @@ const FindStaff = gql`
 `
 
 const GetMembers = gql`
-    query FindMembers($request: findMembersInput) {
-    findMembers(request: $request) {
+    query FindMembers($request: findMembersInput, $orderBy: MemberOrderBy, $after: String, $before: String, $limit: Int) {
+    findMembers(request: $request, orderBy: $orderBy, after: $after, before: $before, limit: $limit) 
+    {
        members{
         _id
        firstname
        surname
-    memberID,
-    title,
-    firstname,
-    surname,
-    jobTitle,
-    nextOfKin,
-    contact,
-    email,
-    membershipType,
-    employer,
-    sex,
-    birthDay,
-    sports
+      memberID,
+      title,
+      firstname,
+      surname,
+      jobTitle,
+      nextOfKin,
+      contact,
+      email,
+      membershipType,
+      employer,
+      sex,
+      birthDay,
+      sports
        }
    }
 }
@@ -89,6 +90,8 @@ const GetItems = gql`
     }
   }
 `;
+
+
 
 const GetMemberDetails = gql`
   query FindMember($request: findMemberInput) {
