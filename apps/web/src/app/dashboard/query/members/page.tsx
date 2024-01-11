@@ -29,7 +29,6 @@ const GetMembersDetails = () => {
     { field: "firstname" },
     { field: "surname" },
     { field: "jobTitle" },
-    { field: "nextOfKin" },
     { field: "contact" },
     { field: "email" },
     { field: "membershipType" },

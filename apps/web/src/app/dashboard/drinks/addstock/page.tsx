@@ -222,7 +222,7 @@ const AddStock = () => {
   }, []);
 
   return (
-    <div className="max-w-full mt-10">
+    <div className="w-full max-w-screen-xl mx-auto mt-10">
        <h2 className="text-center mt-20 text-lg">Add Bar Stock</h2>
       {error && <ErrorDiv errorMessage={error} />}
       {loading ? (

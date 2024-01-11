@@ -8,7 +8,7 @@ import {
   FaBuilding,
   FaVenusMars,
   FaCalendarAlt,
-  FaTableTennis
+  FaTableTennis,
 } from "react-icons/fa";
 import "react-datepicker/dist/react-datepicker.css";
 import { CreateNewMemberAccount } from "@/app/graphqlRequest/mutation";
@@ -27,7 +27,7 @@ const MemberForm: React.FC = () => {
     firstname: "",
     surname: "",
     jobTitle: "",
-    nextOfKin: "",
+    //nextOfKin: "",
     contact: [""],
     sports: [""],
     email: "",
@@ -62,23 +62,19 @@ const MemberForm: React.FC = () => {
     });
   };
 
-
-
   const handleAddContact = () => {
     setFormData({
       ...formData,
-      contact: [...formData.contact, ''],
+      contact: [...formData.contact, ""],
     });
   };
 
   const handleAddSport = () => {
     setFormData({
       ...formData,
-      sports: [...formData.sports, ''],
+      sports: [...formData.sports, ""],
     });
   };
-
-
 
   const handleDateChange = (date: Date) => {
     setFormData({
@@ -94,14 +90,14 @@ const MemberForm: React.FC = () => {
       firstname,
       surname,
       jobTitle,
-      nextOfKin,
+      //nextOfKin,
       contact,
       email,
       membershipType,
       employer,
       sex,
       birthDay,
-      sports
+      sports,
     } = formData;
     //check the required fields;
     const fielsToConfirm = `
@@ -110,7 +106,6 @@ const MemberForm: React.FC = () => {
        First name : ${firstname} 
        Surname : ${surname} 
        Job Title : ${jobTitle} 
-       Next of Kin : ${nextOfKin} 
        Contact : ${contact} 
        Sports : ${sports}
        Email : ${email} 
@@ -123,7 +118,7 @@ const MemberForm: React.FC = () => {
     if (!confirmMe) return;
     if (!memberID || !firstname || !surname || !membershipType) {
       alert("The memberID, membership type, firstname and surname are all required fields");
-      return
+      return;
     }
     const options = { month: "numeric", day: "numeric" };
     const formattedDate = new Date(formData.birthDay).toLocaleString("en-US", options as any);
@@ -143,7 +138,7 @@ const MemberForm: React.FC = () => {
         firstname: "",
         surname: "",
         jobTitle: "",
-        nextOfKin: "",
+        //nextOfKin: "",
         contact: [""],
         sports: [""],
         email: "",
@@ -160,7 +155,7 @@ const MemberForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-16 p-6 bg-white rounded shadow-md">
+    <div className="w-full max-w-screen-xl mx-auto mt-16 p-6 bg-white rounded shadow-md">
       <ErrorDiv errorMessage={error} />
       <h1 className="text-2xl font-bold mb-4">Member Form</h1>
       <form className="grid grid-cols-2 gap-4">
@@ -190,13 +185,18 @@ const MemberForm: React.FC = () => {
             value={formData.title}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded">
+            <option value="" disabled>
+              Select title
+            </option>
             <option value="MR">MR</option>
             <option value="MISS">MISS</option>
+            <option value="MS">MS</option>
             <option value="MRS">MRS</option>
             <option value="DR">DR</option>
             <option value="PROF">PROF</option>
             <option value="ENGR">ENGR</option>
             <option value="ARCHITECT">ARCHITECT</option>
+            <option value="PHARM">PHARM</option>
           </select>
         </div>
 
@@ -242,7 +242,7 @@ const MemberForm: React.FC = () => {
           />
         </div>
 
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             <FaUser className="mr-2" />
             Next of Kin
@@ -254,7 +254,7 @@ const MemberForm: React.FC = () => {
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
           />
-        </div>
+        </div> */}
 
         {/* Second Column */}
         <div className="mb-4">
@@ -270,7 +270,6 @@ const MemberForm: React.FC = () => {
             className="w-full px-3 py-2 border rounded"
           />
         </div>
-        
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -359,10 +358,6 @@ const MemberForm: React.FC = () => {
           </button>
         </div>
 
-        
-
-        
-
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             <FaUser className="mr-2" />
@@ -377,8 +372,6 @@ const MemberForm: React.FC = () => {
             <option value="ASSOCIATE">ASSOCIATE</option>
           </select>
         </div>
-
-        
 
         {/* Additional Fields Go Here */}
       </form>
