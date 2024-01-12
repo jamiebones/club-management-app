@@ -120,7 +120,7 @@ const MemberForm: React.FC = () => {
       alert("The memberID, membership type, firstname and surname are all required fields");
       return;
     }
-    const options = { month: "numeric", day: "numeric" };
+    const options = { month: "2-digit", day: "2-digit" };
     const formattedDate = new Date(formData.birthDay).toLocaleString("en-US", options as any);
     const variables = { request: { ...formData, birthDay: formattedDate } };
     try {
@@ -194,6 +194,7 @@ const MemberForm: React.FC = () => {
             <option value="MRS">MRS</option>
             <option value="DR">DR</option>
             <option value="PROF">PROF</option>
+            <option value="PROF (SIS)">PROF (SIS)</option>
             <option value="ENGR">ENGR</option>
             <option value="ARCHITECT">ARCHITECT</option>
             <option value="PHARM">PHARM</option>

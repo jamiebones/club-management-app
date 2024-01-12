@@ -152,9 +152,9 @@ const findMembers = async (
                       $lte: endBirthDate 
             } 
           }
-        }
+    }
   
-
+  console.log("startDate : endDate", startBirthDate, endBirthDate)
   console.log("query options ", options);
     try {
     let membersData: any = await Members.find({ ...searchQuery, ...options.filters })

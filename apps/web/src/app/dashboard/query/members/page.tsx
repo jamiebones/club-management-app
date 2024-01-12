@@ -102,8 +102,10 @@ const GetMembersDetails = () => {
       let startDate = null;
       let endDate = null;
       if (input.startBirthDate && input.endBirthDate) {
-        const options = { month: "numeric", day: "numeric" };
+        const options = { month: "2-digit", day: "2-digit" };
+        
         startDate = new Date(input.startBirthDate).toLocaleString("en-US", options as any);
+        console.log("start date" , startDate )
         endDate = new Date(input.endBirthDate).toLocaleString("en-US", options as any);
       }
 
