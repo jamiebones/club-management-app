@@ -10,7 +10,7 @@ const updateMember = async (
 ) => {
   try {
     const { contact, email, firstname, title, birthDay, surname, _id,
-    memberID, membershipType, sex, employer, nextOfKin, jobTitle  } = args.request;
+    memberID, membershipType, sex, employer, nextOfKin, jobTitle, sports  } = args.request;
     console.log("Mutation > updateMember > args.fields = ", args.request);
 
     const fields: any = {};
@@ -54,6 +54,10 @@ const updateMember = async (
 
     if ( jobTitle){
       fields.jobTitle = jobTitle;
+    }
+
+    if ( sports ){
+      fields.sports = sports;
     }
 
    const memberData = await Members.findOne({_id: _id});

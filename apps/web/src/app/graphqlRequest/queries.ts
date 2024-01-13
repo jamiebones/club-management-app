@@ -19,6 +19,35 @@ const FindMember = gql`
   }
 `;
 
+const FindMemberFullDetails = gql`
+  query FindMember($request: findMemberInput) {
+    findMember(request: $request) {
+      ... on Member {
+        _id
+       firstname
+       surname
+      memberID,
+      title,
+      firstname,
+      surname,
+      jobTitle,
+      nextOfKin,
+      contact,
+      email,
+      membershipType,
+      employer,
+      sex,
+      birthDay,
+      sports
+      }
+      ... on NotFound {
+        message
+      }
+      
+    }
+  }
+`;
+
 const FindStaff = gql`
     query FindStaff($request: findStaffInput) {
     findStaff(request: $request) {
@@ -134,5 +163,6 @@ export {
     GetItemByName,
     GetItems,
     GetMemberDetails,
-    GetItemsForSale
+    GetItemsForSale,
+    FindMemberFullDetails
 }

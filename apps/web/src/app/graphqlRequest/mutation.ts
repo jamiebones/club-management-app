@@ -20,6 +20,15 @@ const CreateNewMemberAccount = gql`
   }
 `;
 
+const UpdateMemberDetails = gql`
+  mutation updateMember($request: updateMemberInput!) {
+    updateMember(request: $request) {
+      _id
+      memberID
+    }
+  }
+`;
+
 const CreateNewStaff = gql`
   mutation addStaff($request: addStaffInput!) {
     addStaff(request: $request) {
@@ -75,5 +84,6 @@ export {
     AddNewSupplier,
     AddNewItemToDB,
     UpdateItem,
-    AddBarStock
+    AddBarStock,
+    UpdateMemberDetails
 }

@@ -5,9 +5,9 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { request } from "graphql-request";
 import { GetMembers } from "@/app/graphqlRequest/queries";
-import { FindMembersCursorOutput } from "@/app/api/generated/graphqlStaffClub";
 import MemberSearchPanel from "@/app/components/MembersSearchPanel";
 import LoadingSpinner from "@/app/components/Loading";
+import { AnyNaptrRecord } from "dns";
 
 const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 
@@ -24,6 +24,15 @@ const GetMembersDetails = () => {
   const [rowData, setRowData] = useState([]);
   // Column Definitions: Defines & controls grid columns.
   const [colDefs, setColDefs] = useState([
+    {
+      headerName: '#',
+      width: 60,
+      valueGetter: (params: any) =>  {
+        console.log("params ", params)
+        return params.node.rowIndex + 1
+      } // Access row index for number
+      //cellRenderer: 'serialNumberRenderer'  // Use custom renderer for formatting
+  },
     { field: "memberID" },
     { field: "title" },
     { field: "firstname" },
@@ -149,7 +158,7 @@ const GetMembersDetails = () => {
   return (
     <div className="mt-10 p-10">
       <MemberSearchPanel onSearch={handleSearch} />
-      <div className="ag-theme-quartz" style={{ height: 800 }}>
+      <div className="ag-theme-quartz" style={{ height: 1000 }}>
         {/* The AG Grid component */}
         <AgGridReact rowData={rowData} columnDefs={colDefs as any} />
       </div>
