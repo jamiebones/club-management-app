@@ -134,7 +134,7 @@ export type Member = {
   employer?: Maybe<Scalars['String']['output']>;
   firstname: Scalars['String']['output'];
   jobTitle?: Maybe<Scalars['String']['output']>;
-  memberID: Scalars['ID']['output'];
+  memberID?: Maybe<Scalars['ID']['output']>;
   membershipType?: Maybe<MembershipTypeEnum>;
   nextOfKin?: Maybe<Scalars['String']['output']>;
   paymentReceived?: Maybe<Array<Maybe<Payment>>>;

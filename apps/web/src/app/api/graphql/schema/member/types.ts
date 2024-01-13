@@ -7,7 +7,7 @@ export default gql.gql`
   # ---------- Member --------------
   type Member {
     _id: ID
-    memberID: ID!
+    memberID: ID
     title: String
      firstname: String!
      surname: String!

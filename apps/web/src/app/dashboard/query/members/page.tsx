@@ -149,7 +149,7 @@ const GetMembersDetails = () => {
   return (
     <div className="mt-10 p-10">
       <MemberSearchPanel onSearch={handleSearch} />
-      <div className="ag-theme-quartz" style={{ height: 500 }}>
+      <div className="ag-theme-quartz" style={{ height: 800 }}>
         {/* The AG Grid component */}
         <AgGridReact rowData={rowData} columnDefs={colDefs as any} />
       </div>

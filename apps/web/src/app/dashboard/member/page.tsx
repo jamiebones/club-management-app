@@ -116,8 +116,8 @@ const MemberForm: React.FC = () => {
      `;
     const confirmMe = confirm(fielsToConfirm);
     if (!confirmMe) return;
-    if (!memberID || !firstname || !surname || !membershipType) {
-      alert("The memberID, membership type, firstname and surname are all required fields");
+    if (!firstname || !surname || !membershipType) {
+      alert("membership type, firstname and surname are all required fields");
       return;
     }
     const options = { month: "2-digit", day: "2-digit" };
@@ -194,6 +194,7 @@ const MemberForm: React.FC = () => {
             <option value="MRS">MRS</option>
             <option value="DR">DR</option>
             <option value="PROF">PROF</option>
+            <option value="ASSO PROF">ASSO PROF</option>
             <option value="PROF (SIS)">PROF (SIS)</option>
             <option value="ENGR">ENGR</option>
             <option value="ARCHITECT">ARCHITECT</option>

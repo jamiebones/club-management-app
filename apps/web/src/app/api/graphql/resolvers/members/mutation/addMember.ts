@@ -15,7 +15,6 @@ const addMember = async (
     memberID, membershipType, sex, employer, nextOfKin, jobTitle, sports } = args.request;
     console.log("Mutation > addMember > args.fields = ", args.request);
     const fields:Member = {
-      memberID,
       firstname,
       surname
     };

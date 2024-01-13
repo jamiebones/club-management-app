@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 const memberSchema = new mongoose.Schema({
   memberID: {
     type: String,
-    index: {
-      unique: true,
-    },
+    // index: {
+    //   unique: true,
+    // },
   },
 
   title: {
