@@ -39,7 +39,7 @@ const EditMember = () => {
       const { findMember } = response as any;
       console.log("response ", response)
       if (findMember?.message) {
-        setMessage(findMember.messsage);
+        setMessage("User not found");
         setMember(null);
       } else {
         setMember(findMember);

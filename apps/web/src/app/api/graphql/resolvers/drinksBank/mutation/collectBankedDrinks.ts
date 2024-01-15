@@ -3,6 +3,9 @@ import { Members } from "../../../../models/MemberModel";
 import { Staff } from "../../../../models/StaffModel";
 import { DrinksBank as DrinksBankType, CollectBankedDrinksInput, DrinksCollector } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
+import dbConnect from "../../../../../../../lib/dbConnect";
+import { onlySalesAllowed, IsAuthenticated } from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
 
 interface DrinksInterface {
@@ -10,13 +13,19 @@ interface DrinksInterface {
     "quantity": number | undefined | null;
 }
 
-const collectBankedDrinks = async (
+const collectBankedDrinks = 
+
+combineResolvers(
+  IsAuthenticated,
+  onlySalesAllowed,
+async (
   parent: any,
   args: { request: CollectBankedDrinksInput },
   context: any,
   info: any,
 )=> {
   try {
+    await dbConnect();
     const { drinksToCollect, memberID, staffID } = args.request;
     console.log("Mutation > collectBankedDrinks > args.fields = ", args.request);
     if (drinksToCollect?.length == 0 ) {
@@ -96,6 +105,6 @@ const collectBankedDrinks = async (
   } catch (err: any) {
     throw new GraphQLError(`Mutation => DrinksBanked => addBankedDrinks: ${err}` );
   }
-};
+});
 
 export default collectBankedDrinks;

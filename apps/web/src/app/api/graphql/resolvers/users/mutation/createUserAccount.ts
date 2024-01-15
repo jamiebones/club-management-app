@@ -6,8 +6,14 @@ import { options } from "@/app/api/auth/[...nextauth]/options";
 import { GraphQLError } from 'graphql';
 import dbConnect from "../../../../../../../lib/dbConnect";
 import bcrypt from "bcrypt";
+import { IsAuthenticated, onlyAdmin } from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
-const createUserAccount = async (
+const createUserAccount = 
+combineResolvers(
+  IsAuthenticated,
+  onlyAdmin,
+async (
   parent: any,
   args: { request: AddCreateUserInput},
   context: any,
@@ -46,6 +52,6 @@ const createUserAccount = async (
   } catch (err: any) {
     throw new GraphQLError(`Error => Mutation => createUserAccount : ${err} `);
   }
-};
+});
 
 export default createUserAccount;

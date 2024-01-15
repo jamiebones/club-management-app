@@ -2,8 +2,14 @@ import { Staff as StaffModel } from "../../../../models/StaffModel";
 import { FindStaffInput, StaffResult } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
 import dbConnect from "../../../../../../../lib/dbConnect";
+import { IsAuthenticated, allExcoMembers} from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
-const findStaff = async (
+const findStaff = 
+combineResolvers(
+  IsAuthenticated,
+  allExcoMembers,
+async (
   parent: any,
   args: { request:FindStaffInput },
   context: any,
@@ -46,6 +52,6 @@ const findStaff = async (
   } catch (err: any) {
     throw new GraphQLError("Query => findStaff => ", err);
   }
-};
+});
 
 export default findStaff;

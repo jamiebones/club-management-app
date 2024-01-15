@@ -5,8 +5,15 @@ import { Supplier } from "../../../../models/SupplierModel";
 import { BarStock as BarStockType, AddBarStockInput, Payment as PaymentType, PaymentCategoryEnum } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
 import dbConnect from "../../../../../../../lib/dbConnect";
+import { IsAuthenticated, barStockAllowed } from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
-const addBarStock = async (
+
+const addBarStock = 
+combineResolvers(
+  IsAuthenticated,
+  barStockAllowed,
+async (
   parent: any,
   args: { request: AddBarStockInput },
   context: any,
@@ -54,6 +61,6 @@ const addBarStock = async (
   } catch (err: any) {
     throw new GraphQLError(`Mutation => BarStock => addBarStock: ${err}` );
   }
-};
+});
 
 export default addBarStock;

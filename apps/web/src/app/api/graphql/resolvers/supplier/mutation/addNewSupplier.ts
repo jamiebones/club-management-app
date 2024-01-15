@@ -2,8 +2,14 @@ import { Supplier } from "../../../../models/SupplierModel";
 import { Supplier as SupplierType, AddSupplierInput } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
 import dbConnect from "../../../../../../../lib/dbConnect";
+import { IsAuthenticated, allowAdministrativeTask} from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
-const addNewSupplier = async (
+const addNewSupplier = 
+combineResolvers(
+  IsAuthenticated,
+  allowAdministrativeTask,
+async (
   parent: any,
   args: { request: AddSupplierInput},
   context: any,
@@ -30,6 +36,6 @@ const addNewSupplier = async (
   } catch (err: any) {
     throw new GraphQLError(`Error => Mutation => addNewSupplier : ${err} `);
   }
-};
+});
 
 export default addNewSupplier;

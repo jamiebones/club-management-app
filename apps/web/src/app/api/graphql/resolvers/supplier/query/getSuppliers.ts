@@ -2,9 +2,15 @@ import { Supplier } from "../../../../models/SupplierModel";
 import { Supplier as SupplierType } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
 import dbConnect from "../../../../../../../lib/dbConnect";
+import { IsAuthenticated, allowAdministrativeTask} from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
 
-const getSuppliers = async (
+const getSuppliers = 
+combineResolvers(
+  IsAuthenticated,
+  allowAdministrativeTask,
+async (
   parent: any,
   args: { request: null },
   context: any,
@@ -19,6 +25,6 @@ const getSuppliers = async (
   } catch (err: any) {
     throw new GraphQLError("Query => getSuppliers =. Error: ", err);
   }
-};
+});
 
 export default getSuppliers;

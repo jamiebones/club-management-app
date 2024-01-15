@@ -2,14 +2,22 @@ import { DuesPayment } from "../../../../models/DuesPaymentModel";
 import { Members } from "../../../../models/MemberModel";
 import { AddDuesPaymentInput, DuesPayment as DuesPaymentType } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
+import dbConnect from "../../../../../../../lib/dbConnect";
+import { IsAuthenticated, onlyFinancialAllowed } from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
-const addDuesPayment = async (
+const addDuesPayment = 
+combineResolvers(
+  IsAuthenticated,
+  onlyFinancialAllowed,
+async (
   parent: any,
   args: { request: AddDuesPaymentInput },
   context: any,
   info: any,
 )=> {
   try {
+    await dbConnect();
     const { amountPaid, date, memberID, paymentFor, paymentType } = args.request;
     console.log("Mutation > addDuesPayment > args.fields = ", args.request);
     if (!amountPaid || !memberID || !paymentFor || !paymentType ) {
@@ -37,7 +45,7 @@ const addDuesPayment = async (
   } catch (err: any) {
     throw new GraphQLError(`Mutation => DrinksBanked => addBankedDrinks: ${err}` );
   }
-};
+});
 
 export default addDuesPayment;
 

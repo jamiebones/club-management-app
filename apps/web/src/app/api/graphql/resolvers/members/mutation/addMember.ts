@@ -2,8 +2,14 @@ import { Members } from "../../../../models/MemberModel";
 import { AddMemberInput, Member } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
 import dbConnect from "../../../../../../../lib/dbConnect";
+import { IsAuthenticated, allowAdministrativeTask } from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
-const addMember = async (
+const addMember = 
+combineResolvers(
+  IsAuthenticated,
+  allowAdministrativeTask,
+async (
   parent: any,
   args: { request: AddMemberInput },
   context: any,
@@ -51,6 +57,10 @@ const addMember = async (
       fields.sports = sports;
     }
 
+    if ( memberID ){
+      fields.memberID = memberID;
+    }
+
    const newMember = await new Members(fields).save();
 
    console.log("newmember data => ", newMember)
@@ -61,6 +71,6 @@ const addMember = async (
         extensions: { code: 'YOUR_ERROR_CODE' },
     });
   }
-};
+});
 
 export default addMember;

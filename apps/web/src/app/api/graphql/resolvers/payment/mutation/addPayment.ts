@@ -5,14 +5,22 @@ import { Staff } from "../../../../models/StaffModel";
 import { Supplier } from "../../../../models/SupplierModel";
 import { GraphQLError } from 'graphql';
 import { Members } from "../../../../models/MemberModel";
+import dbConnect from "../../../../../../../lib/dbConnect";
+import { IsAuthenticated, onlyFinancialAllowed } from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
-const addPayment = async (
+const addPayment = 
+combineResolvers(
+  IsAuthenticated,
+  onlyFinancialAllowed,
+async (
   parent: any,
   args: { request: AddPaymentInput },
   context: any,
   info: any,
 )=> {
   try {
+    await dbConnect();
     const { amountPaid, paymentCategory, paymentFor, receiverID, date } = args.request;
     console.log("Mutation > addPayment > args.fields = ", args.request);
     if ( !amountPaid ){
@@ -68,6 +76,6 @@ const addPayment = async (
   } catch (err: any) {
     throw new GraphQLError(`Mutation => Payment => addPayment : ${err}` );
   }
-};
+});
 
 export default addPayment;

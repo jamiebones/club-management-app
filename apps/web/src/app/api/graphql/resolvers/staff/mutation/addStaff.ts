@@ -2,8 +2,14 @@ import { Staff } from "../../../../models/StaffModel";
 import { Staff as StaffData, AddStaffInput } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
 import dbConnect from "../../../../../../../lib/dbConnect";
+import { IsAuthenticated, allowAdministrativeTask} from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
-const addStaff = async (
+const addStaff = 
+combineResolvers(
+  IsAuthenticated,
+  allowAdministrativeTask,
+async (
   parent: any,
   args: { request: AddStaffInput},
   context: any,
@@ -54,6 +60,6 @@ const addStaff = async (
   } catch (err: any) {
     throw new GraphQLError(`Error => Mutation => addStaff : ${err} `);
   }
-};
+});
 
 export default addStaff;

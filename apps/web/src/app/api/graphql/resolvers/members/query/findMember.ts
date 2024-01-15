@@ -2,9 +2,16 @@ import { Members } from "../../../../models/MemberModel";
 import { FindMemberInput, Member, MemberResult } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
 import dbConnect from "../../../../../../../lib/dbConnect";
+import { allAllowed, IsAuthenticated } from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
 
-const findMember = async (
+
+const findMember = 
+combineResolvers(
+  IsAuthenticated,
+  allAllowed,
+async (
   parent: any,
   args: { request:FindMemberInput },
   context: any,
@@ -47,6 +54,6 @@ const findMember = async (
   } catch (err: any) {
     throw new GraphQLError("Query => findMember =. Error: ", err);
   }
-};
+});
 
 export default findMember;

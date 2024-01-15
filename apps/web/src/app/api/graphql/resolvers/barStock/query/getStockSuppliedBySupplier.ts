@@ -2,15 +2,23 @@ import { BarStock } from "../../../../models/BarStockModel";
 import { Supplier } from "../../../../models/SupplierModel";
 import { FindBarStockInput, BarStock as BarStockType } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
+import dbConnect from "../../../../../../../lib/dbConnect";
+import { allAllowed, IsAuthenticated } from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
 
-const getStockSuppliedBySupplier = async (
+const getStockSuppliedBySupplier = 
+combineResolvers(
+  IsAuthenticated,
+  allAllowed,
+async (
   parent: any,
   args: { request:FindBarStockInput },
   context: any,
   info: any,
 ) => {
   try {
+    await dbConnect();
     const { _id } = args.request;
     console.log("Query > getStockSuppliedBySupplier > args.fields = ", args.request);
     if (! _id ) {
@@ -26,6 +34,6 @@ const getStockSuppliedBySupplier = async (
   } catch (err: any) {
     throw new GraphQLError("Query => getStockSuppliedBySupplier =. Error: ", err);
   }
-};
+});
 
 export default getStockSuppliedBySupplier;

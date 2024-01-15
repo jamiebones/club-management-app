@@ -1,14 +1,22 @@
 import { Staff } from "../../../../models/StaffModel";
 import { Staff as StaffData, UpdateStaffInput } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
+import dbConnect from "../../../../../../../lib/dbConnect";
+import { IsAuthenticated, allowAdministrativeTask} from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
-const updateStaff = async (
+const updateStaff = 
+combineResolvers(
+  IsAuthenticated,
+  allowAdministrativeTask,
+async (
   parent: any,
   args: { request: UpdateStaffInput},
   context: any,
   info: any,
 ) => {
   try {
+    await dbConnect();
     const { contact, firstname, surname, employeeID, _id,
     nextOfKin, jobTitle, employmentStatus, employmentType, dateOfEmployment, sex,  } = args.request;
     console.log("Mutation > addStaff > args.fields = ", args.request);
@@ -36,7 +44,6 @@ const updateStaff = async (
       fields.sex = sex
     }
 
-
     if ( nextOfKin ){
       fields.nextOfKin = nextOfKin
     }
@@ -55,6 +62,6 @@ const updateStaff = async (
   } catch (err: any) {
     throw new GraphQLError(`Error => Mutation => updateStaff : ${err} `);
   }
-};
+});
 
 export default updateStaff;

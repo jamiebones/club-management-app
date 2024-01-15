@@ -2,16 +2,24 @@ import { BarSales } from "../../../../models/BarSaleModel";
 import { Members } from "../../../../models/MemberModel";
 import { FindMemberPatronageInput, BarSale as BarSaleType } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
+import { IsAuthenticated, allAllowed } from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
+import dbConnect from "../../../../../../../lib/dbConnect";
 
 
 
-const findMemberPatronage = async (
+const findMemberPatronage = 
+combineResolvers(
+  IsAuthenticated,
+  allAllowed,
+async (
   parent: any,
   args: { request: FindMemberPatronageInput },
   context: any,
   info: any,
 ) => {
   try {
+    await dbConnect();
     const { memberID, startDate, endDate, saleType, paymentType } = args.request;
     console.log("Query > findMemberPatronage > args.fields = ", args.request);
     if (! memberID ) {
@@ -43,6 +51,6 @@ const findMemberPatronage = async (
   } catch (err: any) {
     throw new GraphQLError("Query => findMemberPatronage =. Error: ", err);
   }
-};
+});
 
 export default findMemberPatronage;

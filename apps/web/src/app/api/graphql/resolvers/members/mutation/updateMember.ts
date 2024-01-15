@@ -1,14 +1,22 @@
 import { Members } from "../../../../models/MemberModel";
 import { UpdateMemberInput, Member } from "../../../../generated/graphqlStaffClub";
-import { GraphQLError, GraphQLString } from 'graphql';
+import { GraphQLError } from 'graphql';
+import dbConnect from "../../../../../../../lib/dbConnect";
+import { IsAuthenticated, allowAdministrativeTask } from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
-const updateMember = async (
+const updateMember = 
+combineResolvers(
+  IsAuthenticated,
+  allowAdministrativeTask,
+async (
   parent: any,
   args: { request: UpdateMemberInput },
   context: any,
   info: any,
 ) => {
   try {
+    await dbConnect();
     const { contact, email, firstname, title, birthDay, surname, _id,
     memberID, membershipType, sex, employer, nextOfKin, jobTitle, sports  } = args.request;
     console.log("Mutation > updateMember > args.fields = ", args.request);
@@ -73,6 +81,6 @@ const updateMember = async (
         extensions: { code: 'Mutation -> updateMember' },
     });
   }
-};
+});
 
 export default updateMember;

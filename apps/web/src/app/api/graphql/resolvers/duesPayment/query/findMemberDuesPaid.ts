@@ -1,10 +1,16 @@
 import { DuesPayment } from "../../../../models/DuesPaymentModel";
 import { FindMemberDuesPaidInput } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
+import { IsAuthenticated, onlyFinancialAllowed } from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
 
 
-const findMemberDuesPaid = async (
+const findMemberDuesPaid = 
+combineResolvers(
+  IsAuthenticated,
+  onlyFinancialAllowed,
+async (
   parent: any,
   args: { request: FindMemberDuesPaidInput },
   context: any,
@@ -22,6 +28,6 @@ const findMemberDuesPaid = async (
   } catch (err: any) {
     throw new GraphQLError("Query => findMemberDuesPayment =. Error: ", err);
   }
-};
+});
 
 export default findMemberDuesPaid;

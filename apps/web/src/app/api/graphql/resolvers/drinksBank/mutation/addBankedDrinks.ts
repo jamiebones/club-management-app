@@ -3,14 +3,22 @@ import { Members } from "../../../../models/MemberModel";
 import { Staff } from "../../../../models/StaffModel";
 import { DrinksBank as DrinksBankType, AddBankedDrinksInput } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
+import dbConnect from "../../../../../../../lib/dbConnect";
+import { onlySalesAllowed, IsAuthenticated } from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
-const addBankedDrinks = async (
+const addBankedDrinks = 
+combineResolvers(
+  IsAuthenticated,
+  onlySalesAllowed,
+async (
   parent: any,
   args: { request: AddBankedDrinksInput },
   context: any,
   info: any,
 )=> {
   try {
+    await dbConnect();
     const { memberID, staffID, items,  } = args.request;
     console.log("Mutation > addBankedDrinks > args.fields = ", args.request);
     if (items?.length == 0 ) {
@@ -46,6 +54,6 @@ const addBankedDrinks = async (
   } catch (err: any) {
     throw new GraphQLError(`Mutation => DrinksBanked => addBankedDrinks: ${err}` );
   }
-};
+});
 
 export default addBankedDrinks;

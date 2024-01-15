@@ -1,14 +1,22 @@
 import { Supplier } from "../../../../models/SupplierModel";
 import { Supplier as SupplierType, UpdateSupplierInput} from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
+import dbConnect from "../../../../../../../lib/dbConnect";
+import { IsAuthenticated, allowAdministrativeTask} from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
 
-const updateSupplier = async (
+const updateSupplier = 
+combineResolvers(
+  IsAuthenticated,
+  allowAdministrativeTask,
+async (
   parent: any,
   args: { request: UpdateSupplierInput},
   context: any,
   info: any,
 ) => {
   try {
+    await dbConnect();
     const { contact, supplierID, address, name  } = args.request;
     console.log("Mutation > updateSupplier > args.fields = ", args.request);
     
@@ -53,6 +61,6 @@ const updateSupplier = async (
   } catch (err: any) {
     throw new GraphQLError(`Error => Mutation => updateStaff : ${err} `);
   }
-};
+});
 
 export default updateSupplier

@@ -3,14 +3,22 @@ import { Members } from "../../../../models/MemberModel";
 import { Staff } from "../../../../models/StaffModel";
 import { BarSale as BarSaleType, NewBarSaleInput } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
+import { IsAuthenticated, barSalesAllowed } from "../../../authorization/auth";
+import { combineResolvers } from "graphql-resolvers";
+import dbConnect from "../../../../../../../lib/dbConnect";
 
-const newBarSale = async (
+const newBarSale = 
+combineResolvers(
+  IsAuthenticated,
+  barSalesAllowed,
+async (
   parent: any,
   args: { request: NewBarSaleInput },
   context: any,
   info: any,
 )=> {
   try {
+    await dbConnect()
     const { memberID, staffID, items,
         amount,
         paymentType,
@@ -45,6 +53,6 @@ const newBarSale = async (
   } catch (err: any) {
     throw new GraphQLError(`Mutation => BarSale => newBarSale: ${err}` );
   }
-};
+});
 
 export default newBarSale;

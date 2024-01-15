@@ -57,6 +57,7 @@ callbacks: {
       token.bioDataId = user.bioDataId;
       token.id = user.id;
     }
+    // console.log("token ", token)
     return token;
   },
   session({ session, token }) {
@@ -66,7 +67,7 @@ callbacks: {
       session.user.bioDataId = token.bioDataId;
       session.user.id = token.id
     }
-    console.log("session =>", session)
+    // console.log("session =>", session)
     return session;
   },
   },
