@@ -223,7 +223,10 @@ const AddStock = () => {
 
   return (
     <div className="w-full max-w-screen-xl mx-auto mt-10">
-       <h2 className="text-center mt-20 text-lg">Add Bar Stock</h2>
+      <div className="text-center mt-20 text-xl">
+        <h2 className="text-xl text-gray-500 bg-black">Add Bar Stock</h2>
+      </div>
+
       {error && <ErrorDiv errorMessage={error} />}
       {loading ? (
         <LoadingSpinner />
@@ -387,6 +390,8 @@ const AddStock = () => {
               </p>
             )}
 
+            {formData.amount > 0 && <hr className="border-t border-gray-300 w-full my-4" />}
+
             {formData.amount > 0 &&
               formData.date &&
               formData.itemsSupplied.length > 0 &&
@@ -395,7 +400,7 @@ const AddStock = () => {
                 <div className="mb-4 text-center">
                   <button
                     onClick={handleItemSubmission}
-                    className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-purple-600 hover:to-blue-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">
+                    className="bg-green-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">
                     Save supply details
                   </button>
                 </div>

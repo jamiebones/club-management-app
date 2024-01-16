@@ -4,6 +4,7 @@ import { FaSpinner, FaTools } from "react-icons/fa";
 import { request } from "graphql-request";
 import { AddNewItemToDB } from "../graphqlRequest/mutation";
 import LoadingSpinner from "@/app/components/Loading";
+import { Button } from 'flowbite-react';
 
 const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 
@@ -133,10 +134,11 @@ const AddItem = () => {
           </div>
 
           <div className="text-center">
-            <button
-              type="button"
+            <Button
+              
+              color="success"
               onClick={handleSubmit}
-              className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-purple-600 hover:to-blue-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">
+             >
               {loading ? (
                 <>
                   <FaSpinner className="animate-spin" />
@@ -148,8 +150,9 @@ const AddItem = () => {
                   <label>Save Item</label>
                 </div>
               )}
-            </button>
+            </Button>
           </div>
+          <Button color="black" className="text-white">Blue</Button>
         </div>
       )}
     </div>
