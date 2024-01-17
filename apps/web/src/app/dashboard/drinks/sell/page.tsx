@@ -440,7 +440,7 @@ const SellItem = () => {
           </div>
         )}
 
-        {showPaymentType && (
+        {selectedDrinks && selectedDrinks.length > 0 && showPaymentType && (
           <div className="w-1/2 self-center mt-auto">
             <div className="mb-4">
               <label htmlFor="paymentType" className="text-sm text-gray-600 block">
