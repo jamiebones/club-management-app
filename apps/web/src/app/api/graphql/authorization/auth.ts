@@ -76,7 +76,7 @@ const barStockAllowed = (parent: any, args: any, context: any) => {
 };
 
 const onlySalesAllowed = (parent: any, args: any, context: any) => {
-    const roles = ["SALES","ADMIN"]
+    const roles = ["SALES","ADMIN", "BARSECRETARY"]
     if (roles.includes(context?.token.role)) {
         return skip;
       } else {

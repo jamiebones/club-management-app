@@ -8,6 +8,7 @@ interface Item {
   price: number;
   _id: number;
   total: number;
+  stock: number;
 }
 
 const ItemToSellComponent: React.FC<{

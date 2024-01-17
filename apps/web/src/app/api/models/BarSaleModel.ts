@@ -25,17 +25,17 @@ date: {
 
 
   amount: {
-    type: String
+    type: Number
   },
 
   paymentType: {
     String,
-    enum: ["CASH", "BANK", "CREDIT"]
+    enum: ["CASH", "POS", "TRANSFER", "CREDIT"]
   },
     
   saleType: {
      type: String,
-     enum: ["PRESIDENTIAL", "NORMAL"]
+     enum: ["CASH", "CREDIT"]
   },
 
 });

@@ -10,7 +10,7 @@ export default gql.gql`
      seller: Staff
      items: [ BeerBrandType ]
      date: Date
-     amount: String
+     amount: Int
      paymentType: paymentTypeEnum
      saleType: saleTypeEnum
 		}

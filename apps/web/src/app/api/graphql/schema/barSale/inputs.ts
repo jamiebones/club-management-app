@@ -6,7 +6,7 @@ export default gql.gql`
      memberID: ID!
      staffID: ID!
      items: [ BeerBrandInput! ]
-     amount: String!
+     amount: Int!
      paymentType: paymentTypeEnum!
      saleType: saleTypeEnum!
   }

@@ -18,7 +18,7 @@ export type Scalars = {
 export type BarSale = {
   __typename?: 'BarSale';
   _id?: Maybe<Scalars['ID']['output']>;
-  amount?: Maybe<Scalars['String']['output']>;
+  amount?: Maybe<Scalars['Int']['output']>;
   customer?: Maybe<Member>;
   date?: Maybe<Scalars['Date']['output']>;
   items?: Maybe<Array<Maybe<BeerBrandType>>>;
@@ -568,7 +568,7 @@ export enum MembershipTypeEnum {
 }
 
 export type NewBarSaleInput = {
-  amount: Scalars['String']['input'];
+  amount: Scalars['Int']['input'];
   items?: InputMaybe<Array<BeerBrandInput>>;
   memberID: Scalars['ID']['input'];
   paymentType: PaymentTypeEnum;
@@ -585,9 +585,9 @@ export enum PaymentCategoryEnum {
 }
 
 export enum PaymentTypeEnum {
-  Bank = 'BANK',
   Cash = 'CASH',
   Credit = 'CREDIT',
+  Pos = 'POS',
   Transfer = 'TRANSFER'
 }
 
@@ -601,8 +601,8 @@ export enum RoleEnum {
 }
 
 export enum SaleTypeEnum {
-  Normal = 'NORMAL',
-  Presidential = 'PRESIDENTIAL'
+  Cash = 'CASH',
+  Credit = 'CREDIT'
 }
 
 export enum SexEnum {

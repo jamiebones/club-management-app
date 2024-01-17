@@ -10,7 +10,7 @@ enum paymentTypeEnum {
    CASH
    TRANSFER
    CREDIT
-   BANK
+   POS
 }
 enum OrderField {
     memberID

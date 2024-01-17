@@ -2,10 +2,17 @@
 import { useEffect, useState } from "react";
 import { GetMemberDetails, GetItemsForSale } from "@/app/graphqlRequest/queries";
 import LoadingSpinner from "@/app/components/Loading";
+import ErrorDiv from "@/app/components/ErrorDiv";
 import { request } from "graphql-request";
-import { FaSpinner, FaSearch } from "react-icons/fa";
+import { FaSpinner, FaSearch, FaApplePay } from "react-icons/fa";
 import ItemToSellComponent from "@/app/components/ItemsToSellCoponent";
 import MemberDisplay from "@/app/components/MemberDisplay";
+import { AddNewBarSale } from "@/app/graphqlRequest/mutation";
+import {
+  NewBarSaleInput,
+  SaleTypeEnum,
+  PaymentTypeEnum,
+} from "@/app/api/generated/graphqlStaffClub";
 
 const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 
@@ -37,6 +44,7 @@ interface SelectedDrinks {
   price: number;
   _id: number;
   total: number;
+  stock: number;
 }
 
 const SellItem = () => {
@@ -53,6 +61,11 @@ const SellItem = () => {
   const [drinks, setDrinks] = useState<Drinks[]>([]);
   const [selectedDrinks, setSelectedDrinks] = useState<SelectedDrinks[]>([]);
   const [itemsLoading, setItemsLoading] = useState(false);
+  const [salesType, setSalesType] = useState("");
+  const [paymentType, setPaymentType] = useState("");
+  const [showPaymentType, setShowPaymentType] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSerachTermChange = (e: any) => {
     const { name, value } = e.target;
@@ -75,14 +88,13 @@ const SellItem = () => {
         //we have a member
         setNotFound(false);
         setBuyer(response.findMember);
-        setSelectedDrinks([])
-        
+        setSelectedDrinks([]);
       }
       //case two no member:
       if (response.findMember && response.findMember?.message) {
         //no member
         setNotFound(true);
-        setSelectedDrinks([])
+        setSelectedDrinks([]);
         setBuyer({
           memberID: "",
           firstname: "",
@@ -133,6 +145,7 @@ const SellItem = () => {
         name,
         total: +sellingPrice,
         quantity: 1,
+        stock: +totalStock,
       };
       const itemIndex = selectedDrinks.findIndex(item => item._id === _id);
       if (itemIndex > -1) {
@@ -153,9 +166,11 @@ const SellItem = () => {
   const addItem = (index: number) => {
     const items: SelectedDrinks[] = [...selectedDrinks];
     const item = items[index];
-    item.quantity += 1;
-    items[index] = item;
-    setSelectedDrinks(items);
+    if (+item.quantity + 1 <= +item.stock) {
+      item.quantity += 1;
+      items[index] = item;
+      setSelectedDrinks(items);
+    }
   };
 
   const removeItem = (index: number) => {
@@ -174,14 +189,109 @@ const SellItem = () => {
     setSelectedDrinks(items);
   };
 
+  const handleSaleTypeChange = (e: any) => {
+    const { value } = e.target;
+    if (value == "CASH") {
+      setShowPaymentType(true);
+    } else {
+      setShowPaymentType(false);
+      setPaymentType("");
+    }
+    setSalesType(value);
+  };
+
+  const handlePaymentTypeChange = (e: any) => {
+    const { value } = e.target;
+    setPaymentType(value);
+  };
+
+  const handleDrinksSale = async () => {
+    let total = 0;
+    selectedDrinks.map(({ quantity, price }) => {
+      total += quantity * price;
+    });
+
+    if (!buyer.memberID) {
+      alert("A buyer is required to buy drinks");
+      return;
+    }
+    if (selectedDrinks?.length == 0) {
+      alert("Select some drinks you are selling");
+      return;
+    }
+    if (salesType == "") {
+      alert("Select sale type of Cash or Credit");
+      return;
+    }
+    if (salesType === "CASH" && paymentType == "") {
+      alert("Select the payment type");
+      return;
+    }
+    const dataToInsert = `
+       Member : ${buyer.title} ${buyer.firstname.toUpperCase()} ${buyer.surname.toUpperCase()}
+       Drinks : ${selectedDrinks.map(({ name, quantity, price }) => {
+         return `${name} = ${quantity * price} \n`;
+       })}
+      
+       Sale Type: ${salesType}
+       Payment Type: ${paymentType}
+       Total: ${total}
+    `;
+
+    const confirmInsert = confirm(dataToInsert);
+    if (!confirmInsert) return;
+    const drinks: {
+      brand: string;
+      quantity: number;
+    }[] = [];
+
+    selectedDrinks.forEach(({ name, quantity }) => {
+      drinks.push({
+        brand: name,
+        quantity,
+      });
+    });
+    const boughtItemsData = {
+      memberID: buyer.memberID,
+      items: drinks,
+      amount: total,
+      staffID: "to-be-replaced-serverSide",
+      saleType: salesType,
+      paymentType: salesType === "CASH" ? paymentType : "CREDIT",
+    };
+    try {
+      setLoading(true);
+      const response: any = await request({
+        url: graphqlURL,
+        document: AddNewBarSale,
+        variables: { request: { ...boughtItemsData } },
+      });
+      if (response.newBarSale._id) {
+        alert("Successul");
+        setBuyer({ memberID: "", firstname: "", title: "", membershipType: "", surname: "" });
+        setSelectedDrinks([]);
+        setPaymentType("");
+        setSalesType("");
+        loadBeerDataFromDB();
+      }
+    } catch (error: any) {
+      setError(error?.message);
+      console.log("Error from selling drinks => ", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     loadBeerDataFromDB();
   }, []);
 
   return (
     <div className="container mt-20 p-4 mx-auto w-full">
+      {loading && <LoadingSpinner />}
+      {error && <ErrorDiv errorMessage={error} />}
       {/* //first row} */}
-      <div className="flex justify-around p-4 mx-auto w-full">
+      <div className="flex justify-center p-4 w-full">
         <div className="w-2/3 p-4">
           <div className="border rounded p-4">
             <h2 className="text-lg font-semibold mb-4">Search Members</h2>
@@ -263,13 +373,13 @@ const SellItem = () => {
 
       {/* //second row} */}
 
-      <div className="flex justify-around p-4 mx-auto w-full">
-        <div className="w-1/3">
+      <div className="flex flex-col items-stretch p-4 mx-auto w-full">
+        <div className="w-1/2 self-center">
           {buyer && buyer.firstname && buyer.surname && (
             <div>
               <div className="mb-4">
                 <label htmlFor="items" className="text-sm text-gray-600 block">
-                  Item
+                  Drinks
                 </label>
                 <select
                   id="items"
@@ -286,9 +396,9 @@ const SellItem = () => {
                       return (
                         <option
                           value={`${_id}:${name}:${totalStock}:${numberInCrate}:${sellingPrice}`}
-                          className="flex justify-between">
-                          <span className="mr-auto">{name}:</span>
-                          <span className="ml-auto">{totalStock}</span>
+                          className="flex flex-col justify-between">
+                          <span className="inline-block">{name} : </span>
+                          <span className="inline-block self-end p-4">{totalStock}</span>
                         </option>
                       );
                     })}
@@ -298,7 +408,7 @@ const SellItem = () => {
           )}
         </div>
 
-        <div className="w-2/3 p-4">
+        <div className="w-3/5 p-4">
           <ItemToSellComponent
             drinks={selectedDrinks}
             removeItem={removeItem}
@@ -306,6 +416,72 @@ const SellItem = () => {
             deleteItem={deleteItem}
           />
         </div>
+
+        {selectedDrinks && selectedDrinks.length > 0 && (
+          <div className="w-1/2 self-center mt-auto">
+            <div className="mb-4">
+              <label htmlFor="saleType" className="text-sm text-gray-600 block">
+                Sale Type
+              </label>
+              <select
+                id="select"
+                className="w-full border p-2 rounded focus:outline-none focus:border-blue-500 transition duration-300"
+                defaultValue=""
+                name="saleType"
+                value={salesType}
+                onChange={handleSaleTypeChange}>
+                <option value="" disabled>
+                  Select sale type
+                </option>
+                <option value="CASH">Cash</option>
+                <option value="CREDIT">Credit</option>
+              </select>
+            </div>
+          </div>
+        )}
+
+        {showPaymentType && (
+          <div className="w-1/2 self-center mt-auto">
+            <div className="mb-4">
+              <label htmlFor="paymentType" className="text-sm text-gray-600 block">
+                Payment Type
+              </label>
+              <select
+                id="select"
+                className="w-full border p-2 rounded focus:outline-none focus:border-blue-500 transition duration-300"
+                defaultValue=""
+                name="paymentType"
+                onChange={handlePaymentTypeChange}>
+                <option value="" disabled>
+                  Select payment type
+                </option>
+                <option value="POS">POS</option>
+                <option value="CASH">CASH</option>
+                <option value="TRANSFER">TRANSFER</option>
+              </select>
+            </div>
+          </div>
+        )}
+
+        {buyer && buyer?.memberID && selectedDrinks.length > 0 && (
+          <div className="w-1/2 self-center mt-auto">
+            <button
+              onClick={handleDrinksSale}
+              className="w-full bg-green-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">
+              {loading ? (
+                <>
+                  <FaSpinner className="animate-spin" />
+                  <label>Loading</label>
+                </>
+              ) : (
+                <>
+                  <FaApplePay className="mr-2" />
+                  <label>Sell Drinks</label>
+                </>
+              )}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
