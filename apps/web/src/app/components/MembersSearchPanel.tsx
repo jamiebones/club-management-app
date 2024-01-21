@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 interface MemberSearchInput {
   jobTitle?: string;
   memberType?: string;
+  sex?: "MALE" | "FEMALE";
   sports?: string;
   startBirthDate?: Date | null | undefined;
   endBirthDate?: Date | null | undefined;
@@ -88,6 +89,23 @@ const MemberSearchPanel: React.FC<MemberSearchPanelProps> = ({ onSearch }) => {
               <option value="ASSOCIATE">ASSOCIATE MEMBER</option>
             </select>
           </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">Sex:</label>
+            <select
+              id="role"
+              className="w-full p-2 border border-gray-300 rounded-md"
+              defaultValue=""
+              name="sex"
+              onChange={e => handleInputChange("sex", e.target.value)}>
+              <option value="" disabled>
+                Select Sex
+              </option>
+              <option value="MALE">MALE</option>
+              <option value="FEMALE">FEMALE</option>
+            </select>
+          </div>
+
 
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Sports:</label>

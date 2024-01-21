@@ -7,7 +7,9 @@ import { request } from "graphql-request";
 import { GetMembers } from "@/app/graphqlRequest/queries";
 import MemberSearchPanel from "@/app/components/MembersSearchPanel";
 import LoadingSpinner from "@/app/components/Loading";
-import { AnyNaptrRecord } from "dns";
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+
 
 const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 
@@ -15,6 +17,7 @@ interface MemberSearchInput {
   jobTitle?: string;
   memberType?: string;
   sports?: string;
+  sex?: string;
   startBirthDate?: Date | null | undefined;
   endBirthDate?: Date | null | undefined;
   orderField?: string;
@@ -22,17 +25,35 @@ interface MemberSearchInput {
 
 const GetMembersDetails = () => {
   const [rowData, setRowData] = useState([]);
+  const router = useRouter();
+  const buttonRenderer = (params: any) => {
+    return (
+      <Link href={`/dashboard/member/edit?firstname=${params.data.firstname}&surname=${params.data.surname}`}
+       target="_blank">Edit
+       
+       </Link>
+      // <button
+      //   onClick={() => params.onClick(params)}
+      //   className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-1 m-2 focus:outline-none focus:shadow-outline-blue active:bg-blue-800">
+      //   Edit
+      // </button>
+    );
+  };
+
+  const handleRowSelect = (rowData: any) => {
+    router.push(`/dashboard/member/edit?firstname=${rowData.firstname}&surname=${rowData.surname}`)
+  };
+
   // Column Definitions: Defines & controls grid columns.
   const [colDefs, setColDefs] = useState([
     {
-      headerName: '#',
+      headerName: "#",
       width: 60,
-      valueGetter: (params: any) =>  {
-        console.log("params ", params)
-        return params.node.rowIndex + 1
-      } // Access row index for number
+      valueGetter: (params: any) => {
+        return params.node.rowIndex + 1;
+      }, // Access row index for number
       //cellRenderer: 'serialNumberRenderer'  // Use custom renderer for formatting
-  },
+    },
     { field: "memberID" },
     { field: "title" },
     { field: "firstname" },
@@ -45,6 +66,17 @@ const GetMembersDetails = () => {
     { field: "sex" },
     { field: "birthDay" },
     { field: "sports" },
+    {
+      headerName: "Actions",
+      width: 100,
+      cellRenderer: buttonRenderer,
+      cellRendererParams: {
+        onClick: (params: any) => {
+          debugger;
+          return alert("Hello")
+        }, // Pass row data to handler
+      },
+    },
   ]);
 
   const [loading, setLoading] = useState(false);
@@ -100,7 +132,6 @@ const GetMembersDetails = () => {
         });
       }
 
-
       let sportsArray: string[] = [];
       if (input.sports) {
         const splitSports = input.sports.split(",");
@@ -112,9 +143,9 @@ const GetMembersDetails = () => {
       let endDate = null;
       if (input.startBirthDate && input.endBirthDate) {
         const options = { month: "2-digit", day: "2-digit" };
-        
+
         startDate = new Date(input.startBirthDate).toLocaleString("en-US", options as any);
-        console.log("start date" , startDate )
+        console.log("start date", startDate);
         endDate = new Date(input.endBirthDate).toLocaleString("en-US", options as any);
       }
 
@@ -122,20 +153,20 @@ const GetMembersDetails = () => {
         request: {
           jobTitle: jobTitleArray.length > 0 ? jobTitleArray : null,
           memberType: input.memberType,
+          sex: input.sex,
           sports: sportsArray.length > 0 ? sportsArray : null,
           startBirthDate: startDate,
           endBirthDate: endDate,
         },
         orderBy: {
           direction: sortOrder,
-          field: input.orderField
+          field: input.orderField,
         },
         after: "",
         before: "",
         limit: limit,
       };
 
-      console.log("data request ", dataInput)
 
       const response: any = await request({
         url: graphqlURL,
@@ -156,13 +187,15 @@ const GetMembersDetails = () => {
   }
 
   return (
-    <div className="mt-10 p-10">
-      <MemberSearchPanel onSearch={handleSearch} />
-      <div className="ag-theme-quartz" style={{ height: 1000 }}>
-        {/* The AG Grid component */}
-        <AgGridReact rowData={rowData} columnDefs={colDefs as any} />
+  
+      <div className="mt-10 p-10">
+        <MemberSearchPanel onSearch={handleSearch} />
+        <div className="ag-theme-quartz" style={{ height: 1000 }}>
+          {/* The AG Grid component */}
+          <AgGridReact rowData={rowData} columnDefs={colDefs as any} rowSelection="single" />
+        </div>
       </div>
-    </div>
+  
   );
 };
 

@@ -1,26 +1,33 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FindMemberFullDetails } from "@/app/graphqlRequest/queries";
 import { request } from "graphql-request";
 import EditMemberComponent from "@/app/components/EditMemberComponent";
-
+import { Member } from "@/app/api/generated/graphqlStaffClub";
+import { useSearchParams } from "next/navigation";
 const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 
 const EditMember = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [member, setMember] = useState(null);
+  const [member, setMember] = useState<Member | null>();
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const buttonRef = useRef(null);
+
+  const searchParams = useSearchParams();
+
+  const firstname = searchParams.get("firstname");
+  const surname = searchParams.get("surname");
 
   const handleSearchMember = async () => {
     if (!firstName && !lastName) return;
     let variables = {
-        request: {
-            firstname: "",
-            surname: "",
-        }
-     
+      request: {
+        firstname: "",
+        surname: "",
+      },
     };
     if (firstName) {
       variables.request.firstname = firstName;
@@ -37,7 +44,7 @@ const EditMember = () => {
         variables: variables,
       });
       const { findMember } = response as any;
-      console.log("response ", response)
+      console.log("response ", response);
       if (findMember?.message) {
         setMessage("User not found");
         setMember(null);
@@ -51,6 +58,13 @@ const EditMember = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (firstname && surname) {
+      setFirstName(firstname);
+      setLastName(surname);
+    }
+  }, [firstname, surname]);
 
   return (
     <div className="w-full max-w-screen-xl mx-auto mt-16 p-6 bg-white rounded shadow-md">
@@ -71,6 +85,7 @@ const EditMember = () => {
           onChange={e => setLastName(e.target.value)}
         />
         <button
+          ref={buttonRef}
           disabled={loading}
           className="bg-blue-500 text-white px-4 py-2 rounded"
           onClick={handleSearchMember}
@@ -83,7 +98,7 @@ const EditMember = () => {
         {message && <p className="text-lg">Member details not found</p>}
       </div>
 
-        { member && <EditMemberComponent member={member} />}
+      {member && <EditMemberComponent member={member} />}
     </div>
   );
 };

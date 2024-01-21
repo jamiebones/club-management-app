@@ -440,7 +440,7 @@ const SellItem = () => {
           </div>
         )}
 
-        {selectedDrinks && selectedDrinks.length > 0 && showPaymentType && (
+        { showPaymentType && (
           <div className="w-1/2 self-center mt-auto">
             <div className="mb-4">
               <label htmlFor="paymentType" className="text-sm text-gray-600 block">
@@ -464,10 +464,10 @@ const SellItem = () => {
         )}
 
         {buyer && buyer?.memberID && selectedDrinks.length > 0 && (
-          <div className="w-1/2 self-center mt-auto">
+          <div className="self-center mt-auto">
             <button
               onClick={handleDrinksSale}
-              className="w-full bg-green-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">
+              className="mt-2 bg-green-500 text-white px-4 py-2 rounded flex items-center">
               {loading ? (
                 <>
                   <FaSpinner className="animate-spin" />

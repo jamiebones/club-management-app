@@ -547,6 +547,7 @@ export type FindMembersInput = {
   endBirthDate?: InputMaybe<Scalars['String']['input']>;
   jobTitle?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   memberType?: InputMaybe<Scalars['String']['input']>;
+  sex?: InputMaybe<Scalars['String']['input']>;
   sports?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   startBirthDate?: InputMaybe<Scalars['String']['input']>;
 };

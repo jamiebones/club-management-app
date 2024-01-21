@@ -27,7 +27,7 @@ async (
   context: any,
   info: any,
 ):Promise<FindMembersCursorOutput> => {
-    const { request: { jobTitle, memberType, sports, startBirthDate, endBirthDate }, after, before, limit, orderBy } = args;
+    const { request: { jobTitle, memberType, sports, startBirthDate, endBirthDate, sex }, after, before, limit, orderBy } = args;
     console.log("Query > findMembers > args.fields = ", args);
     await dbConnect();
     let options: SearchOptions = {
@@ -139,6 +139,71 @@ async (
         }
     }
   }
+  
+  if (jobTitle && sex ) {
+    if (sports && sports.length > 0) {
+    searchQuery = {
+        $and: [{ jobTitle: jobTitle, sex: sex }, 
+          {sports: {
+            $elemMatch: {
+              $in: sports.map(sport => new RegExp(sport!, 'i'))
+            }
+          }
+        }
+        ],
+    };
+    } else {
+    searchQuery = {
+        jobTitle : jobTitle,
+        sex: sex
+    };
+    }
+} else {
+  //we don't have both memberType and jobTitle
+  if ( jobTitle || sex ){
+      if ( jobTitle ){
+          if (sports && sports.length > 0) {
+              searchQuery = {
+                  $and: [{ jobTitle: jobTitle }, {sports: {
+                    $elemMatch: {
+                      $in: sports.map(sport => new RegExp(sport!, 'i'))
+                    }
+                  }
+                }],
+              };
+              } else {
+              searchQuery = {
+                  jobTitle : jobTitle,
+              };
+          }
+      } else if ( sex ){
+          if (sports && sports.length > 0) {
+              searchQuery = {
+                  $and: [{ sex: sex }, {sports: {
+                    $elemMatch: {
+                      $in: sports.map(sport => new RegExp(sport!, 'i'))
+                    }
+                  }
+                }],
+              };
+              } else {
+              searchQuery = {
+                  sex: sex
+              };
+          }
+      }
+  } else {
+      if  (sports && sports.length > 0) {
+       searchQuery = {sports: {
+          $elemMatch: {
+            $in: sports.map(sport => new RegExp(sport!, 'i'))
+          }
+        }
+      }
+      }
+  }
+}
+  
 
   if ( startBirthDate && endBirthDate && memberType ){
     searchQuery = {
@@ -157,9 +222,12 @@ async (
             } 
           }
     }
+
   
-  console.log("startDate : endDate", startBirthDate, endBirthDate)
-  console.log("query options ", options);
+  // console.log("startDate : endDate", startBirthDate, endBirthDate)
+  // console.log("query options ", options);
+
+  console.log("search query ", searchQuery)
     try {
     let membersData: any = await Members.find({ ...searchQuery, ...options.filters })
       .sort(options.sort)
