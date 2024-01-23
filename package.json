@@ -5,8 +5,7 @@
   "main": "index.js",
   "private": true,
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "apps/*"
   ],
   "scripts": {
     "test": "turbo run test",
