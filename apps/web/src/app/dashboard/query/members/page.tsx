@@ -71,10 +71,7 @@ const GetMembersDetails = () => {
       width: 100,
       cellRenderer: buttonRenderer,
       cellRendererParams: {
-        onClick: (params: any) => {
-          debugger;
-          return alert("Hello")
-        }, // Pass row data to handler
+        onClick: (params: any) => {}, // Pass row data to handler
       },
     },
   ]);

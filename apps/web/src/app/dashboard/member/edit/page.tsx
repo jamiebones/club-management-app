@@ -38,19 +38,19 @@ const EditMember = () => {
     }
     try {
       setLoading(true);
+      setMember(null);
+      setMessage("");
       const response = await request({
         url: graphqlURL,
         document: FindMemberFullDetails,
         variables: variables,
       });
       const { findMember } = response as any;
-      console.log("response ", response);
+      console.log("response from query ", response);
       if (findMember?.message) {
         setMessage("User not found");
-        setMember(null);
-      } else {
+      } else if (findMember?.firstname) {
         setMember(findMember);
-        setMessage("");
       }
     } catch (error) {
       console.log("error => ", error);

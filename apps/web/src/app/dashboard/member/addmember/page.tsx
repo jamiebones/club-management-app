@@ -199,6 +199,11 @@ const MemberForm: React.FC = () => {
             <option value="ENGR">ENGR</option>
             <option value="ARCHITECT">ARCHITECT</option>
             <option value="PHARM">PHARM</option>
+            <option value="HON">HON</option>
+            <option value="SURV">SURV</option>
+            <option value="SIR">SIR</option>
+            <option value="BARR">BARR</option>
+            <option value="REAL ADMIRAL (RTD)">REAL ADMIRAL (RTD)</option>
           </select>
         </div>
 
