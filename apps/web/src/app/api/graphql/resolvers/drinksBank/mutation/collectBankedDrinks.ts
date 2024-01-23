@@ -45,13 +45,12 @@ async (
     if (!member || !staff){
         throw new GraphQLError("MemberID or StaffID supplied are not valid ID");
     }
-    const getBankedDrinks = await DrinksBank.findOne({memberID: memberID, allDrinksCollected: false}).lean();
+    const getBankedDrinks: DrinksBankType | null = await DrinksBank.findOne({memberID: memberID, allDrinksCollected: false}).lean();
     if (!getBankedDrinks ){
         throw new GraphQLError("You don't have any banked drinks");
     }
 
     let drinksLeftToCollect: DrinksInterface[] = [];
-
     
    getBankedDrinks?.drinksLeft?.map((drinks: any)=> {
         //check the drinksToCollect
@@ -94,7 +93,7 @@ async (
       staffId: staffID, 
       date: new Date()
     }
-    fields.collectedDates = [...getBankedDrinks.collectedDates, newCollector]
+    fields.collectedDates = [...getBankedDrinks?.collectedDates!, newCollector]
     fields.drinksLeft = drinksLeftToCollect;
 
     let updatedDrinks = await DrinksBank.findOneAndUpdate({_id : getBankedDrinks._id }, {$set: fields}, { new: true})
