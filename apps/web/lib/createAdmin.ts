@@ -32,6 +32,14 @@ const createAdmin = async function() {
 
    };
    try {
+    //check if we already have an admin
+    console.log("start finding admin data");
+    const findAdmin = await User.findOne({username: "jamiebones147@gmail.com"});
+    console.log("finish finding admin data");
+    if ( findAdmin ){
+      console.log("Admin already exist")
+      return "Admin details already exist"
+    }
     const newMeberDetails = await new Members(newMember).save();
     console.log("finished saving admin member details");
     //create a user account: 
