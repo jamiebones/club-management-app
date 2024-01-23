@@ -56,9 +56,9 @@ async (
     _id: string
   }[] = [];
 
-
-  for (let i = 0; i < (items ?? []).length; i++) {
-    const beer = items[i];
+  const itemsBeer = [...items!];
+  for (let i = 0; i < itemsBeer.length; i++) {
+    const beer = itemsBeer[i];
     if (beer) {
       const brandPattern = new RegExp(beer.brand!, "i");
       const item: Item | null = await Items.findOne({
