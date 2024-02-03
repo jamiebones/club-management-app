@@ -11,6 +11,7 @@ export default gql.gql`
     _id
     jobTitle
     memberID
+    birthDay
   }
 `
 

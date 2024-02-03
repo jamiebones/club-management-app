@@ -29,7 +29,8 @@
     "react-dom": "^18",
     "react-icons": "^4.12.0",
     "react-tabs": "^6.0.2",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",

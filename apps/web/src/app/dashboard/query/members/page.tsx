@@ -7,11 +7,27 @@ import { request } from "graphql-request";
 import { GetMembers } from "@/app/graphqlRequest/queries";
 import MemberSearchPanel from "@/app/components/MembersSearchPanel";
 import LoadingSpinner from "@/app/components/Loading";
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+const XLSX = require("xlsx");
+import { useSession } from "next-auth/react";
 
 const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
+
+const filterData = (data: any = []) => {
+  let arrayToReturn = [["Title", "Name", "Birthday", "Sex"]];
+  for (let i = 0; i < data.length; i++) {
+    const { title, firstname, surname, birthDay, sex } = data[i];
+    const memberArray = [
+      title,
+      `${firstname?.toUpperCase()} ${surname.toUpperCase()}`,
+      birthDay,
+      sex,
+    ];
+    arrayToReturn.push(memberArray);
+  }
+  return arrayToReturn;
+};
 
 interface MemberSearchInput {
   jobTitle?: string;
@@ -24,14 +40,17 @@ interface MemberSearchInput {
 }
 
 const GetMembersDetails = () => {
+  const { data: session } = useSession();
   const [rowData, setRowData] = useState([]);
+  const [downloading, setDownloading] = useState(false);
   const router = useRouter();
   const buttonRenderer = (params: any) => {
     return (
-      <Link href={`/dashboard/member/edit?firstname=${params.data.firstname}&surname=${params.data.surname}`}
-       target="_blank">Edit
-       
-       </Link>
+      <Link
+        href={`/dashboard/member/edit?firstname=${params.data.firstname}&surname=${params.data.surname}`}
+        target="_blank">
+        Edit
+      </Link>
       // <button
       //   onClick={() => params.onClick(params)}
       //   className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-1 m-2 focus:outline-none focus:shadow-outline-blue active:bg-blue-800">
@@ -41,7 +60,7 @@ const GetMembersDetails = () => {
   };
 
   const handleRowSelect = (rowData: any) => {
-    router.push(`/dashboard/member/edit?firstname=${rowData.firstname}&surname=${rowData.surname}`)
+    router.push(`/dashboard/member/edit?firstname=${rowData.firstname}&surname=${rowData.surname}`);
   };
 
   // Column Definitions: Defines & controls grid columns.
@@ -86,6 +105,7 @@ const GetMembersDetails = () => {
           _id: null,
           jobTitle: null,
           memberType: null,
+          birthDay: null,
         },
         orderBy: {
           direction: null,
@@ -164,7 +184,6 @@ const GetMembersDetails = () => {
         limit: limit,
       };
 
-
       const response: any = await request({
         url: graphqlURL,
         document: GetMembers,
@@ -179,20 +198,50 @@ const GetMembersDetails = () => {
     }
   };
 
+  const exportToExcel = () => {
+    setDownloading(true);
+    const memberData = [...rowData];
+    const data = filterData(memberData);
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
+    // Add a worksheet to the workbook
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    // Generate the Excel file buffer
+    const excelBuffer = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
+    // Trigger the download of the Excel file
+    const blob = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "members.xlsx";
+    link.click();
+    setDownloading(false);
+  };
+
   if (loading) {
     return <LoadingSpinner />;
   }
 
   return (
-  
-      <div className="mt-10 p-10">
-        <MemberSearchPanel onSearch={handleSearch} />
-        <div className="ag-theme-quartz" style={{ height: 1000 }}>
-          {/* The AG Grid component */}
-          <AgGridReact rowData={rowData} columnDefs={colDefs as any} rowSelection="single" />
-        </div>
+    <div className="mt-10 p-10">
+      <MemberSearchPanel onSearch={handleSearch} />
+      <div className="ag-theme-quartz" style={{ height: 1000 }}>
+        {/* The AG Grid component */}
+        <AgGridReact rowData={rowData} columnDefs={colDefs as any} rowSelection="single" />
+
+        {rowData?.length > 0 && session && session?.user?.role! == "ADMIN" && (
+          <button
+            disabled={downloading}
+            onClick={exportToExcel}
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+            {downloading ? "Exporting to Excel....." : "Export to Excel "}
+          </button>
+        )}
       </div>
-  
+    </div>
   );
 };
 

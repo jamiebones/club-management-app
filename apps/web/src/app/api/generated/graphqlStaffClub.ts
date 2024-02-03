@@ -288,6 +288,7 @@ export enum OrderField {
 
 export enum OrderableMemberField {
   Id = '_id',
+  BirthDay = 'birthDay',
   JobTitle = 'jobTitle',
   MemberId = 'memberID'
 }
@@ -544,6 +545,7 @@ export type FindMemberPatronageInput = {
 
 export type FindMembersInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  birthDay?: InputMaybe<Scalars['String']['input']>;
   endBirthDate?: InputMaybe<Scalars['String']['input']>;
   jobTitle?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   memberType?: InputMaybe<Scalars['String']['input']>;

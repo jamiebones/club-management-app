@@ -49,6 +49,7 @@ export default gql.gql`
      _id: [String]
      jobTitle: [String]
      memberType: String
+     birthDay: String
      sex: String
      sports: [String]
      startBirthDate: String

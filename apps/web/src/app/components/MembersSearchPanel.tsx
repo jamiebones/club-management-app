@@ -151,6 +151,7 @@ const MemberSearchPanel: React.FC<MemberSearchPanelProps> = ({ onSearch }) => {
               <option value="" disabled>
                 Select Sort Field
               </option>
+              <option value="birthDay">Birth Day</option>
               <option value="memberID">Member ID</option>
               <option value="jobTitle">Job Title</option>
             </select>
