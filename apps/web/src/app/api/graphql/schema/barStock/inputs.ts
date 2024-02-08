@@ -13,4 +13,9 @@ export default gql.gql`
   input findBarStockInput {
     _id: ID!
   }
+
+  input swapBeerInput {
+    swapToBeerID: ID!
+    swapFromBeerID: ID!
+  }
   `

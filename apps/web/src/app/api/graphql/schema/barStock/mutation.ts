@@ -4,6 +4,7 @@ export default gql.gql`
   type Mutation {
     # ------- BarStock ------
     addBarStock(request: addBarStockInput!): BarStock,
+    swapBeer(request: swapBeerInput!): Boolean
    
   }
 `;

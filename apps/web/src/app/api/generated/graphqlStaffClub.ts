@@ -164,6 +164,7 @@ export type Mutation = {
   collectBankedDrinks?: Maybe<DrinksBank>;
   createUserAccount?: Maybe<User>;
   newBarSale?: Maybe<BarSale>;
+  swapBeer?: Maybe<Scalars['Boolean']['output']>;
   updateItem?: Maybe<Item>;
   updateMember?: Maybe<Member>;
   updateStaff?: Maybe<Staff>;
@@ -223,6 +224,11 @@ export type MutationCreateUserAccountArgs = {
 
 export type MutationNewBarSaleArgs = {
   request: NewBarSaleInput;
+};
+
+
+export type MutationSwapBeerArgs = {
+  request?: InputMaybe<SwapBeerInput>;
 };
 
 
@@ -612,6 +618,11 @@ export enum SexEnum {
   Female = 'FEMALE',
   Male = 'MALE'
 }
+
+export type SwapBeerInput = {
+  swapFromBeerID: Scalars['ID']['input'];
+  swapToBeerID: Scalars['ID']['input'];
+};
 
 export type UpdateItemInput = {
   _id: Scalars['ID']['input'];

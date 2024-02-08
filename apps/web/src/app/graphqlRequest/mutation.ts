@@ -80,6 +80,12 @@ const AddNewBarSale = gql`
   }
 `;
 
+const SwapBeer = gql`
+  mutation swapBeer($request: swapBeerInput!) {
+    swapBeer(request: $request) 
+  }
+`;
+
 
 export {
     CreateUserAccount,
@@ -90,5 +96,6 @@ export {
     UpdateItem,
     AddBarStock,
     UpdateMemberDetails,
-    AddNewBarSale
+    AddNewBarSale,
+    SwapBeer
 }
