@@ -7,12 +7,19 @@ export default gql.gql`
      memberID: ID!
      staffID: ID!
 		 customer: Member
-     seller: Staff
+     seller: Seller
      items: [ BeerBrandType ]
      date: Date
      amount: Int
      paymentType: paymentTypeEnum
      saleType: saleTypeEnum
 		}
+
+    union Seller = Staff | Member
+
+    type BarSaleOutput {
+      sales: [BarSale]
+      stocks: [Item]
+  }
 
   `

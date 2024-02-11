@@ -4,8 +4,8 @@ export default gql.gql`
   type Staff {
    _id: ID
    employeeID: ID!
-   firstname: String!
-   surname: String!
+   firstname: String
+   surname: String
    jobTitle: String
    dateOfEmployment: Date
    nextOfKin: NextOfKin

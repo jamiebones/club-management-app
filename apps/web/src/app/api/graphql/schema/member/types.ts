@@ -9,8 +9,8 @@ export default gql.gql`
     _id: ID
     memberID: ID
     title: String
-     firstname: String!
-     surname: String!
+     firstname: String
+     surname: String
 		 email: String
      jobTitle: String
      nextOfKin: String

@@ -19,6 +19,14 @@ export default gql.gql`
     paymentType: paymentTypeEnum
   }
 
+  input findDrinksSaleByDateInput {
+     startDate: Date
+     endDate: Date
+     paymentType: paymentTypeEnum
+     saleType: saleTypeEnum
+  }
+ 
+  
  
   `
 

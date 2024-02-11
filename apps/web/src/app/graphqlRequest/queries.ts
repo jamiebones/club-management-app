@@ -153,6 +153,46 @@ const GetItemsForSale = gql`
   }
 `;
 
+const GetBarSaleData = gql`
+    query findDrinksSaleByDate($request: findDrinksSaleByDateInput!) {
+      findDrinksSaleByDate(request: $request){
+          sales{
+            memberID
+            staffID
+		        customer{
+              title
+              firstname
+              surname
+            }
+            seller{
+              ... on Member {
+                title
+                firstname
+                surname
+              }
+              ... on Staff {
+                 firstname
+                 surname
+              }
+            }
+            items{
+              brand
+              quantity
+            }
+            date
+            amount
+            paymentType
+            saleType
+          }
+          stocks{
+            totalStock
+            name
+            _id
+          }
+      }
+    }
+`
+
 
 
 export {
@@ -164,5 +204,6 @@ export {
     GetItems,
     GetMemberDetails,
     GetItemsForSale,
-    FindMemberFullDetails
+    FindMemberFullDetails,
+    GetBarSaleData
 }

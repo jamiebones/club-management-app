@@ -91,7 +91,7 @@ const SwapDrinks = () => {
       }
     } catch (error: any) {
       setError(error.message);
-    } finally {
+    }finally{
       setProcessing(false);
     }
   };
@@ -168,7 +168,7 @@ const SwapDrinks = () => {
               disabled={processing}
               onClick={handleSwapBeer}
               className="bg-green-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">
-              {processing ? "Swapping......" : "Save supply details"}
+              Save supply details { processing ? "Swapping......" : ""}
             </button>
           </div>
         </div>

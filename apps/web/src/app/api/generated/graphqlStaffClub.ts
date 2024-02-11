@@ -25,8 +25,14 @@ export type BarSale = {
   memberID: Scalars['ID']['output'];
   paymentType?: Maybe<PaymentTypeEnum>;
   saleType?: Maybe<SaleTypeEnum>;
-  seller?: Maybe<Staff>;
+  seller?: Maybe<Seller>;
   staffID: Scalars['ID']['output'];
+};
+
+export type BarSaleOutput = {
+  __typename?: 'BarSaleOutput';
+  sales?: Maybe<Array<Maybe<BarSale>>>;
+  stocks?: Maybe<Array<Maybe<Item>>>;
 };
 
 export type BarStock = {
@@ -132,7 +138,7 @@ export type Member = {
   dues?: Maybe<Array<Maybe<DuesPayment>>>;
   email?: Maybe<Scalars['String']['output']>;
   employer?: Maybe<Scalars['String']['output']>;
-  firstname: Scalars['String']['output'];
+  firstname?: Maybe<Scalars['String']['output']>;
   jobTitle?: Maybe<Scalars['String']['output']>;
   memberID?: Maybe<Scalars['ID']['output']>;
   membershipType?: Maybe<MembershipTypeEnum>;
@@ -140,7 +146,7 @@ export type Member = {
   paymentReceived?: Maybe<Array<Maybe<Payment>>>;
   sex?: Maybe<SexEnum>;
   sports?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  surname: Scalars['String']['output'];
+  surname?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
 };
 
@@ -228,7 +234,7 @@ export type MutationNewBarSaleArgs = {
 
 
 export type MutationSwapBeerArgs = {
-  request?: InputMaybe<SwapBeerInput>;
+  request: SwapBeerInput;
 };
 
 
@@ -331,6 +337,7 @@ export type PaymentForInput = {
 
 export type Query = {
   __typename?: 'Query';
+  findDrinksSaleByDate?: Maybe<BarSaleOutput>;
   findMember?: Maybe<MemberResult>;
   findMemberDuesPaid?: Maybe<Array<Maybe<DuesPayment>>>;
   findMemberPatronage?: Maybe<Array<Maybe<BarSale>>>;
@@ -340,6 +347,11 @@ export type Query = {
   getItems?: Maybe<Array<Item>>;
   getStockSuppliedBySupplier?: Maybe<Array<Maybe<BarStock>>>;
   getSuppliers?: Maybe<Array<Maybe<Supplier>>>;
+};
+
+
+export type QueryFindDrinksSaleByDateArgs = {
+  request: FindDrinksSaleByDateInput;
 };
 
 
@@ -383,6 +395,8 @@ export type QueryGetStockSuppliedBySupplierArgs = {
 
 export type ReceiverResult = Member | Staff | Supplier;
 
+export type Seller = Member | Staff;
+
 export type Staff = {
   __typename?: 'Staff';
   _id?: Maybe<Scalars['ID']['output']>;
@@ -391,12 +405,12 @@ export type Staff = {
   employeeID: Scalars['ID']['output'];
   employmentStatus?: Maybe<EmploymentStatusEnum>;
   employmentType?: Maybe<EmploymentTypeEnum>;
-  firstname: Scalars['String']['output'];
+  firstname?: Maybe<Scalars['String']['output']>;
   jobTitle?: Maybe<Scalars['String']['output']>;
   nextOfKin?: Maybe<NextOfKin>;
   salary?: Maybe<Array<Maybe<Payment>>>;
   sex?: Maybe<SexEnum>;
-  surname: Scalars['String']['output'];
+  surname?: Maybe<Scalars['String']['output']>;
 };
 
 export type StaffResult = NotFound | Staff;
@@ -528,6 +542,13 @@ export enum EmploymentTypeEnum {
 
 export type FindBarStockInput = {
   _id: Scalars['ID']['input'];
+};
+
+export type FindDrinksSaleByDateInput = {
+  endDate?: InputMaybe<Scalars['Date']['input']>;
+  paymentType?: InputMaybe<PaymentTypeEnum>;
+  saleType?: InputMaybe<SaleTypeEnum>;
+  startDate?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export type FindMemberDuesPaidInput = {
@@ -695,6 +716,10 @@ export type UpdateSupplierInput = {
       "Member",
       "Staff",
       "Supplier"
+    ],
+    "Seller": [
+      "Member",
+      "Staff"
     ],
     "StaffResult": [
       "NotFound",
