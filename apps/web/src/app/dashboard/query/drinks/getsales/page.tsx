@@ -187,31 +187,50 @@ const GetSales = () => {
       {/*table starts here */}
       <div className="mt-5">
         {sales && sales.length > 0 && (
-          <div className="overflow-x-auto">
-            <table className="w-full table-auto">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="px-4 py-2">S/N</th>
-                  <th className="px-4 py-2">Customer</th>
-                  <th className="px-4 py-2">Drinks purchased</th>
-                  <th className="px-4 py-2">Amount</th>
-                  <th className="px-4 py-2">Date</th>
-                  <th className="px-4 py-2">Sale Type</th>
-                  <th className="px-4 py-2">Payment Method</th>
-                  <th className="px-4 py-2">Sold By</th>
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <caption className="p-5 text-lg font-semibold text-center rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+                Drinks Sold between {formattedDate(startDate)} and {formattedDate(endDate)}
+              </caption>
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    S/N
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Customer
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Drinks purchased
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Amount
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Date
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Sale Type
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Payment Method
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Sold By
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {sales.map((sale: any, index) => {
                   return (
                     <tr key={sale} className="border-t">
-                      <td className="px-4 py-2">{index + 1}</td>
-                      <td className="px-4 py-2">
+                      <td className="px-6 py-4">{index + 1}</td>
+                      <td className="px-6 py-4">
                         {sale?.customer?.title.toUpperCase()}{" "}
                         {sale?.customer?.firstname.toUpperCase()}{" "}
                         {sale?.customer?.surname.toUpperCase()}
                       </td>
-                      <td className="px-4 py-2">
+                      <td className="px-6 py-4">
                         {sale?.items.map((item: any) => {
                           return (
                             <p>
@@ -220,21 +239,21 @@ const GetSales = () => {
                           );
                         })}
                       </td>
-                      <td className="px-4 py-2">
+                      <td className="px-6 py-4">
                         <p>{sale?.amount}</p>
                       </td>
-                      <td className="px-4 py-2">
+                      <td className="px-6 py-4">
                         <p>{sale?.date && formattedDate(sale?.date)}</p>
                       </td>
 
-                      <td className="px-4 py-2">
+                      <td className="px-6 py-4">
                         <p>{sale?.saleType}</p>
                       </td>
 
-                      <td className="px-4 py-2">
+                      <td className="px-6 py-4">
                         <p>{sale?.paymentType}</p>
                       </td>
-                      <td className="px-4 py-2">
+                      <td className="px-6 py-4">
                         <p>
                           {sale?.seller?.firstname.toUpperCase()}{" "}
                           {sale?.seller?.surname.toUpperCase()}
@@ -248,30 +267,152 @@ const GetSales = () => {
           </div>
         )}
       </div>
-      {beerTotal && beerTotal.length > 0 && (
-        <div className="overflow-x-auto w-1/6">
-          <table className="w-full table-auto">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="px-2 py-2">Drink </th>
-                <th className="px-2 py-2">Quantity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {beerTotal.map((beer: any) => {
-                return (
-                  <tr key={beer.brand} className="border-t">
-                    <td className="px-4 py-2">{beer.brand}</td>
-                    <td className="px-4 py-2">{beer.quantity}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
+      <div className="w-full flex justify-between">
+        {beerTotal && beerTotal.length > 0 && (
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-1/2 p-2">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <caption className="p-5 text-lg font-semibold text-center rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+                Sold Drinks Summary
+              </caption>
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    Brand of drink
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Quantity sold
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {beerTotal.map((beer: any) => {
+                  return (
+                    <tr key={beer.brand}>
+                      <td className="px-6 py-4">{beer.brand}</td>
+                      <td className="px-6 py-4">{beer.quantity}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {stocks && stocks.length > 0 && (
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-1/2">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <caption className="p-5 text-lg font-semibold text-center rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+                Availiable Stock
+              </caption>
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    Brand of drink
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Bottles Left
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {stocks.map((beer: any) => {
+                  return (
+                    <tr key={beer.name}>
+                      <td className="px-6 py-4">{beer.name}</td>
+                      <td className="px-6 py-4">{beer.totalStock}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
 export default GetSales;
+
+{
+  /* <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+            Our products
+            <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Browse a list of Flowbite products designed to help you work and play, stay organized, get answers, keep in touch, grow your business, and more.</p>
+        </caption>
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Product name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Color
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Category
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Price
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    <span class="sr-only">Edit</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Apple MacBook Pro 17"
+                </th>
+                <td class="px-6 py-4">
+                    Silver
+                </td>
+                <td class="px-6 py-4">
+                    Laptop
+                </td>
+                <td class="px-6 py-4">
+                    $2999
+                </td>
+                <td class="px-6 py-4 text-right">
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+            </tr>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Microsoft Surface Pro
+                </th>
+                <td class="px-6 py-4">
+                    White
+                </td>
+                <td class="px-6 py-4">
+                    Laptop PC
+                </td>
+                <td class="px-6 py-4">
+                    $1999
+                </td>
+                <td class="px-6 py-4 text-right">
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+            </tr>
+            <tr class="bg-white dark:bg-gray-800">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Magic Mouse 2
+                </th>
+                <td class="px-6 py-4">
+                    Black
+                </td>
+                <td class="px-6 py-4">
+                    Accessories
+                </td>
+                <td class="px-6 py-4">
+                    $99
+                </td>
+                <td class="px-6 py-4 text-right">
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div> */
+}
