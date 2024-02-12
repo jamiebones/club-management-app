@@ -43,6 +43,25 @@ const AdminNavbar = () => {
         </Dropdown>
       </Navbar.Link>
       <Navbar.Link href="/dashboard/query/members">Members List</Navbar.Link> 
+      <Navbar.Link href="#">
+        <Dropdown arrowIcon={true} inline label={"Sales"}>
+          <Dropdown.Header>
+            <span className="block text-sm">Sales </span>
+          </Dropdown.Header>
+          <Dropdown.Item>
+            <Navbar.Link href="/dashboard/drinks/sell">Sell Drinks</Navbar.Link>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            <Navbar.Link href="/dashboard/drinks/swapdrink"> Swap Drinks</Navbar.Link>
+          </Dropdown.Item>
+
+          <Dropdown.Item>
+            <Navbar.Link href="/dashboard/query/drinks/getsales">View Sales</Navbar.Link>
+          </Dropdown.Item>
+      
+          <Dropdown.Divider />
+        </Dropdown>
+      </Navbar.Link>
     </React.Fragment>
   );
 };
