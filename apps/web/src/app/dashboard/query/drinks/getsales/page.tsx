@@ -6,7 +6,6 @@ import ErrorDiv from "@/app/components/ErrorDiv";
 import { request } from "graphql-request";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { options } from "@/app/api/auth/[...nextauth]/options";
 
 const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 
@@ -23,6 +22,15 @@ const formattedDate = (date: Date) => {
   });
 };
 
+const calculateTotalCost = (data: any[]) => {
+  let total = 0;
+  data.map(d => {
+    total += d.amount;
+    console.log(d.amount)
+  });
+  return total;
+};
+
 const GetSales = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -34,6 +42,11 @@ const GetSales = () => {
   const [endDate, setEndDate] = useState(new Date());
   const [saleType, setSaleType] = useState("");
   const [paymentType, setPaymentType] = useState("");
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  useEffect(() => {
+    setTotalAmount(calculateTotalCost(sales));
+  }, [sales]);
 
   const processDrinksData = (data: any[]) => {
     let soldBeer: Beer[] = [];
@@ -240,7 +253,7 @@ const GetSales = () => {
                         })}
                       </td>
                       <td className="px-6 py-4">
-                        <p>{sale?.amount}</p>
+                        <p>&#x20A6; {sale?.amount}</p>
                       </td>
                       <td className="px-6 py-4">
                         <p>{sale?.date && formattedDate(sale?.date)}</p>
@@ -262,12 +275,18 @@ const GetSales = () => {
                     </tr>
                   );
                 })}
+                <tr>
+                  <td className="px-6 py-4"></td>
+                  <td className="px-6 py-4"></td>
+                  <td className="px-6 py-4 text-right">Total amount</td>
+                  <td className="px-6 py-4"><b>&#x20A6; {totalAmount}</b></td>
+                </tr>
               </tbody>
             </table>
           </div>
         )}
       </div>
-      <div className="w-full flex justify-between">
+      <div className="w-full flex justify-between mt-10">
         {beerTotal && beerTotal.length > 0 && (
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-1/2 p-2">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
