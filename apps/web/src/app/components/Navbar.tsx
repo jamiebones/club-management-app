@@ -22,9 +22,10 @@ const NavbarComponent = () => {
               inline
               label={
                 <Avatar
-                  alt="User settings"
-                  img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                  alt="Profile"
+                  img="/avatar.svg"
                   rounded
+                  bordered
                 />
               }>
               <Dropdown.Header>
