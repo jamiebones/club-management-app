@@ -7,8 +7,8 @@ export default gql.gql`
      staffID: ID!
      items: [ BeerBrandInput! ]
      amount: Int!
-     paymentType: paymentTypeEnum!
-     saleType: saleTypeEnum!
+     paymentType: paymentTypeEnum
+     saleType: saleTypeEnum
   }
 
   input findMemberPatronageInput {

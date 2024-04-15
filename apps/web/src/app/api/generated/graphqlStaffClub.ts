@@ -601,8 +601,8 @@ export type NewBarSaleInput = {
   amount: Scalars['Int']['input'];
   items?: InputMaybe<Array<BeerBrandInput>>;
   memberID: Scalars['ID']['input'];
-  paymentType: PaymentTypeEnum;
-  saleType: SaleTypeEnum;
+  paymentType?: InputMaybe<PaymentTypeEnum>;
+  saleType?: InputMaybe<SaleTypeEnum>;
   staffID: Scalars['ID']['input'];
 };
 

@@ -9,10 +9,6 @@ const barSaleSchema = new mongoose.Schema({
     type: String,
   },
 
-  staffUsername: {
-    type: String,
-  },
-
   items: [{
     brand : String,
     quantity: Number
@@ -29,8 +25,8 @@ date: {
   },
 
   paymentType: {
-    String,
-    enum: ["CASH", "POS", "TRANSFER", "CREDIT"]
+    type: String,
+    enum: ["CASH", "POS", "TRANSFER" ]
   },
     
   saleType: {

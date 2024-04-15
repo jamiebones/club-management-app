@@ -35,6 +35,7 @@ async (
       saleType: saleType as SaleTypeEnum,
       date: new Date()
     };
+ 
   //find the person selling the drink
   const [ sellerStaff, sellerMember, memberBuying ] = await Promise.all([
     Staff.findOne({_id: new mongoose.Types.ObjectId(context.token.bioDataId)}).lean(),
