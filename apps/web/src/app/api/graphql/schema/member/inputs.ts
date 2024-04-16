@@ -61,4 +61,10 @@ export default gql.gql`
     direction: OrderDirection
   }
 
+  input searchMemberInput{
+     memberID: String
+     firstname: String
+     surname: String
+  }
+
 `

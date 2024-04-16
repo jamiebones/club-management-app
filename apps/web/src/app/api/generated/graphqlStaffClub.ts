@@ -347,6 +347,7 @@ export type Query = {
   getItems?: Maybe<Array<Item>>;
   getStockSuppliedBySupplier?: Maybe<Array<Maybe<BarStock>>>;
   getSuppliers?: Maybe<Array<Maybe<Supplier>>>;
+  searchMember?: Maybe<Array<Maybe<Member>>>;
 };
 
 
@@ -391,6 +392,11 @@ export type QueryGetItemByNameArgs = {
 
 export type QueryGetStockSuppliedBySupplierArgs = {
   request: FindBarStockInput;
+};
+
+
+export type QuerySearchMemberArgs = {
+  request?: InputMaybe<SearchMemberInput>;
 };
 
 export type ReceiverResult = Member | Staff | Supplier;
@@ -634,6 +640,12 @@ export enum SaleTypeEnum {
   Cash = 'CASH',
   Credit = 'CREDIT'
 }
+
+export type SearchMemberInput = {
+  firstname?: InputMaybe<Scalars['String']['input']>;
+  memberID?: InputMaybe<Scalars['String']['input']>;
+  surname?: InputMaybe<Scalars['String']['input']>;
+};
 
 export enum SexEnum {
   Female = 'FEMALE',

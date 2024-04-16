@@ -25,7 +25,6 @@ interface MemberProps {
 
 
 const EditMemberComponent: React.FC<MemberProps>= ({member}) => {
-  console.log("member details ", member)
   const [error, setError] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState({

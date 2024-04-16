@@ -69,8 +69,6 @@ const GetMembers = gql`
     {
        members{
         _id
-       firstname
-       surname
       memberID,
       title,
       firstname,
@@ -193,6 +191,19 @@ const GetBarSaleData = gql`
     }
 `
 
+const SearchMemberQuery = gql`
+  query SearchMember($request: searchMemberInput) {
+    searchMember(request: $request) {
+      _id
+      memberID,
+      title,
+      firstname,
+      surname
+    }
+  }
+`;
+
+
 
 
 export {
@@ -205,5 +216,6 @@ export {
     GetMemberDetails,
     GetItemsForSale,
     FindMemberFullDetails,
-    GetBarSaleData
+    GetBarSaleData,
+    SearchMemberQuery
 }

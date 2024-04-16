@@ -7,22 +7,32 @@ interface MemberSearchInput {
 }
 
 interface MemberSearchPanelProps {
-  onSearch: (input: MemberSearchInput) => void;
+  //onSearch: (input: MemberSearchInput) => void;
+  onSearchTermChange: (input: MemberSearchInput) => void;
 }
 
-const MemberSearchComponent: React.FC<MemberSearchPanelProps> = ({ onSearch }) => {
-  const [searchInput, setSearchInput] = useState<MemberSearchInput>({});
+const MemberSearchComponent: React.FC<MemberSearchPanelProps> = ({
+  onSearchTermChange,
+}) => {
+  const [searchInput, setSearchInput] = useState<MemberSearchInput>({
+    memberID: "",
+    firstname: "",
+    surname: "",
+  });
 
   const handleInputChange = (field: keyof MemberSearchInput, value: string) => {
-    setSearchInput(prevInput => ({ ...prevInput, [field]: value }));
+    setSearchInput(prevInput => {
+      onSearchTermChange({ ...prevInput, [field]: value });
+      return { ...prevInput, [field]: value };
+    });
   };
 
-  const handleSearch = () => {
-    onSearch(searchInput);
-  };
+  // const handleSearch = () => {
+  //   onSearch(searchInput);
+  // };
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto mt-2">
       <div className="text-center">
         <h1 className="text-lg bg-gray-700 p-2 text-white">Members Search</h1>
       </div>
@@ -52,13 +62,13 @@ const MemberSearchComponent: React.FC<MemberSearchPanelProps> = ({ onSearch }) =
             className="px-4 py-2 border rounded focus:outline-none 
             focus:ring-2 focus:ring-blue-500 w-full sm:w-auto mr-2"
           />
-          <button
+          {/* <button
             className="px-4 py-2 bg-blue-500 text-white rounded
          hover:bg-blue-600 focus:outline-none focus:ring-2
           focus:ring-blue-500 focus:ring-opacity-50 w-full sm:w-auto"
             onClick={handleSearch}>
             Search
-          </button>
+          </button> */}
         </div>
       </div>
 
