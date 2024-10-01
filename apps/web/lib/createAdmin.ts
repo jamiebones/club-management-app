@@ -11,9 +11,6 @@ const createAdmin = async function() {
     await dbConnect();
     //check if we have a member james
     const member = await Members.findOne({email: "jamiebones147@gmail.com"});
-    if ( member ){
-        return "Admin already exists"
-    }
    //else create a new member and add user data
    console.log("saving admin member details");
    let newMember = {
@@ -36,7 +33,7 @@ const createAdmin = async function() {
     console.log("start finding admin data");
     const findAdmin = await User.findOne({username: "jamiebones147@gmail.com"});
     console.log("finish finding admin data");
-    if ( findAdmin ){
+    if ( findAdmin && member ){
       console.log("Admin already exist")
       return "Admin details already exist"
     }

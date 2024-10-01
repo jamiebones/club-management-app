@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "./components/Navbar";
 import { NextAuthProvider } from "./provider";
+import { Bounce, ToastContainer } from "react-toastify";
+
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,9 +19,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className}>
         <NextAuthProvider>
-          <div className="flex flex-col min-h-screen">
+          <div className="flex flex-col min-h-screen  bg-gray-100">
             <Navbar />
-            {children}
+            <main className="flex-1 p-4 bg-white">
+              {/* Main Content Area */}
+              {children}
+              <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition={Bounce}
+             
+              />
+            </main>
+            {/* <footer className="bg-blue-500 text-white p-4 mt-auto">
+              <p>&copy; 2024 My App</p>
+            </footer> */}
           </div>
         </NextAuthProvider>
       </body>

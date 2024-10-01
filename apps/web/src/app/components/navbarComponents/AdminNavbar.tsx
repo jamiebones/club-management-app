@@ -43,6 +43,7 @@ const AdminNavbar = () => {
         </Dropdown>
       </Navbar.Link>
       <Navbar.Link href="/dashboard/query/members">Members List</Navbar.Link> 
+      <Navbar.Link href="/dashboard/query/member/search">Search Members</Navbar.Link> 
       <Navbar.Link href="#">
         <Dropdown arrowIcon={true} inline label={"Sales"}>
           <Dropdown.Header>

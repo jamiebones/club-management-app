@@ -20,10 +20,10 @@ export default gql.gql`
      sex: sexEnum
      birthDay: String
      sports: [String]
-    dues: [DuesPayment]
-    paymentReceived: [ Payment ]
-    drinksBanked: [ DrinksBank ]
-    drinksBought: [ BarSale ]
+     dues: [DuesPayment]
+     paymentReceived: [ Payment ]
+     drinksBanked: [ DrinksBank ]
+     drinksBought: [ BarSale ]
   }
 
 

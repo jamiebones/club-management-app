@@ -203,6 +203,84 @@ const SearchMemberQuery = gql`
   }
 `;
 
+const GetMemberFullDetails = gql`
+  query FindMember($request: findMemberInput) {
+    findMember(request: $request) {
+      ... on Member {
+        _id
+       firstname
+       surname
+      memberID,
+      title,
+      firstname,
+      surname,
+      jobTitle,
+      nextOfKin,
+      contact,
+      email,
+      membershipType,
+      employer,
+      sex,
+      birthDay,
+      sports
+      dues{
+        amountPaid
+        paymentFor{
+          month
+          year
+        }
+        paymentType
+        date
+      },
+      paymentReceived{
+        amountPaid
+	      paymentFor
+        paymentCategory
+        date
+      },
+      drinksBanked{
+        receivingStaff{
+          firstname
+          surname
+        }
+        items{
+          brand
+          quantity
+        }
+        drinksLeft{
+          brand
+          quantity
+        }
+        collectedDates{
+          staff{
+            firstname
+            surname
+          }
+          date
+        }
+        dateBanked
+        allDrinksCollected
+      },
+      drinksBought{
+        items{
+          brand
+          quantity
+        }
+        date
+        amount
+        paymentType
+        saleType
+       }
+      }
+      ... on NotFound {
+        message
+      }
+      
+    }
+  }
+`;
+
+
 
 
 
@@ -217,5 +295,6 @@ export {
     GetItemsForSale,
     FindMemberFullDetails,
     GetBarSaleData,
-    SearchMemberQuery
+    SearchMemberQuery,
+    GetMemberFullDetails
 }

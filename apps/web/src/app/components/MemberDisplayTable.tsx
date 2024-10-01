@@ -6,6 +6,7 @@ interface MembersInfo {
   firstname: string;
   memberID: string;
   title: string;
+  _id: string
 }
 
 interface MembersTableProps {
@@ -52,7 +53,7 @@ const MemberDisplayTable: React.FC<MembersTableProps> = ({ members }) => {
               <td className="py-4 px-6 space-x-2">
                 <Link
                   className="font-semibold text-blue-500 hover:text-blue-700"
-                  href={`/dashboard/member/edit?firstname=${member.firstname}&surname=${member.surname}`}
+                  href={`/dashboard/query/member/profile/${member._id}`}
                   target="_blank">
                   View Details
                 </Link>

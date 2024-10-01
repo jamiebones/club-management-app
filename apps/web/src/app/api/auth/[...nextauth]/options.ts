@@ -11,6 +11,9 @@ export const options: NextAuthOptions = {
     session: {
         strategy: "jwt",
     },
+    pages: {
+      signIn: '/auth/signin',
+  },
     providers: [
   CredentialsProvider({
     name: "Credentials",
@@ -25,6 +28,7 @@ export const options: NextAuthOptions = {
     async authorize(credentials, req) {
       // Add your own logic here to find the user in database 
       // And validate the credentials  
+      console.log("credentials ", credentials)
       await dbConnect();
       let user = await User.findOne({username: credentials?.email });
       if (!user){
