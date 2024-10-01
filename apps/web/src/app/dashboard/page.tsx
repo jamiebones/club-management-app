@@ -19,7 +19,6 @@ export default function Dashboard() {
         router.push("/dashboard/query/member/search");
       }
     };
-console.log("session ", session)
     if (session ) {
       redirectUserBasedOnRole();
     } else{

@@ -1,7 +1,6 @@
 import { GetMemberFullDetails } from "@/app/graphqlRequest/queries";
 import LoadingSpinner from "@/app/components/Loading";
 import { request } from "graphql-request";
-import { getSession } from 'next-auth/client'
 import { headers } from "next/headers"
 const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 
