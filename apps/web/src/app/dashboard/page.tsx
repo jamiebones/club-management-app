@@ -18,6 +18,11 @@ export default function Dashboard() {
         //redirect to a page
         router.push("/dashboard/query/member/search");
       }
+
+      if (session && session?.user?.role! == "SALES") {
+        //redirect to a page
+        router.push("/dashboard/drinks/sell");
+      }
     };
     if (session ) {
       redirectUserBasedOnRole();

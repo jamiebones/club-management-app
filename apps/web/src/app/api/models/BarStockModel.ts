@@ -9,10 +9,10 @@ const barStockSchema = new mongoose.Schema({
     type: Number,
   },
 
-  saleType: {
-    type: String,
-    enum: ["CASH", "CREDIT"]
-  },
+  // saleType: {
+  //   type: String,
+  //   enum: ["CASH", "CREDIT"]
+  // },
 
   itemsSupplied: [{
     brand : String,

@@ -6,6 +6,7 @@ import LoadingSpinner from "@/app/components/Loading";
 import ErrorDiv from "@/app/components/ErrorDiv";
 import { request } from "graphql-request";
 import ItemComponent from "@/app/components/ItemsComponent";
+import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -26,7 +27,7 @@ interface Supplier {
 interface Items {
   supplierID: string;
   amount: number;
-  saleType: string;
+  // saleType: string;
   itemsSupplied: any[];
   date: Date;
 }
@@ -45,7 +46,7 @@ const AddStock = () => {
   const [formData, setFormData] = useState<Items>({
     supplierID: "",
     amount: 0,
-    saleType: "",
+    // saleType: "",
     itemsSupplied: [],
     date: new Date(),
   });
@@ -138,12 +139,12 @@ const AddStock = () => {
       });
     }
 
-    if (name == "saleType") {
-      setFormData({
-        ...formData,
-        saleType: value,
-      });
-    }
+    // if (name == "saleType") {
+    //   setFormData({
+    //     ...formData,
+    //     saleType: value,
+    //   });
+    // }
   };
 
   const deleteItemPreviouslySelected = (index: number) => {
@@ -180,7 +181,6 @@ const AddStock = () => {
     const dataToInsert = `
         Supplier: ${supplierName}
         Amount: ${formData.amount}
-        Sale Type: ${formData.saleType}
         Items : ${formData.itemsSupplied.map(({ brand, quantity, numberOfBottles }) => {
           return `${brand}: ${quantity} => ${numberOfBottles}`;
         })}
@@ -196,19 +196,24 @@ const AddStock = () => {
         variables: { request: { ...formData, amount: +formData.amount } },
       });
       if (response?.addBarStock) {
-        alert("Item added");
+        toast.success("Supply record added to database", {
+          position: "top-right",
+        });
         setSelectedValue("");
         setSupplierName("");
         setFormData({
           supplierID: "",
           amount: 0,
-          saleType: "",
+          // saleType: "",
           itemsSupplied: [],
           date: new Date(),
         });
       }
     } catch (error: any) {
       console.log("Error => ", error);
+      toast.error(error.message, {
+        position: "top-right",
+      });
       setError(error.message);
     } finally {
       setLoading(false);
@@ -223,8 +228,8 @@ const AddStock = () => {
 
   return (
     <div className="w-full max-w-screen-xl mx-auto mt-10">
-      <div className="text-center mt-20 text-xl">
-        <h2 className="text-xl text-gray-500 bg-black">Add Bar Stock</h2>
+      <div className=" bg-red-100 w-2/4 p-4 text-center mx-auto">
+        <h2 className="text-xl">Add Bar Stock</h2>
       </div>
 
       {error && <ErrorDiv errorMessage={error} />}
@@ -306,7 +311,7 @@ const AddStock = () => {
               </div>
             )}
 
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label htmlFor="sale" className="block text-gray-700 text-sm font-bold mb-2">
                 Sale Type
               </label>
@@ -322,7 +327,7 @@ const AddStock = () => {
                 <option value="CASH">Cash</option>
                 <option value="CREDIT">Credit</option>
               </select>
-            </div>
+            </div> */}
 
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">Amount</label>
@@ -369,22 +374,22 @@ const AddStock = () => {
               </div>
             )}
 
-            {formData.saleType && (
+            {/* {formData.saleType && (
               <p className="text-lg">
                 <b>Sale Type :</b>
                 <span className="ml-4">{formData.saleType}</span>
               </p>
-            )}
+            )} */}
 
             {formData.amount > 0 && (
-              <p className="text-lg">
+              <p className="text-lg mb-2">
                 <b>Amount :</b>
                 <span className="ml-4">&#x20A6; {formData.amount}.00</span>
               </p>
             )}
 
-            {formData.date && (
-              <p className="text-lg">
+            {formData.itemsSupplied.length > 0 && (
+              <p className="text-lg mb-2">
                 <b>Supply date :</b>
                 <span className="ml-4">{formData.date.toDateString()}</span>
               </p>
@@ -395,13 +400,13 @@ const AddStock = () => {
             {formData.amount > 0 &&
               formData.date &&
               formData.itemsSupplied.length > 0 &&
-              formData.saleType &&
+              // formData.saleType &&
               formData.supplierID && (
                 <div className="mb-4 text-center">
                   <button
                     onClick={handleItemSubmission}
                     className="bg-green-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">
-                    Save supply details
+                    Save details
                   </button>
                 </div>
               )}

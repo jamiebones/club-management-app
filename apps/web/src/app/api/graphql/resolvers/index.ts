@@ -36,6 +36,10 @@ import item from "./item";
 import itemMutation from "./item/mutation";
 import itemQuery from "./item/query";
 
+import donation from "./donation";
+import donationMutation from "./donation/mutation";
+import donationQuery from "./donation/query";
+
 
 const resolvers = {
   Query: {
@@ -45,7 +49,8 @@ const resolvers = {
     ...barSaleQuery,
     ...duesPaymentQuery,
     ...supplierQuery,
-    ...itemQuery
+    ...itemQuery,
+    ...donationQuery
 
   },
   Mutation: {
@@ -58,7 +63,8 @@ const resolvers = {
    ...paymentMutation,
    ...duesPaymentMutation,
    ...usersMutation,
-   ...itemMutation
+   ...itemMutation,
+   ...donationMutation
     
   },
   ...members,
@@ -70,7 +76,8 @@ const resolvers = {
   ...payment,
   ...duesPayment,
   ...users,
-  ...item
+  ...item,
+  ...donation
 
 };
 

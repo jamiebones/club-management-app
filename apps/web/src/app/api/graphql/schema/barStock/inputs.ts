@@ -5,7 +5,7 @@ export default gql.gql`
   input addBarStockInput {
      supplierID: ID!
      amount: Int!
-     saleType: paymentTypeEnum!
+    #  saleType: paymentTypeEnum!
      itemsSupplied: [ ItemSuppliedInput! ]
      date: Date
   }

@@ -280,8 +280,40 @@ const GetMemberFullDetails = gql`
   }
 `;
 
+const GetDonationStockAvailable = gql`
+  query GetDonationStockAvailable {
+    getDonationStockAvailable{
+      _id
+      brand
+      quantity
+    }
+  }
+`;
 
+//
 
+const GetDonationsBetweenTwoDate = gql`
+  query getDonationsBetweenTwoDate($request: getDonationsBetweenTwoDateInput!) {
+    getDonationsBetweenTwoDate(request: $request) {
+      _id
+      drinks{
+        brand
+        quantity
+      }
+      date
+      seller{
+              ... on Member {
+                firstname
+                surname
+              }
+              ... on Staff {
+                 firstname
+                 surname
+          }
+        }
+    }
+  }
+`;
 
 
 export {
@@ -296,5 +328,7 @@ export {
     FindMemberFullDetails,
     GetBarSaleData,
     SearchMemberQuery,
-    GetMemberFullDetails
+    GetMemberFullDetails,
+    GetDonationStockAvailable,
+    GetDonationsBetweenTwoDate
 }

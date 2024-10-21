@@ -10,7 +10,7 @@ import duesPayment from "./duesPayment";
 import supplier from "./supplier";
 import error from "./error";
 import item from "./item";
-
+import donation from "./donations";
 const typeDefs = [
   ...member,
   ...common,
@@ -23,7 +23,8 @@ const typeDefs = [
   ...payment,
   ...duesPayment,
   ...error,
-  ...item
+  ...item,
+  ...donation
 ];
 
 export default typeDefs;

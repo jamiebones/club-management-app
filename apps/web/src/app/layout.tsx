@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Navbar from "./components/Navbar";
 import { NextAuthProvider } from "./provider";
 import { Bounce, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./globals.css";
 

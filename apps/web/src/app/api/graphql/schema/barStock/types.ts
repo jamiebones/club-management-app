@@ -7,7 +7,7 @@ export default gql.gql`
      supplierID: ID!
      Supplier: Supplier
      amount: Int
-     saleType: paymentTypeEnum!
+    #  saleType: paymentTypeEnum!
      itemsSupplied: [ ItemSupplied!]
      date: Date
  }

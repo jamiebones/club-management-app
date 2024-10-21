@@ -86,6 +86,19 @@ const SwapBeer = gql`
   }
 `;
 
+const AddNewDonation = gql`
+  mutation addNewDonation($request: newDonationInput!) {
+    addNewDonation(request: $request) 
+  }
+`;
+
+const BringOutDonation = gql`
+  mutation bringOutDonation($request: bringOutBeerInput!) {
+    bringOutDonation(request: $request) 
+  }
+`;
+
+
 
 export {
     CreateUserAccount,
@@ -97,5 +110,7 @@ export {
     AddBarStock,
     UpdateMemberDetails,
     AddNewBarSale,
-    SwapBeer
+    SwapBeer,
+    AddNewDonation,
+    BringOutDonation
 }

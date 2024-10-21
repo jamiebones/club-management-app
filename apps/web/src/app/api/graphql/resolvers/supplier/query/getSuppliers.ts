@@ -2,14 +2,14 @@ import { Supplier } from "../../../../models/SupplierModel";
 import { Supplier as SupplierType } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';
 import dbConnect from "../../../../../../../lib/dbConnect";
-import { IsAuthenticated, allowAdministrativeTask} from "../../../authorization/auth";
+import { IsAuthenticated, allowAdministrativeTask, barSalesAllowed} from "../../../authorization/auth";
 import { combineResolvers } from "graphql-resolvers";
 
 
 const getSuppliers = 
 combineResolvers(
   IsAuthenticated,
-  allowAdministrativeTask,
+  barSalesAllowed,
 async (
   parent: any,
   args: { request: null },
