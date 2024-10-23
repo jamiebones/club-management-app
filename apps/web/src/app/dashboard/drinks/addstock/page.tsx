@@ -65,7 +65,7 @@ const AddStock = () => {
           variables: { request: null },
         }),
 
-        await request({
+        request({
           url: graphqlURL,
           document: GetItems,
           variables: { request: null },

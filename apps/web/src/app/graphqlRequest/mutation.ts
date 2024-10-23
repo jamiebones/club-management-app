@@ -98,6 +98,14 @@ const BringOutDonation = gql`
   }
 `;
 
+const MakeDrinksPaymentToSupplier = gql`
+  mutation addPayment($request: addPaymentInput!) {
+    addPayment(request: $request) {
+      _id
+    }
+  }
+`;
+
 
 
 export {
@@ -112,5 +120,6 @@ export {
     AddNewBarSale,
     SwapBeer,
     AddNewDonation,
-    BringOutDonation
+    BringOutDonation,
+    MakeDrinksPaymentToSupplier
 }

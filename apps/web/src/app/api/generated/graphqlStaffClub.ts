@@ -42,7 +42,6 @@ export type BarStock = {
   amount?: Maybe<Scalars['Int']['output']>;
   date?: Maybe<Scalars['Date']['output']>;
   itemsSupplied?: Maybe<Array<ItemSupplied>>;
-  saleType: PaymentTypeEnum;
   supplierID: Scalars['ID']['output'];
 };
 
@@ -382,9 +381,10 @@ export type Query = {
   findMembers?: Maybe<FindMembersCursorOutput>;
   findStaff?: Maybe<StaffResult>;
   getDonationStockAvailable?: Maybe<Array<Maybe<DonatedStock>>>;
-  getDonationsBetweenTwoDate?: Maybe<Array<Maybe<Donation>>>;
+  getDonationsBetweenTwoDate?: Maybe<Array<Maybe<DonationUsage>>>;
   getItemByName?: Maybe<Item>;
   getItems?: Maybe<Array<Item>>;
+  getPaymentMadeToPerson?: Maybe<Array<Maybe<Payment>>>;
   getStockSuppliedBySupplier?: Maybe<Array<Maybe<BarStock>>>;
   getSuppliers?: Maybe<Array<Maybe<Supplier>>>;
   searchMember?: Maybe<Array<Maybe<Member>>>;
@@ -432,6 +432,11 @@ export type QueryGetDonationsBetweenTwoDateArgs = {
 
 export type QueryGetItemByNameArgs = {
   request: GetItemInput;
+};
+
+
+export type QueryGetPaymentMadeToPersonArgs = {
+  request: GetPaymentInput;
 };
 
 
@@ -502,7 +507,6 @@ export type AddBarStockInput = {
   amount: Scalars['Int']['input'];
   date?: InputMaybe<Scalars['Date']['input']>;
   itemsSupplied?: InputMaybe<Array<ItemSuppliedInput>>;
-  saleType: PaymentTypeEnum;
   supplierID: Scalars['ID']['input'];
 };
 
@@ -650,6 +654,10 @@ export type GetDonationsBetweenTwoDateInput = {
 
 export type GetItemInput = {
   name: Scalars['String']['input'];
+};
+
+export type GetPaymentInput = {
+  receiverID: Scalars['ID']['input'];
 };
 
 export enum MembershipTypeEnum {

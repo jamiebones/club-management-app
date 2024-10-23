@@ -96,6 +96,21 @@ const GetSuppliers = gql`
   }
 `;
 
+const GetSuppliersDetails = gql`
+  query getSuppliers {
+    getSuppliers{
+      _id
+      name
+      contact
+      address
+    }
+  }
+`;
+
+// name: 'Johnshon Freaky',
+// web:dev:     contact: [ '858585885858', '08064774784', '08595900333' ],
+// web:dev:     address: 'East West Avenue',
+
 const GetItemByName = gql`
   query getItemByName($request: getItemInput!){
     getItemByName(request: $request){
@@ -302,15 +317,57 @@ const GetDonationsBetweenTwoDate = gql`
       }
       date
       seller{
-              ... on Member {
-                firstname
-                surname
-              }
-              ... on Staff {
-                 firstname
-                 surname
+        ... on Member {
+            firstname
+            surname
+         }
+        ... on Staff {
+            firstname
+            surname
           }
         }
+    }
+  }
+`;
+
+const GetPaymentMadeToPerson = gql`
+  query getPaymentMadeToPerson($request: getPaymentInput!) {
+    getPaymentMadeToPerson(request: $request) {
+      _id
+      amountPaid
+      paymentFor
+      paymentCategory
+      date
+      receiver{
+        ... on Member {
+            firstname
+            surname
+         }
+        ... on Staff {
+            firstname
+            surname
+          }
+          ... on Supplier {
+            name
+          }
+        }
+    }
+  }
+`;
+
+
+
+const GetStockSuppliedBySupplier = gql`
+  query getStockSuppliedBySupplier($request: findBarStockInput!)  {
+    getStockSuppliedBySupplier(request: $request){
+      _id
+     amount
+     itemsSupplied{
+        brand
+        quantity
+        numberOfBottles
+     }
+     date
     }
   }
 `;
@@ -330,5 +387,8 @@ export {
     SearchMemberQuery,
     GetMemberFullDetails,
     GetDonationStockAvailable,
-    GetDonationsBetweenTwoDate
+    GetDonationsBetweenTwoDate,
+    GetStockSuppliedBySupplier,
+    GetSuppliersDetails,
+    GetPaymentMadeToPerson
 }

@@ -24,6 +24,7 @@ import drinksBankMutation from "./drinksBank/mutation";
 
 import payment from "./payment";
 import paymentMutation from "./payment/mutation";
+import paymentQueries from "./payment/query"
 
 import duesPayment from "./duesPayment";
 import duesPaymentMutation from "./duesPayment/mutation";
@@ -50,7 +51,8 @@ const resolvers = {
     ...duesPaymentQuery,
     ...supplierQuery,
     ...itemQuery,
-    ...donationQuery
+    ...donationQuery,
+    ...paymentQueries
 
   },
   Mutation: {

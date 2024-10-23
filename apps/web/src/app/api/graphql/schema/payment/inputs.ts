@@ -11,4 +11,8 @@ export default gql.gql`
     date: Date
   }
 
+  input getPaymentInput{
+    receiverID: ID!
+  }
+
   `
