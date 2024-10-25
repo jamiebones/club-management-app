@@ -21,10 +21,7 @@ async (
 )=> {
   try {
     await dbConnect()
-    const { memberID, items,
-        amount,
-        paymentType,
-        saleType } = args.request;
+    const { memberID, items, amount } = args.request;
     console.log("Mutation > newBarSale > args.fields = ", args.request);
     const fields: BarSaleType = {
       memberID,
