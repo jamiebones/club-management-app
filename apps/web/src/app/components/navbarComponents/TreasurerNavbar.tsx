@@ -34,6 +34,9 @@ const TreasurerNavbar = () => {
             <Navbar.Link href="/dashboard/drinks/pay">Save Drinks Payment</Navbar.Link>
           </Dropdown.Item>
           <Dropdown.Item>
+            <Navbar.Link href="/dashboard/drinks/debtors">Debtors List</Navbar.Link>
+          </Dropdown.Item>
+          <Dropdown.Item>
             <Navbar.Link href="/dashboard/drinks/swapdrink"> Swap Drinks</Navbar.Link>
           </Dropdown.Item>
 

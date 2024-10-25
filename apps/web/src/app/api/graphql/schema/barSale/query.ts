@@ -7,6 +7,7 @@ export default gql.gql`
     # ------- BarStock ------
     findMemberPatronage(request: findMemberPatronageInput!): [BarSale]
     findDrinksSaleByDate(request: findDrinksSaleByDateInput!): BarSaleOutput
+    getBarDebtors:[BarDebtors]
    
   }
 `;

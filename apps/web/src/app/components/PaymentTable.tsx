@@ -38,7 +38,7 @@ const PaymentTable: React.FC<PaymentTableProps> = ({ payments }) => {
         <tbody>
           {payments.map((payment) => (
             <tr key={payment._id} className="text-center">
-              <td className="py-2 px-4 border-b">₦ {payment.amountPaid}</td>
+              <td className="py-2 px-4 border-b">₦ {payment.amountPaid.toFixed(2)}</td>
               <td className="py-2 px-4 border-b">{payment.paymentFor}</td>
               <td className="py-2 px-4 border-b">
                 {new Date(payment.date).toLocaleDateString()}

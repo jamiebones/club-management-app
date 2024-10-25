@@ -15,6 +15,14 @@ export type Scalars = {
   Date: { input: any; output: any; }
 };
 
+export type BarDebtors = {
+  __typename?: 'BarDebtors';
+  amount?: Maybe<Scalars['Int']['output']>;
+  memberID?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  payment?: Maybe<Scalars['Int']['output']>;
+};
+
 export type BarSale = {
   __typename?: 'BarSale';
   _id?: Maybe<Scalars['ID']['output']>;
@@ -407,6 +415,7 @@ export type Query = {
   findMemberPatronage?: Maybe<Array<Maybe<BarSale>>>;
   findMembers?: Maybe<FindMembersCursorOutput>;
   findStaff?: Maybe<StaffResult>;
+  getBarDebtors?: Maybe<Array<Maybe<BarDebtors>>>;
   getDonationStockAvailable?: Maybe<Array<Maybe<DonatedStock>>>;
   getDonationsBetweenTwoDate?: Maybe<Array<Maybe<DonationUsage>>>;
   getItemByName?: Maybe<Item>;

@@ -15,11 +15,21 @@ export default gql.gql`
     #  saleType: saleTypeEnum
 		}
 
+    type BarDebtors {
+      memberID: String
+      amount: Int
+      payment: Int
+      name: String
+      debt: Int
+  }
+
     union Seller = Staff | Member
 
     type BarSaleOutput {
       sales: [BarSale]
       stocks: [Item]
   }
+
+  
 
   `

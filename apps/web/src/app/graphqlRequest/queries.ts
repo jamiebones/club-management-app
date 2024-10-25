@@ -409,6 +409,19 @@ const GetMemberPurchase = gql`
 `;
 
 
+const GetBarDebtors = gql`
+  query getBarDebtors{
+    getBarDebtors{
+       memberID
+       amount
+       payment
+       name
+      debt
+  }
+  }
+`;
+
+
 
 
 
@@ -430,5 +443,6 @@ export {
     GetStockSuppliedBySupplier,
     GetSuppliersDetails,
     GetPaymentMadeToPerson,
-    GetMemberPurchase
+    GetMemberPurchase,
+    GetBarDebtors
 }
