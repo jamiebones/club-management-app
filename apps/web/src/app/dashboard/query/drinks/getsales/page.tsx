@@ -40,8 +40,8 @@ const GetSales = () => {
   const [beerTotal, setBeerTotal] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [saleType, setSaleType] = useState("");
-  const [paymentType, setPaymentType] = useState("");
+  // const [saleType, setSaleType] = useState("");
+  // const [paymentType, setPaymentType] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
@@ -84,12 +84,12 @@ const GetSales = () => {
       startDate: startDate,
       endDate: endDate,
     } as any;
-    if (saleType) {
-      data["saleType"] = saleType;
-    }
-    if (paymentType) {
-      data["paymentType"] = paymentType;
-    }
+    // if (saleType) {
+    //   data["saleType"] = saleType;
+    // }
+    // if (paymentType) {
+    //   data["paymentType"] = paymentType;
+    // }
     try {
       setLoading(true);
       const response: any = await request({
@@ -120,24 +120,24 @@ const GetSales = () => {
     setEndDate(date);
   };
 
-  const handleSelectChange = (e: any) => {
-    const { value, name } = e.target;
-    if (name == "saleType" && value !== "") {
-      setSaleType(value);
-    }
-    if (name == "paymentType" && value !== "") {
-      setPaymentType(value);
-    }
-  };
+  // const handleSelectChange = (e: any) => {
+  //   const { value, name } = e.target;
+  //   if (name == "saleType" && value !== "") {
+  //     setSaleType(value);
+  //   }
+  //   if (name == "paymentType" && value !== "") {
+  //     setPaymentType(value);
+  //   }
+  // };
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-4">Sale Information</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">Sale Information</h1>
       {error && <ErrorDiv errorMessage={error} />}
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div className="max-w-lg bg-gray-100 border border-gray-300 rounded p-2">
+        <div className="max-w-lg bg-gray-100 border border-gray-300 rounded p-2 mx-auto">
           <div className="flex justify-between">
             <div className="flex flex-col w-full md:w-1/2 p-2">
               <label className="text-sm mb-1">Start Date</label>
@@ -157,7 +157,7 @@ const GetSales = () => {
               />
             </div>
           </div>
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <div className="flex flex-col w-full md:w-1/2 p-2">
               <label className="text-sm mb-1">Sale Type</label>
               <select
@@ -186,7 +186,7 @@ const GetSales = () => {
                 <option value="CREDIT">CREDIT</option>
               </select>
             </div>
-          </div>
+          </div> */}
           <div className="text-center">
             <button
               onClick={getSalesData}
@@ -222,12 +222,12 @@ const GetSales = () => {
                   <th scope="col" className="px-6 py-3">
                     Date
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  {/* <th scope="col" className="px-6 py-3">
                     Sale Type
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Payment Method
-                  </th>
+                  </th> */}
                   <th scope="col" className="px-6 py-3">
                     Sold By
                   </th>
@@ -259,13 +259,13 @@ const GetSales = () => {
                         <p>{sale?.date && formattedDate(sale?.date)}</p>
                       </td>
 
-                      <td className="px-6 py-4">
+                      {/* <td className="px-6 py-4">
                         <p>{sale?.saleType}</p>
                       </td>
 
                       <td className="px-6 py-4">
                         <p>{sale?.paymentType}</p>
-                      </td>
+                      </td> */}
                       <td className="px-6 py-4">
                         <p>
                           {sale?.seller?.firstname.toUpperCase()}{" "}

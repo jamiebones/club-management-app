@@ -26,28 +26,30 @@ async (
     throw new GraphQLError('A parameter is needed')
    }
    let fields: any = {}
+   const start = new Date(startDate.split('T')[0]).setHours(0, 0, 0, 0);
+   const end = new Date(endDate.split('T')[0]).setHours(23, 59, 59, 999);
 
-    fields = {date: { $gte: startDate, $lte: endDate}}
+    fields = {date: { $gte: start, $lte: end}}
 
-    if ( paymentType ) {
-        fields = {$and: [{date: { $gte: startDate, $lte: endDate}},  {paymentType: paymentType} ]}
-    }
+    // if ( paymentType ) {
+    //     fields = {$and: [{date: { $gte: startDate, $lte: endDate}},  {paymentType: paymentType} ]}
+    // }
 
-    if ( saleType ){
-      fields = {$and: [{date: { $gte: startDate, $lte: endDate}},  
-                       {paymentType: paymentType}, 
-                       {saleType: saleType}]}
-    }
+    // if ( saleType ){
+    //   fields = {$and: [{date: { $gte: startDate, $lte: endDate}},  
+    //                    {paymentType: paymentType}, 
+    //                    {saleType: saleType}]}
+    // }
 
-    if ( saleType && paymentType){
-      fields = {$and: [ {
-        date: { $gte: startDate, $lte: endDate}
-      },
-      { saleType: saleType },
-      {paymentType: paymentType}
-    ]
-    }
-  }
+  //   if ( saleType && paymentType){
+  //     fields = {$and: [ {
+  //       date: { $gte: startDate, $lte: endDate}
+  //     },
+  //     { saleType: saleType },
+  //     {paymentType: paymentType}
+  //   ]
+  //   }
+  // }
 
     const [ sales, stocks ] = await Promise.all([
         BarSales.find({...fields}).sort({date: 1}).lean(),

@@ -14,5 +14,6 @@ export default gql.gql`
       before: String
       limit: Int
     ): FindMembersCursorOutput
+    getMemberPurchase(request: memberPurchaseInput!):MemberPurchase
   }
 `

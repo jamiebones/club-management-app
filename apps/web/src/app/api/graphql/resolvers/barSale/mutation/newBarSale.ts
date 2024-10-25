@@ -31,8 +31,8 @@ async (
       staffID: context.token.bioDataId,
       items,
       amount,
-      paymentType: paymentType as PaymentTypeEnum,
-      saleType: saleType as SaleTypeEnum,
+      // paymentType: paymentType as PaymentTypeEnum,
+      // saleType: saleType as SaleTypeEnum,
       date: new Date()
     };
  

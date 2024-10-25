@@ -19,6 +19,11 @@ export default function Dashboard() {
         router.push("/dashboard/query/member/search");
       }
 
+      if (session && session?.user?.role! == "TREASURER") {
+        //redirect to a page
+        router.push("/dashboard/drinks/supply");
+      }
+
       if (session && session?.user?.role! == "SALES") {
         //redirect to a page
         router.push("/dashboard/drinks/sell");

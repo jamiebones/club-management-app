@@ -19,20 +19,19 @@ date: {
     type: Date,
   },
 
-
   amount: {
     type: Number
   },
 
-  paymentType: {
-    type: String,
-    enum: ["CASH", "POS", "TRANSFER" ]
-  },
+  // paymentType: {
+  //   type: String,
+  //   enum: ["CASH", "POS", "TRANSFER" ]
+  // },
     
-  saleType: {
-     type: String,
-     enum: ["CASH", "CREDIT"]
-  },
+  // saleType: {
+  //    type: String,
+  //    enum: ["CASH", "CREDIT"]
+  // },
 
 });
 

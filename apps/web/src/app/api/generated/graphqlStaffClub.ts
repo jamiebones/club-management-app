@@ -23,8 +23,6 @@ export type BarSale = {
   date?: Maybe<Scalars['Date']['output']>;
   items?: Maybe<Array<Maybe<BeerBrandType>>>;
   memberID: Scalars['ID']['output'];
-  paymentType?: Maybe<PaymentTypeEnum>;
-  saleType?: Maybe<SaleTypeEnum>;
   seller?: Maybe<Seller>;
   staffID: Scalars['ID']['output'];
 };
@@ -169,15 +167,38 @@ export type Member = {
   membershipType?: Maybe<MembershipTypeEnum>;
   nextOfKin?: Maybe<Scalars['String']['output']>;
   paymentReceived?: Maybe<Array<Maybe<Payment>>>;
+  payments?: Maybe<Array<Maybe<MemberDrinkPayment>>>;
   sex?: Maybe<SexEnum>;
   sports?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   surname?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
 };
 
+export type MemberDetails = {
+  __typename?: 'MemberDetails';
+  firstname?: Maybe<Scalars['String']['output']>;
+  memberID?: Maybe<Scalars['ID']['output']>;
+  surname?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+};
+
+export type MemberDrinkPayment = {
+  __typename?: 'MemberDrinkPayment';
+  amount?: Maybe<Scalars['Int']['output']>;
+  collectedBy?: Maybe<Scalars['String']['output']>;
+  date?: Maybe<Scalars['Date']['output']>;
+};
+
 export type MemberOrderBy = {
   direction?: InputMaybe<OrderDirection>;
   field?: InputMaybe<OrderableMemberField>;
+};
+
+export type MemberPurchase = {
+  __typename?: 'MemberPurchase';
+  memberDetails?: Maybe<MemberDetails>;
+  payments?: Maybe<Array<Maybe<MemberDrinkPayment>>>;
+  purchase?: Maybe<Array<Maybe<BarSale>>>;
 };
 
 export type MemberResult = Member | NotFound;
@@ -196,6 +217,7 @@ export type Mutation = {
   bringOutDonation?: Maybe<Scalars['Int']['output']>;
   collectBankedDrinks?: Maybe<DrinksBank>;
   createUserAccount?: Maybe<User>;
+  memberBarPayment?: Maybe<Member>;
   newBarSale?: Maybe<BarSale>;
   swapBeer?: Maybe<Scalars['Boolean']['output']>;
   updateItem?: Maybe<Item>;
@@ -262,6 +284,11 @@ export type MutationCollectBankedDrinksArgs = {
 
 export type MutationCreateUserAccountArgs = {
   request: AddCreateUserInput;
+};
+
+
+export type MutationMemberBarPaymentArgs = {
+  request: MemberBarPaymentInput;
 };
 
 
@@ -384,6 +411,7 @@ export type Query = {
   getDonationsBetweenTwoDate?: Maybe<Array<Maybe<DonationUsage>>>;
   getItemByName?: Maybe<Item>;
   getItems?: Maybe<Array<Item>>;
+  getMemberPurchase?: Maybe<MemberPurchase>;
   getPaymentMadeToPerson?: Maybe<Array<Maybe<Payment>>>;
   getStockSuppliedBySupplier?: Maybe<Array<Maybe<BarStock>>>;
   getSuppliers?: Maybe<Array<Maybe<Supplier>>>;
@@ -432,6 +460,11 @@ export type QueryGetDonationsBetweenTwoDateArgs = {
 
 export type QueryGetItemByNameArgs = {
   request: GetItemInput;
+};
+
+
+export type QueryGetMemberPurchaseArgs = {
+  request: MemberPurchaseInput;
 };
 
 
@@ -605,8 +638,6 @@ export type FindBarStockInput = {
 
 export type FindDrinksSaleByDateInput = {
   endDate?: InputMaybe<Scalars['Date']['input']>;
-  paymentType?: InputMaybe<PaymentTypeEnum>;
-  saleType?: InputMaybe<SaleTypeEnum>;
   startDate?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -624,7 +655,6 @@ export type FindMemberInput = {
 export type FindMemberPatronageInput = {
   endDate?: InputMaybe<Scalars['Date']['input']>;
   memberID: Scalars['ID']['input'];
-  paymentType?: InputMaybe<PaymentTypeEnum>;
   saleType?: InputMaybe<SaleTypeEnum>;
   startDate?: InputMaybe<Scalars['Date']['input']>;
 };
@@ -660,6 +690,18 @@ export type GetPaymentInput = {
   receiverID: Scalars['ID']['input'];
 };
 
+export type MemberBarPaymentInput = {
+  amount?: InputMaybe<Scalars['Int']['input']>;
+  date?: InputMaybe<Scalars['Date']['input']>;
+  memberID?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type MemberPurchaseInput = {
+  firstname?: InputMaybe<Scalars['String']['input']>;
+  memberID?: InputMaybe<Scalars['String']['input']>;
+  surname?: InputMaybe<Scalars['String']['input']>;
+};
+
 export enum MembershipTypeEnum {
   Associate = 'ASSOCIATE',
   Full = 'FULL'
@@ -669,8 +711,6 @@ export type NewBarSaleInput = {
   amount: Scalars['Int']['input'];
   items?: InputMaybe<Array<BeerBrandInput>>;
   memberID: Scalars['ID']['input'];
-  paymentType?: InputMaybe<PaymentTypeEnum>;
-  saleType?: InputMaybe<SaleTypeEnum>;
   staffID: Scalars['ID']['input'];
 };
 

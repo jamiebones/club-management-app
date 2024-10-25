@@ -106,6 +106,16 @@ const MakeDrinksPaymentToSupplier = gql`
   }
 `;
 
+const MemberBarPayment = gql`
+  mutation memberBarPayment($request: memberBarPaymentInput!) {
+    memberBarPayment(request: $request) {
+      _id
+    }
+  }
+`;
+
+//memberBarPayment
+
 
 
 export {
@@ -121,5 +131,6 @@ export {
     SwapBeer,
     AddNewDonation,
     BringOutDonation,
-    MakeDrinksPaymentToSupplier
+    MakeDrinksPaymentToSupplier,
+    MemberBarPayment
 }

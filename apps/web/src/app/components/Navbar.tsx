@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { Navbar, Dropdown, Avatar } from "flowbite-react";
 import AdminNavbar from "./navbarComponents/AdminNavbar";
 import SalesNavbar from "./navbarComponents/SalesNavbar";
+import TreasurerNavbar from "./navbarComponents/TreasurerNavbar";
 
 const NavbarComponent = () => {
   const { data: session } = useSession();
@@ -51,6 +52,12 @@ const NavbarComponent = () => {
         {session && session?.user?.role! == "ADMIN" && (
           <>
             <AdminNavbar />
+          </>
+        )}
+
+        {session && session?.user?.role! == "TREASURER" && (
+          <>
+            <TreasurerNavbar />
           </>
         )}
 

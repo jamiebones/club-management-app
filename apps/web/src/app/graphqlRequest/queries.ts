@@ -194,8 +194,8 @@ const GetBarSaleData = gql`
             }
             date
             amount
-            paymentType
-            saleType
+            # paymentType
+            # saleType
           }
           stocks{
             totalStock
@@ -372,6 +372,45 @@ const GetStockSuppliedBySupplier = gql`
   }
 `;
 
+const GetMemberPurchase = gql`
+  query getMemberPurchase($request: memberPurchaseInput!)  {
+    getMemberPurchase(request: $request){
+        purchase{
+          seller{
+            ... on Member {
+            firstname
+            surname
+         }
+        ... on Staff {
+            firstname
+            surname
+          }
+          }
+          items{
+              brand
+              quantity
+           }
+          date
+          amount
+        }
+        payments{
+          amount
+          date
+          collectedBy
+        }
+        memberDetails{
+          memberID
+          title
+          firstname
+          surname
+        }
+    }
+  }
+`;
+
+
+
+
 
 export {
     FindMember,
@@ -390,5 +429,6 @@ export {
     GetDonationsBetweenTwoDate,
     GetStockSuppliedBySupplier,
     GetSuppliersDetails,
-    GetPaymentMadeToPerson
+    GetPaymentMadeToPerson,
+    GetMemberPurchase
 }

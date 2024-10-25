@@ -6,13 +6,13 @@ import { Supplier } from "../../../../models/SupplierModel";
 import { GraphQLError } from 'graphql';
 import { Members } from "../../../../models/MemberModel";
 import dbConnect from "../../../../../../../lib/dbConnect";
-import { IsAuthenticated, onlyFinancialAllowed } from "../../../authorization/auth";
+import { IsAuthenticated, onlyTreasurerAllowed} from "../../../authorization/auth";
 import { combineResolvers } from "graphql-resolvers";
 
 const addPayment = 
 combineResolvers(
   IsAuthenticated,
-  onlyFinancialAllowed,
+  onlyTreasurerAllowed,
 async (
   parent: any,
   args: { request: AddPaymentInput },

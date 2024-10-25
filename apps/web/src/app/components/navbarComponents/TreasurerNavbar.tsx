@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Navbar, Dropdown } from "flowbite-react";
 
-const SalesNavbar = () => {
+const TreasurerNavbar = () => {
   return (
     <React.Fragment>
       <Navbar.Link href="#">
-        <Dropdown arrowIcon={true} inline label={"Settings"}>
+        <Dropdown arrowIcon={true} inline label={"Drinks Supply"}>
+          <Dropdown.Header>
+            <span className="block text-sm">Treasurer Only </span>
+          </Dropdown.Header>
           <Dropdown.Item>
             <Navbar.Link href="/dashboard/settings"> Add Supplier/Drinks</Navbar.Link>
+            <Navbar.Link href="/dashboard/drinks/supply"> Pay Suppliers</Navbar.Link>
           </Dropdown.Item>
 
           <Dropdown.Item>
@@ -18,7 +22,6 @@ const SalesNavbar = () => {
           <Dropdown.Divider />
         </Dropdown>
       </Navbar.Link>
-
       <Navbar.Link href="#">
         <Dropdown arrowIcon={true} inline label={"Sales"}>
           <Dropdown.Header>
@@ -27,13 +30,9 @@ const SalesNavbar = () => {
           <Dropdown.Item>
             <Navbar.Link href="/dashboard/drinks/sell">Sell Drinks</Navbar.Link>
           </Dropdown.Item>
-
           <Dropdown.Item>
             <Navbar.Link href="/dashboard/drinks/pay">Save Drinks Payment</Navbar.Link>
           </Dropdown.Item>
-
-          <Dropdown.Divider />
-
           <Dropdown.Item>
             <Navbar.Link href="/dashboard/drinks/swapdrink"> Swap Drinks</Navbar.Link>
           </Dropdown.Item>
@@ -69,4 +68,4 @@ const SalesNavbar = () => {
   );
 };
 
-export default SalesNavbar;
+export default TreasurerNavbar;

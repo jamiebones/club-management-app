@@ -8,11 +8,12 @@ import { FaSpinner, FaSearch, FaApplePay } from "react-icons/fa";
 import ItemToSellComponent from "@/app/components/ItemsToSellCoponent";
 import MemberDisplay from "@/app/components/MemberDisplay";
 import { AddNewBarSale } from "@/app/graphqlRequest/mutation";
-import {
-  NewBarSaleInput,
-  SaleTypeEnum,
-  PaymentTypeEnum,
-} from "@/app/api/generated/graphqlStaffClub";
+import { toast } from "react-toastify";
+// import {
+//   NewBarSaleInput,
+//   SaleTypeEnum,
+//   PaymentTypeEnum,
+// } from "@/app/api/generated/graphqlStaffClub";
 
 const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 
@@ -61,9 +62,9 @@ const SellItem = () => {
   const [drinks, setDrinks] = useState<Drinks[]>([]);
   const [selectedDrinks, setSelectedDrinks] = useState<SelectedDrinks[]>([]);
   const [itemsLoading, setItemsLoading] = useState(false);
-  const [salesType, setSalesType] = useState("");
-  const [paymentType, setPaymentType] = useState("");
-  const [showPaymentType, setShowPaymentType] = useState(false);
+  // const [salesType, setSalesType] = useState("");
+  // const [paymentType, setPaymentType] = useState("");
+  // const [showPaymentType, setShowPaymentType] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -189,21 +190,21 @@ const SellItem = () => {
     setSelectedDrinks(items);
   };
 
-  const handleSaleTypeChange = (e: any) => {
-    const { value } = e.target;
-    if (value == "CASH") {
-      setShowPaymentType(true);
-    } else {
-      setShowPaymentType(false);
-      setPaymentType("");
-    }
-    setSalesType(value);
-  };
+  // const handleSaleTypeChange = (e: any) => {
+  //   const { value } = e.target;
+  //   if (value == "CASH") {
+  //     //setShowPaymentType(true);
+  //   } else {
+  //     //setShowPaymentType(false);
+  //     //setPaymentType("");
+  //   }
+  //   //setSalesType(value);
+  // };
 
-  const handlePaymentTypeChange = (e: any) => {
-    const { value } = e.target;
-    setPaymentType(value);
-  };
+  // const handlePaymentTypeChange = (e: any) => {
+  //   const { value } = e.target;
+  //   setPaymentType(value);
+  // };
 
   const handleDrinksSale = async () => {
     let total = 0;
@@ -219,22 +220,21 @@ const SellItem = () => {
       alert("Select some drinks you are selling");
       return;
     }
-    if (salesType == "") {
-      alert("Select sale type of Cash or Credit");
-      return;
-    }
-    if (salesType === "CASH" && paymentType == "") {
-      alert("Select the payment type");
-      return;
-    }
+    // if (salesType == "") {
+    //   alert("Select sale type of Cash or Credit");
+    //   return;
+    // }
+    // if (salesType === "CASH" && paymentType == "") {
+    //   alert("Select the payment type");
+    //   return;
+    // }
     const dataToInsert = `
        Member : ${buyer.title} ${buyer.firstname.toUpperCase()} ${buyer.surname.toUpperCase()}
        Drinks : ${selectedDrinks.map(({ name, quantity, price }) => {
          return `${name} = ${quantity * price} \n`;
        })}
       
-       Sale Type: ${salesType}
-       Payment Type: ${paymentType}
+     
        Total: ${total}
     `;
 
@@ -256,8 +256,8 @@ const SellItem = () => {
       items: drinks,
       amount: total,
       staffID: "to-be-replaced-serverSide",
-      saleType: salesType,
-      paymentType: salesType === "CASH" ? paymentType : "CREDIT",
+      //saleType: salesType,
+      //paymentType: salesType === "CASH" ? paymentType : "CREDIT",
     };
     try {
       setLoading(true);
@@ -267,15 +267,20 @@ const SellItem = () => {
         variables: { request: { ...boughtItemsData } },
       });
       if (response.newBarSale._id) {
-        alert("Successul");
+        toast.success("Drinks record saved added to database", {
+          position: "top-right",
+        });
         setBuyer({ memberID: "", firstname: "", title: "", membershipType: "", surname: "" });
         setSelectedDrinks([]);
-        setPaymentType("");
-        setSalesType("");
+        //setPaymentType("");
+        //setSalesType("");
         loadBeerDataFromDB();
       }
     } catch (error: any) {
       setError(error?.message);
+      toast.error(`Error: ${error?.message}`, {
+        position: "top-right",
+      });
       console.log("Error from selling drinks => ", error);
     } finally {
       setLoading(false);
@@ -417,7 +422,7 @@ const SellItem = () => {
           />
         </div>
 
-        {selectedDrinks && selectedDrinks.length > 0 && (
+        {/* {selectedDrinks && selectedDrinks.length > 0 && (
           <div className="w-1/2 self-center mt-auto">
             <div className="mb-4">
               <label htmlFor="saleType" className="text-sm text-gray-600 block">
@@ -461,7 +466,7 @@ const SellItem = () => {
               </select>
             </div>
           </div>
-        )}
+        )} */}
 
         {buyer && buyer?.memberID && selectedDrinks.length > 0 && (
           <div className="self-center mt-auto">
@@ -476,7 +481,7 @@ const SellItem = () => {
               ) : (
                 <>
                   <FaApplePay className="mr-2" />
-                  <label>Sell Drinks</label>
+                  <label>Save Drinks Bought</label>
                 </>
               )}
             </button>

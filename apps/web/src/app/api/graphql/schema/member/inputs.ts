@@ -35,6 +35,12 @@ export default gql.gql`
      sports: [String]
   }
 
+  input memberBarPaymentInput {
+       memberID: ID
+       amount: Int
+       date: Date
+  }
+
 
   #--------------- Query Inputs ----------------------------#
 
@@ -65,6 +71,12 @@ export default gql.gql`
      memberID: String
      firstname: String
      surname: String
+  }
+
+  input memberPurchaseInput{
+    memberID: String
+    firstname: String
+    surname: String
   }
 
 `

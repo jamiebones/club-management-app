@@ -58,7 +58,7 @@ const allowAdministrativeTask = (parent: any, args: any, context: any) => {
 };
 
 const barSalesAllowed = (parent: any, args: any, context: any) => {
-    const roles = ["SALES","BARSECRETARY","ADMIN"]
+    const roles = ["SALES","BARSECRETARY","ADMIN", "TREASURER"]
     if (roles.includes(context?.token.role)) {
         return skip;
       } else {
@@ -67,7 +67,7 @@ const barSalesAllowed = (parent: any, args: any, context: any) => {
 };
 
 const barStockAllowed = (parent: any, args: any, context: any) => {
-    const roles = ["BARSECRETARY","ADMIN", "SALES"]
+    const roles = ["BARSECRETARY","ADMIN", "SALES", "TREASURER"]
     if (roles.includes(context?.token.role)) {
         return skip;
       } else {
@@ -94,6 +94,15 @@ const onlyFinancialAllowed = (parent: any, args: any, context: any) => {
 };
 
 
+const onlyTreasurerAllowed = (parent: any, args: any, context: any) => {
+  const roles = ["TREASURER","ADMIN"]
+  if (roles.includes(context?.token.role)) {
+      return skip;
+    } else {
+      throw new Error("Not authorized role");
+    }
+};
+
 
 
 
@@ -109,6 +118,6 @@ export {
     barSalesAllowed,
     barStockAllowed,
     onlySalesAllowed,
-    onlyFinancialAllowed
-    
+    onlyFinancialAllowed,
+    onlyTreasurerAllowed
 }

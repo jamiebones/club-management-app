@@ -24,12 +24,32 @@ export default gql.gql`
      paymentReceived: [ Payment ]
      drinksBanked: [ DrinksBank ]
      drinksBought: [ BarSale ]
+     payments: [MemberDrinkPayment]
+  }
+
+  type MemberDrinkPayment {
+    amount: Int
+    date: Date
+    collectedBy: String
   }
 
 
   type FindMembersCursorOutput {
     members: [Member]
     pageInfo: PageInfo
+  }
+
+  type MemberPurchase {
+    purchase: [BarSale]
+    payments: [MemberDrinkPayment]
+    memberDetails: MemberDetails
+  }
+
+  type MemberDetails {
+    memberID: ID
+    title: String
+    firstname: String
+    surname: String
   }
   
   union MemberResult = Member | NotFound

@@ -11,8 +11,8 @@ export default gql.gql`
      items: [ BeerBrandType ]
      date: Date
      amount: Int
-     paymentType: paymentTypeEnum
-     saleType: saleTypeEnum
+    #  paymentType: paymentTypeEnum
+    #  saleType: saleTypeEnum
 		}
 
     union Seller = Staff | Member
