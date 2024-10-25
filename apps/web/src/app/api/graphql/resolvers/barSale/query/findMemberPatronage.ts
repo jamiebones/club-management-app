@@ -20,7 +20,7 @@ async (
 ) => {
   try {
     await dbConnect();
-    const { memberID, startDate, endDate, saleType, paymentType } = args.request;
+    const { memberID, startDate, endDate } = args.request;
     console.log("Query > findMemberPatronage > args.fields = ", args.request);
     if (! memberID ) {
       throw new GraphQLError("The supplier _id is a required field");
@@ -33,13 +33,13 @@ async (
         throw new GraphQLError("The supplied ID is not a member")
     }
 
-    if ( saleType ){
-        fields.saleType = saleType
-    }
+    // if ( saleType ){
+    //     fields.saleType = saleType
+    // }
 
-    if ( paymentType ) {
-        fields.paymentType = paymentType
-    }
+    // if ( paymentType ) {
+    //     fields.paymentType = paymentType
+    // }
 
     if ( startDate && endDate ){
         fields.date = { $gte: startDate, $lte: endDate}

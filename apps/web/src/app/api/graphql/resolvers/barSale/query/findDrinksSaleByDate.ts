@@ -20,9 +20,9 @@ async (
 ) => {
   try {
     await dbConnect();
-    const { startDate, endDate, paymentType, saleType } = args.request;
+    const { startDate, endDate } = args.request;
     console.log("Query > findMemberPatronage > args.fields = ", args.request);
-   if (!saleType && !paymentType && !startDate && !endDate) {
+   if ( !startDate && !endDate) {
     throw new GraphQLError('A parameter is needed')
    }
    let fields: any = {}
