@@ -1,4 +1,4 @@
-import { BarSales } from "../../../../models/BarSaleModel";
+import { BarSales } from "@/app/api/models/BarSaleModel";
 import { Items } from "@/app/api/models/ItemModel";
 import { FindDrinksSaleByDateInput } from "../../../../generated/graphqlStaffClub";
 import { GraphQLError } from 'graphql';

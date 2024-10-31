@@ -20,9 +20,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className}>
         <NextAuthProvider>
-          <div className="flex flex-col min-h-screen  bg-gray-100">
+          <div className="flex flex-col min-h-screen">
             <Navbar />
-            <main className="flex-1 p-4 bg-white">
+            <main className="flex-1 p-4 sm:p-6 md:p-8 lg:p-12">
               {/* Main Content Area */}
               {children}
               <ToastContainer
@@ -37,12 +37,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 pauseOnHover
                 theme="light"
                 transition={Bounce}
-             
               />
             </main>
-            {/* <footer className="bg-blue-500 text-white p-4 mt-auto">
-              <p>&copy; 2024 My App</p>
-            </footer> */}
+           
           </div>
         </NextAuthProvider>
       </body>

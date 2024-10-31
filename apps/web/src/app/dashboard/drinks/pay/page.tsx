@@ -15,27 +15,27 @@ const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 interface MemberSearch {
   memberID?: string;
   firstname?: string;
-  lastname?: string;
+  surname?: string;
 }
 
-const calTotal = (arr: [], field: string ): number => {
-    let total = 0;
-    arr.forEach((ele) => {
-        total += ele[field]
-    });
-    return total;
-}
+const calTotal = (arr: [], field: string): number => {
+  let total = 0;
+  arr.forEach(ele => {
+    total += ele[field];
+  });
+  return total;
+};
 
 const PayForDrinksPage = () => {
   const [processing, setProcessing] = useState(false);
   const [searchTerm, setSearchTerm] = useState<MemberSearch>({});
   const [purchases, setPurchases] = useState([]);
   const [payments, setPayments] = useState([]);
-  const [error, setError] = useState<null| string>(null);
+  const [error, setError] = useState<null | string>(null);
   const [member, setMember] = useState({ memberID: "", firstname: "", surname: "", title: "" });
-  const [owing, setOwing ] = useState(0);
-  const [totalPurchase, setTotalPurchase ] = useState(0);
-  const [totalPayment, setTotalPayment ] = useState(0);
+  const [owing, setOwing] = useState(0);
+  const [totalPurchase, setTotalPurchase] = useState(0);
+  const [totalPayment, setTotalPayment] = useState(0);
 
   const handleSerachTermChange = (e: any) => {
     const { name, value } = e.target;
@@ -49,7 +49,7 @@ const PayForDrinksPage = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSearchButtonClicked = async (e: any) => {
-    if (!searchTerm.firstname && !searchTerm.lastname && !searchTerm.memberID) return;
+    if (!searchTerm.firstname && !searchTerm.surname && !searchTerm.memberID) return;
     getMemberPaymentDataFromDB(searchTerm);
   };
 
@@ -134,14 +134,14 @@ const PayForDrinksPage = () => {
   }, [error]);
 
   return (
-    <div className="p-6">
+    <div>
       {/* Search and Form Row */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
         {/* Search Component */}
-        <div className="w-1/2 p-4">
+        <div className="w-full sm:w-1/2 p-4 mb-4 sm:mb-0">
           <div className="border rounded p-4">
             <h2 className="text-lg font-semibold mb-4">Search Members</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {/* Member ID Search */}
               <div>
                 <label htmlFor="memberID" className="text-sm text-gray-600 block">
@@ -189,11 +189,11 @@ const PayForDrinksPage = () => {
             </div>
             <button
               onClick={handleSearchButtonClicked}
-              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full sm:w-auto">
               {processing ? (
                 <div className="flex justify-between items-center">
                   <FaSpinner className="animate-spin" /> &nbsp;&nbsp;
-                  <label>searching.......</label>
+                  <label>Searching......</label>
                 </div>
               ) : (
                 <div className="flex justify-between items-center">
@@ -206,11 +206,11 @@ const PayForDrinksPage = () => {
         </div>
 
         {/* Form */}
-        <div className="w-1/2 p-4">
+        <div className="w-full sm:w-1/2 p-4">
           {member?.firstname && (
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-white rounded-lg shadow-md p-6 mb-4 sm:mb-0">
               <h2 className="text-2xl font-semibold mb-4">Member Information</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm text-gray-600 block">Member ID</label>
                   <p className="text-lg font-medium">{member?.memberID}</p>
@@ -235,8 +235,8 @@ const PayForDrinksPage = () => {
             <div className="flex justify-center items-center bg-gray-100 mt-7">
               <form
                 onSubmit={handleSubmit}
-                className="bg-white p-6 rounded-lg shadow-md inline-flex space-x-4 items-center">
-                <div className="flex flex-col">
+                className="bg-white p-6 rounded-lg shadow-md inline-flex space-x-4 items-center flex-col sm:flex-row">
+                <div className="flex flex-col mb-4 sm:mb-0">
                   <label htmlFor="number" className="mb-2 font-semibold text-gray-700">
                     Amount:
                   </label>
@@ -249,7 +249,7 @@ const PayForDrinksPage = () => {
                     required
                   />
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col mb-4 sm:mb-0">
                   <label htmlFor="date" className="mb-2 font-semibold text-gray-700">
                     Payment Date:
                   </label>
@@ -265,9 +265,7 @@ const PayForDrinksPage = () => {
                 <button
                   disabled={loading}
                   type="submit"
-                  className="bg-blue-500 text-white font-semibold px-3 py-1
-                hover:bg-blue-600 focus:ring-2
-                  focus:ring-blue-400 mt-6">
+                  className="bg-blue-500 text-white font-semibold px-3 py-1 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 mt-4 sm:mt-0">
                   {loading ? (
                     <>
                       <FaSpinner className="animate-spin" />
@@ -284,10 +282,13 @@ const PayForDrinksPage = () => {
           )}
         </div>
       </div>
-
       {/* Table Row */}
-      <MemberPurchaseComponent payments={payments as any} purchases={purchases as any} 
-      purchaseTotal={totalPurchase} paymentTotal={totalPayment} />
+      <MemberPurchaseComponent
+        payments={payments as any}
+        purchases={purchases as any}
+        purchaseTotal={totalPurchase}
+        paymentTotal={totalPayment}
+      />
     </div>
   );
 };

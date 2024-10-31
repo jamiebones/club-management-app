@@ -20,7 +20,7 @@ const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 interface MemberSearch {
   memberID?: string;
   firstname?: string;
-  lastname?: string;
+  surname?: string;
 }
 
 interface MemberInfo {
@@ -77,7 +77,8 @@ const SellItem = () => {
   };
 
   const handleSearchButtonClicked = async (e: any) => {
-    if (!searchTerm.firstname && !searchTerm.lastname && !searchTerm.memberID) return;
+    console.log(searchTerm);
+    if (!searchTerm.firstname && !searchTerm.surname && !searchTerm.memberID) return;
     try {
       setProcessing(true);
       const response: any = await request({
@@ -292,15 +293,16 @@ const SellItem = () => {
   }, []);
 
   return (
-    <div className="container mt-20 p-4 mx-auto w-full">
+    <div className="container mx-auto p-4">
       {loading && <LoadingSpinner />}
       {error && <ErrorDiv errorMessage={error} />}
-      {/* //first row} */}
-      <div className="flex justify-center p-4 w-full">
-        <div className="w-2/3 p-4">
+
+      {/* First row */}
+      <div className="flex flex-col sm:flex-row justify-center p-4 w-full">
+        <div className="w-full sm:w-2/3 p-4 mb-4 sm:mb-0">
           <div className="border rounded p-4">
             <h2 className="text-lg font-semibold mb-4">Search Members</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {/* Member ID Search */}
               <div>
                 <label htmlFor="memberID" className="text-sm text-gray-600 block">
@@ -348,14 +350,14 @@ const SellItem = () => {
             </div>
             <button
               onClick={handleSearchButtonClicked}
-              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">
               {processing ? (
-                <div className="flex justify-between items-center">
+                <div className="flex justify-center items-center">
                   <FaSpinner className="animate-spin" /> &nbsp;&nbsp;
-                  <label>searching.......</label>
+                  <label>Searching......</label>
                 </div>
               ) : (
-                <div className="flex justify-between items-center">
+                <div className="flex justify-center items-center">
                   <FaSearch className="mr-2" />
                   <label>Search</label>
                 </div>
@@ -369,17 +371,16 @@ const SellItem = () => {
           )}
         </div>
 
-        <div className="w-1/3">
+        <div className="w-full sm:w-1/3 p-4">
           {buyer && buyer.firstname && buyer.surname && <MemberDisplay member={buyer!} />}
         </div>
       </div>
 
-      <hr />
+      <hr className="my-4" />
 
-      {/* //second row} */}
-
-      <div className="flex flex-col items-stretch p-4 mx-auto w-full">
-        <div className="w-1/2 self-center">
+      {/* Second row */}
+      <div className="flex flex-col sm:flex-row justify-center p-4 w-full">
+        <div className="w-full sm:w-1/2 p-4 mb-4 sm:mb-0">
           {buyer && buyer.firstname && buyer.surname && (
             <div>
               <div className="mb-4">
@@ -413,80 +414,35 @@ const SellItem = () => {
           )}
         </div>
 
-        <div className="w-3/5 p-4">
+        <div className="w-full sm:w-3/5 p-4 overflow-auto">
           <ItemToSellComponent
             drinks={selectedDrinks}
             removeItem={removeItem}
             addItem={addItem}
             deleteItem={deleteItem}
           />
+
+          {/* Sale button */}
+          {buyer && buyer?.memberID && selectedDrinks.length > 0 && (
+            <div className="text-center w-full sm:w-auto">
+              <button
+                onClick={handleDrinksSale}
+                className="mt-2 bg-green-500 text-white px-4 py-2 rounded flex items-center w-full sm:w-auto">
+                {loading ? (
+                  <>
+                    <FaSpinner className="animate-spin" />
+                    <label>Loading</label>
+                  </>
+                ) : (
+                  <>
+                    <FaApplePay className="mr-2" />
+                    <label>Save Drinks Bought</label>
+                  </>
+                )}
+              </button>
+            </div>
+          )}
         </div>
-
-        {/* {selectedDrinks && selectedDrinks.length > 0 && (
-          <div className="w-1/2 self-center mt-auto">
-            <div className="mb-4">
-              <label htmlFor="saleType" className="text-sm text-gray-600 block">
-                Sale Type
-              </label>
-              <select
-                id="select"
-                className="w-full border p-2 rounded focus:outline-none focus:border-blue-500 transition duration-300"
-                defaultValue=""
-                name="saleType"
-                value={salesType}
-                onChange={handleSaleTypeChange}>
-                <option value="" disabled>
-                  Select sale type
-                </option>
-                <option value="CASH">Cash</option>
-                <option value="CREDIT">Credit</option>
-              </select>
-            </div>
-          </div>
-        )}
-
-        { showPaymentType && (
-          <div className="w-1/2 self-center mt-auto">
-            <div className="mb-4">
-              <label htmlFor="paymentType" className="text-sm text-gray-600 block">
-                Payment Type
-              </label>
-              <select
-                id="select"
-                className="w-full border p-2 rounded focus:outline-none focus:border-blue-500 transition duration-300"
-                defaultValue=""
-                name="paymentType"
-                onChange={handlePaymentTypeChange}>
-                <option value="" disabled>
-                  Select payment type
-                </option>
-                <option value="POS">POS</option>
-                <option value="CASH">CASH</option>
-                <option value="TRANSFER">TRANSFER</option>
-              </select>
-            </div>
-          </div>
-        )} */}
-
-        {buyer && buyer?.memberID && selectedDrinks.length > 0 && (
-          <div className="self-center mt-auto">
-            <button
-              onClick={handleDrinksSale}
-              className="mt-2 bg-green-500 text-white px-4 py-2 rounded flex items-center">
-              {loading ? (
-                <>
-                  <FaSpinner className="animate-spin" />
-                  <label>Loading</label>
-                </>
-              ) : (
-                <>
-                  <FaApplePay className="mr-2" />
-                  <label>Save Drinks Bought</label>
-                </>
-              )}
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

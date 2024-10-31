@@ -8,7 +8,7 @@ import { FaPlusCircle, FaCube, FaEdit } from "react-icons/fa";
 
 const SettingsPage = () => {
   return (
-    <div className="w-2/3 mx-auto mt-16 p-6 bg-white rounded shadow-md">
+    <div className="w-full sm:w-2/3 mx-auto mt-16 p-6 bg-white rounded shadow-md">
       <Tabs>
         <TabList>
           <Tab>
