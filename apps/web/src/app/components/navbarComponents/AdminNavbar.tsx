@@ -5,7 +5,7 @@ import { Navbar, Dropdown } from "flowbite-react";
 const AdminNavbar = () => {
   return (
     <React.Fragment>
-      <Navbar.Link href="#">
+      <div className="text-sm px-4 py-2 sm:px-0 md:px-0 lg:px-0 sm:py-0 md:py-0 lg:py-0">
         <Dropdown arrowIcon={true} inline label={"Registeration"}>
           <Dropdown.Header>
             <span className="block text-sm">Admin Only </span>
@@ -27,9 +27,9 @@ const AdminNavbar = () => {
           </Dropdown.Item>
           <Dropdown.Divider />
         </Dropdown>
-      </Navbar.Link>
+      </div>
 
-      <Navbar.Link href="#">
+      <div className="text-sm px-4 py-2 sm:px-0 md:px-0 lg:px-0 sm:py-0 md:py-0 lg:py-0">
         <Dropdown arrowIcon={true} inline label={"Settings"}>
           <Dropdown.Header>
             <span className="block text-sm">Admin Only </span>
@@ -53,7 +53,7 @@ const AdminNavbar = () => {
 
           <Dropdown.Divider />
         </Dropdown>
-      </Navbar.Link>
+      </div>
 
       <Link href="/dashboard/query/members" passHref>
         <Navbar.Link>Members List</Navbar.Link>
@@ -63,7 +63,7 @@ const AdminNavbar = () => {
         <Navbar.Link>Search Members</Navbar.Link>
       </Link>
 
-      <Navbar.Link href="#">
+     <div className="text-sm px-4 py-2 sm:px-0 md:px-0 lg:px-0 sm:py-0 md:py-0 lg:py-0">
         <Dropdown arrowIcon={true} inline label={"Sales"}>
           <Dropdown.Header>
             <span className="block text-sm">Sales </span>
@@ -106,7 +106,7 @@ const AdminNavbar = () => {
             </Link>
           </Dropdown.Item>
         </Dropdown>
-      </Navbar.Link>
+      </div>
     </React.Fragment>
   );
 };

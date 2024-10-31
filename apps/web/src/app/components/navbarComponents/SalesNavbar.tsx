@@ -5,7 +5,7 @@ import { Navbar, Dropdown } from "flowbite-react";
 const SalesNavbar = () => {
   return (
     <React.Fragment>
-      <Navbar.Link href="#">
+      <div className="text-sm px-4 py-2 sm:px-0 md:px-0 lg:px-0 sm:py-0 md:py-0 lg:py-0">
         <Dropdown arrowIcon={true} inline label={"Settings"}>
           <Dropdown.Item>
             <Link href="/dashboard/settings" passHref>
@@ -21,9 +21,9 @@ const SalesNavbar = () => {
 
           <Dropdown.Divider />
         </Dropdown>
-      </Navbar.Link>
+      </div>
 
-      <Navbar.Link href="#">
+      <div className="text-sm px-4 py-2 sm:px-0 md:px-0 lg:px-0 sm:py-0 md:py-0 lg:py-0">
         <Dropdown arrowIcon={true} inline label={"Sales"}>
           <Dropdown.Header>
             <span className="block text-sm">Sales </span>
@@ -81,7 +81,7 @@ const SalesNavbar = () => {
             </Link>
           </Dropdown.Item>
         </Dropdown>
-      </Navbar.Link>
+      </div>
     </React.Fragment>
   );
 };

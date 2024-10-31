@@ -10,6 +10,7 @@ import TreasurerNavbar from "./navbarComponents/TreasurerNavbar";
 const NavbarComponent = () => {
   const { data: session } = useSession();
   return (
+    
     <Navbar fluid rounded className="bg-red-500 text-white">
       <Navbar.Brand>
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
@@ -33,6 +34,8 @@ const NavbarComponent = () => {
                   Log out
                 </Link>
               </Dropdown.Item>
+
+              
             </Dropdown>
           </>
         ) : (
@@ -46,7 +49,7 @@ const NavbarComponent = () => {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href="#" active>
+        <Navbar.Link href="#" active className="text-sm px-4 py-2 sm:px-0 md:px-0 lg:px-0 sm:py-0 md:py-0 lg:py-0">
           Home
         </Navbar.Link>
         {session && session?.user?.role! == "ADMIN" && (
@@ -66,9 +69,6 @@ const NavbarComponent = () => {
             <SalesNavbar />
           </>
         )}
-        {/* <Navbar.Link href="#">Services</Navbar.Link>
-        <Navbar.Link href="#">Pricing</Navbar.Link>
-        <Navbar.Link href="#">Contact</Navbar.Link> */}
       </Navbar.Collapse>
     </Navbar>
   );

@@ -5,8 +5,8 @@ import { Navbar, Dropdown } from "flowbite-react";
 const TreasurerNavbar = () => {
   return (
     <React.Fragment>
-      <Navbar.Link href="#">
-        <Dropdown arrowIcon={true} inline label={"Drinks Supply"}>
+      <div className="text-sm px-4 py-2 sm:px-0 md:px-0 lg:px-0 sm:py-0 md:py-0 lg:py-0">
+        <Dropdown arrowIcon={true} inline label={"Drinks Supply"} color="#000">
           <Dropdown.Header>
             <span className="block text-sm">Treasurer Only </span>
           </Dropdown.Header>
@@ -14,6 +14,9 @@ const TreasurerNavbar = () => {
             <Link href="/dashboard/settings" passHref>
               <Navbar.Link>Add Supplier/Drinks</Navbar.Link>
             </Link>
+          </Dropdown.Item>
+
+          <Dropdown.Item>
             <Link href="/dashboard/drinks/supply" passHref>
               <Navbar.Link>Pay Suppliers</Navbar.Link>
             </Link>
@@ -27,8 +30,9 @@ const TreasurerNavbar = () => {
 
           <Dropdown.Divider />
         </Dropdown>
-      </Navbar.Link>
-      <Navbar.Link href="#">
+      </div>
+
+      <div className="text-sm px-4 py-2 sm:px-0 md:px-0 lg:px-0 sm:py-0 md:py-0 lg:py-0">
         <Dropdown arrowIcon={true} inline label={"Sales"}>
           <Dropdown.Header>
             <span className="block text-sm">Sales </span>
@@ -81,7 +85,7 @@ const TreasurerNavbar = () => {
             </Link>
           </Dropdown.Item>
         </Dropdown>
-      </Navbar.Link>
+      </div>
     </React.Fragment>
   );
 };

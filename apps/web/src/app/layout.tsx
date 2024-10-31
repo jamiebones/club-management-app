@@ -16,12 +16,16 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <NextAuthProvider>
           <div className="flex flex-col min-h-screen">
-            <Navbar />
+            
+              <Navbar />
+      
             <main className="flex-1 p-4 sm:p-6 md:p-8 lg:p-12">
               {/* Main Content Area */}
               {children}
@@ -39,7 +43,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 transition={Bounce}
               />
             </main>
-           
           </div>
         </NextAuthProvider>
       </body>
