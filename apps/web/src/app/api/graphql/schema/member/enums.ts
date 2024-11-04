@@ -13,6 +13,12 @@ export default gql.gql`
     memberID
     birthDay
   }
+
+  enum PaymentMethod {
+      POS
+      CASH
+      BANK_TRANSFER
+  },
 `
 
 

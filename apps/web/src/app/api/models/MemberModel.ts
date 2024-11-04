@@ -58,7 +58,7 @@ const memberSchema = new mongoose.Schema({
   sports: [String],
 
   payments: [
-    {amount: Number, date: Date, collectedBy: String }
+    {amount: Number, date: Date, collectedBy: String, paymentMethod: String }
   ]
 });
 

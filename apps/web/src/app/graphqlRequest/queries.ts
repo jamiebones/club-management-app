@@ -397,6 +397,7 @@ const GetMemberPurchase = gql`
           amount
           date
           collectedBy
+          paymentMethod
         }
         memberDetails{
           memberID

@@ -19,6 +19,7 @@ interface Payments {
   date: string;
   amount: number;
   collectedBy: string;
+  paymentMethod: string;
 }
 
 interface MemberPurchaseProps {
@@ -107,6 +108,7 @@ const MemberPurchaseComponent: React.FC<MemberPurchaseProps> = ({
               <th className="px-4 py-2 text-left text-sm font-semibold text-gray-600">Paid to</th>
               <th className="px-4 py-2 text-left text-sm font-semibold text-gray-600">Date</th>
               <th className="px-4 py-2 text-left text-sm font-semibold text-gray-600">Amount</th>
+              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-600">Payment Method</th>
             </tr>
           </thead>
           <tbody>
@@ -117,7 +119,9 @@ const MemberPurchaseComponent: React.FC<MemberPurchaseProps> = ({
                 <td className="px-4 py-2 text-left">
                   {new Date(pay.date).toLocaleDateString()}
                 </td>
+                
                 <td className="px-4 py-2 text-left">₦ {pay.amount}</td>
+                <td className="px-4 py-2 text-left"> {pay.paymentMethod}</td>
               </tr>
             ))}
           </tbody>

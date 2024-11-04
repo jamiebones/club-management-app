@@ -1,8 +1,5 @@
 import gql from 'graphql-tag';
 
-
-
-
 export default gql.gql`
   # ---------- Member --------------
   type Member {
@@ -31,8 +28,8 @@ export default gql.gql`
     amount: Int
     date: Date
     collectedBy: String
+    paymentMethod: String
   }
-
 
   type FindMembersCursorOutput {
     members: [Member]

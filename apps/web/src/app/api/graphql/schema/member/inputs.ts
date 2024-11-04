@@ -39,6 +39,7 @@ export default gql.gql`
        memberID: ID
        amount: Int
        date: Date
+       paymentMethod: String
   }
 
 

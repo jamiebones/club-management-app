@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { GetMemberPurchase } from "@/app/graphqlRequest/queries";
 import { MemberBarPayment } from "@/app/graphqlRequest/mutation";
 import LoadingSpinner from "@/app/components/Loading";
@@ -7,8 +7,10 @@ import ErrorDiv from "@/app/components/ErrorDiv";
 import { request } from "graphql-request";
 import { toast } from "react-toastify";
 import MemberPurchaseComponent from "@/app/components/MemberPurchasesComponent";
+import Receipt from "@/app/components/PrintReceipt";
 
-import { FaSpinner, FaSearch, FaApplePay } from "react-icons/fa";
+import { FaSpinner, FaSearch } from "react-icons/fa";
+import { useSession } from "next-auth/react";
 
 const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 
@@ -16,6 +18,14 @@ interface MemberSearch {
   memberID?: string;
   firstname?: string;
   surname?: string;
+}
+
+interface ReceiptPayment {
+  date: string;
+  amount: number;
+  collectedBy: string | null | undefined;
+  paymentMethod: string;
+  buyer: string;
 }
 
 const calTotal = (arr: [], field: string): number => {
@@ -33,9 +43,11 @@ const PayForDrinksPage = () => {
   const [payments, setPayments] = useState([]);
   const [error, setError] = useState<null | string>(null);
   const [member, setMember] = useState({ memberID: "", firstname: "", surname: "", title: "" });
-  const [owing, setOwing] = useState(0);
   const [totalPurchase, setTotalPurchase] = useState(0);
   const [totalPayment, setTotalPayment] = useState(0);
+  const [receiptPayment, setReceiptPayment] = useState<ReceiptPayment | null>(null);
+  const { data: session } = useSession();
+  const receiptRef = useRef<{ printReceipt: () => void }>(null);
 
   const handleSerachTermChange = (e: any) => {
     const { name, value } = e.target;
@@ -47,6 +59,7 @@ const PayForDrinksPage = () => {
   const [number, setNumber] = useState("");
   const [date, setDate] = useState("");
   const [loading, setLoading] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("");
 
   const handleSearchButtonClicked = async (e: any) => {
     if (!searchTerm.firstname && !searchTerm.surname && !searchTerm.memberID) return;
@@ -62,6 +75,7 @@ const PayForDrinksPage = () => {
         variables: { request: searchTerm },
       });
       setMember({ memberID: "", firstname: "", surname: "", title: "" });
+      console.log("response ", response);
       if (response.getMemberPurchase) {
         //we have a member
         setPayments(response.getMemberPurchase.payments);
@@ -86,21 +100,22 @@ const PayForDrinksPage = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (number == "" && date == "") return;
+    if (number == "" && date == "" && paymentMethod == "") return;
 
     const input = {
       memberID: member.memberID,
       date: new Date(date),
       amount: +number,
+      paymentMethod: paymentMethod,
     };
-    const confirm = `
-        You are adding: \n
+    const confirmData = `
+        You are adding the following details: 
         Amount : ${number}
-        Date: ${date} \n
-
-        Please confirm
+        Date: ${date} 
+        Payment Method: ${paymentMethod} 
+        Please confirm as you can't edit the data.
     `;
-    if (!confirm) return;
+    if (!confirm(confirmData)) return;
     try {
       const response: any = await request({
         url: graphqlURL,
@@ -112,6 +127,15 @@ const PayForDrinksPage = () => {
           position: "top-right",
         });
         getMemberPaymentDataFromDB(searchTerm);
+        //print the receipt here:
+        setReceiptPayment({
+          date: date,
+          amount: +number,
+          collectedBy: session?.user?.name,
+          paymentMethod: paymentMethod,
+          buyer: `${member?.title?.toUpperCase()} ${member?.firstname?.toUpperCase()} ${member?.surname?.toUpperCase()}`,
+        });
+        //handlePrintReceipt();
       }
     } catch (error: any) {
       console.log("error adding payment: ", error);
@@ -122,6 +146,7 @@ const PayForDrinksPage = () => {
       setLoading(false);
       setNumber("");
       setDate("");
+      setPaymentMethod("");
     }
   };
 
@@ -133,9 +158,15 @@ const PayForDrinksPage = () => {
     }
   }, [error]);
 
+  // Function to programmatically print the receipt
+  const handlePrintReceipt = () => {
+    receiptRef.current?.printReceipt();
+  };
+
   return (
     <div>
       {/* Search and Form Row */}
+      {receiptPayment && <Receipt receiptPayment={receiptPayment} ref={receiptRef} />}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
         {/* Search Component */}
         <div className="w-full sm:w-1/2 p-4 mb-4 sm:mb-0">
@@ -232,11 +263,10 @@ const PayForDrinksPage = () => {
           )}
 
           {member?.memberID && (
-            <div className="flex justify-center items-center bg-gray-100 mt-7">
-              <form
-                onSubmit={handleSubmit}
-                className="bg-white p-6 rounded-lg shadow-md inline-flex space-x-4 items-center flex-col sm:flex-row">
-                <div className="flex flex-col mb-4 sm:mb-0">
+            <div className=" bg-gray-100 mt-7">
+              <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow flex-col">
+                <p className="text-center text-lg mb-3">Add Payment Details</p>
+                <div className="flex flex-col mb-4">
                   <label htmlFor="number" className="mb-2 font-semibold text-gray-700">
                     Amount:
                   </label>
@@ -249,7 +279,25 @@ const PayForDrinksPage = () => {
                     required
                   />
                 </div>
-                <div className="flex flex-col mb-4 sm:mb-0">
+                <div className="flex flex-col mb-4">
+                  <label htmlFor="paymentMethod" className="mb-2 font-semibold text-gray-700">
+                    Select Method of Payment
+                  </label>
+
+                  <select
+                    id="role"
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                    name="memberType"
+                    onChange={e => setPaymentMethod(e.target.value)}>
+                    <option value="">
+                      Select method of payment
+                    </option>
+                    <option value="POS">POS</option>
+                    <option value="CASH">CASH</option>
+                    <option value="BANK_TRANSFER">BANK TRANSFER</option>
+                  </select>
+                </div>
+                <div className="flex flex-col mb-4">
                   <label htmlFor="date" className="mb-2 font-semibold text-gray-700">
                     Payment Date:
                   </label>
@@ -262,21 +310,24 @@ const PayForDrinksPage = () => {
                     required
                   />
                 </div>
-                <button
-                  disabled={loading}
-                  type="submit"
-                  className="bg-blue-500 text-white font-semibold px-3 py-1 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 mt-4 sm:mt-0">
-                  {loading ? (
-                    <>
-                      <FaSpinner className="animate-spin" />
-                      <label>Loading</label>
-                    </>
-                  ) : (
-                    <>
-                      <label>Save Payment</label>
-                    </>
-                  )}
-                </button>
+
+                <div className="text-center">
+                  <button
+                    disabled={loading}
+                    type="submit"
+                    className="bg-blue-500 p-2 text-white font-semibold hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 mt-4 sm:mt-0">
+                    {loading ? (
+                      <>
+                        <FaSpinner className="animate-spin" />
+                        <label>Loading</label>
+                      </>
+                    ) : (
+                      <>
+                        <label>Save Payment</label>
+                      </>
+                    )}
+                  </button>
+                </div>
               </form>
             </div>
           )}

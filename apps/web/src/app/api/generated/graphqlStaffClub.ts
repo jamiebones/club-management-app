@@ -18,6 +18,7 @@ export type Scalars = {
 export type BarDebtors = {
   __typename?: 'BarDebtors';
   amount?: Maybe<Scalars['Int']['output']>;
+  debt?: Maybe<Scalars['Int']['output']>;
   memberID?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   payment?: Maybe<Scalars['Int']['output']>;
@@ -195,6 +196,7 @@ export type MemberDrinkPayment = {
   amount?: Maybe<Scalars['Int']['output']>;
   collectedBy?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['Date']['output']>;
+  paymentMethod?: Maybe<PaymentMethod>;
 };
 
 export type MemberOrderBy = {
@@ -406,6 +408,12 @@ export type PaymentForInput = {
   month?: InputMaybe<Scalars['String']['input']>;
   year?: InputMaybe<Scalars['String']['input']>;
 };
+
+export enum PaymentMethod {
+  BankTransfer = 'BANK_TRANSFER',
+  Cash = 'CASH',
+  Pos = 'POS'
+}
 
 export type Query = {
   __typename?: 'Query';
@@ -703,6 +711,7 @@ export type MemberBarPaymentInput = {
   amount?: InputMaybe<Scalars['Int']['input']>;
   date?: InputMaybe<Scalars['Date']['input']>;
   memberID?: InputMaybe<Scalars['ID']['input']>;
+  paymentMethod?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MemberPurchaseInput = {

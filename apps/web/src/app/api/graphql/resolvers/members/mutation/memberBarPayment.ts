@@ -18,7 +18,7 @@ async (
 )=> {
   try {
     await dbConnect();
-    const { amount, date, memberID  } = args.request;
+    const { amount, date, memberID, paymentMethod } = args.request;
     console.log("Mutation > addMemberPayment > args.fields = ", args.request);
     const sellerID = context.token.bioDataId;
 
@@ -42,7 +42,8 @@ async (
      const data = {
         amount,
         date,
-        collectedBy: `${firstname} ${surname}`
+        collectedBy: `${firstname} ${surname}`,
+        paymentMethod
      }
 
     const memberPayment = await Members.findOneAndUpdate({memberID: memberID}, {$push: {payments: data}}, {new: true});
