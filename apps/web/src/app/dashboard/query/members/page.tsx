@@ -15,14 +15,17 @@ import { useSession } from "next-auth/react";
 const graphqlURL = process.env.NEXT_PUBLIC_GRAPHQL_API!;
 
 const filterData = (data: any = []) => {
-  let arrayToReturn = [["Title", "Name", "Birthday", "Sex"]];
+  let arrayToReturn = [["Title", "Name", "Birthday", "Sex", "Job Title", "Email", "Phone Number"]];
   for (let i = 0; i < data.length; i++) {
-    const { title, firstname, surname, birthDay, sex } = data[i];
+    const { title, firstname, surname, birthDay, sex, jobTitle, email, contact } = data[i];
     const memberArray = [
       title,
       `${firstname?.toUpperCase()} ${surname.toUpperCase()}`,
       birthDay,
       sex,
+      jobTitle || "",
+      email || "",
+      contact ? contact.join(", ") : "",
     ];
     arrayToReturn.push(memberArray);
   }
